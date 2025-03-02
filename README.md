@@ -145,7 +145,25 @@ humann3-tools --sample-key /path/to/metadata.csv \
 
 You can also use the Python API for more flexibility and integration with your own scripts.
 
-### Running the Full Pipeline
+### Run End-to-End Preprocessing and Analysis
+
+```python
+from humann3_tools import run_preprocessing_and_analysis
+
+pathway_file, gene_file, success = run_preprocessing_and_analysis(
+    input_fastq=["reads_1.fastq", "reads_2.fastq"],
+    sample_key="metadata.csv",
+    output_dir="results",
+    paired=True,
+    threads=8,
+    kneaddata_db="/path/to/kneaddata_db",
+    nucleotide_db="/path/to/chocophlan",
+    protein_db="/path/to/uniref",
+    group_col="Group"
+)
+```
+
+### Process and Analyze Pathway_abundance and Genefamilies Output Files
 
 ```python
 from humann3_tools import run_full_pipeline
@@ -164,24 +182,6 @@ if success:
     print("Analysis completed successfully!")
     print(f"Pathway file: {pathway_file}")
     print(f"Gene family file: {gene_file}")
-```
-
-### Run End-to-End Preprocessing and Analysis
-
-```python
-from humann3_tools import run_preprocessing_and_analysis
-
-pathway_file, gene_file, success = run_preprocessing_and_analysis(
-    input_fastq=["reads_1.fastq", "reads_2.fastq"],
-    sample_key="metadata.csv",
-    output_dir="results",
-    paired=True,
-    threads=8,
-    kneaddata_db="/path/to/kneaddata_db",
-    nucleotide_db="/path/to/chocophlan",
-    protein_db="/path/to/uniref",
-    group_col="Group"
-)
 ```
 
 ### Processing HUMAnN3 Files Only
