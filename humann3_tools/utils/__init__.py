@@ -15,3 +15,15 @@ from humann3_tools.utils.sample_utils import (
     validate_sample_key_noninteractive,
     check_input_files_exist
 )
+
+from humann3_tools.utils.resource_utils import (
+    calculate_optimal_resources,
+    get_memory_usage,
+    log_resource_usage,
+    estimate_memory_requirements,
+    check_resource_availability,
+    monitor_memory_usage,
+    stop_memory_monitoring,
+    track_peak_memory,
+    limit_memory_usage
+)

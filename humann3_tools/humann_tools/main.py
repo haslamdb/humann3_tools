@@ -23,6 +23,7 @@ from humann3_tools.analysis.visualizations import (
 )
 from humann3_tools.analysis.statistical import run_statistical_tests
 from humann3_tools.analysis.differential_abundance import run_differential_abundance_analysis
+from humann3_tools.preprocessing.pipeline import run_preprocessing_pipeline
 
 
 def run_full_pipeline(
@@ -67,6 +68,7 @@ def run_full_pipeline(
 
     # Check input files
     valid_path_samples, valid_gene_samples = check_input_files_exist(samples, pathway_dir, gene_dir)
+
 
     # Process pathways
     pathway_unstrat_file = None
@@ -148,6 +150,143 @@ def run_full_pipeline(
     mm, ss = divmod(rr, 60)
     log_print(f"Pipeline finished in {int(hh)}h {int(mm)}m {int(ss)}s", level="info")
 
+    return pathway_unstrat_file, gene_unstrat_file, success
+
+
+# Preprocessing and Humann3 run
+def run_preprocessing_and_analysis(
+    input_fastq,
+    sample_key,
+    output_dir,
+    output_prefix="ProcessedFiles",
+    group_col="Group",
+    threads=1,
+    kneaddata_db=None,
+    nucleotide_db=None,
+    protein_db=None,
+    paired=False,
+    skip_pathway=False,
+    skip_gene=False,
+    skip_downstream=False,
+    log_file=None
+):
+    """
+    Run the full preprocessing and analysis pipeline:
+    KneadData → HUMAnN3 → HUMAnN3 processing → Downstream analysis.
+    
+    Args:
+        input_fastq: List of input FASTQ files
+        sample_key: Path to sample metadata CSV
+        output_dir: Directory for output files
+        output_prefix: Prefix for output files
+        group_col: Column name for statistical grouping
+        threads: Number of CPU threads to use
+        kneaddata_db: Path to KneadData reference database
+        nucleotide_db: Path to HUMAnN3 nucleotide database
+        protein_db: Path to HUMAnN3 protein database
+        paired: Whether input FASTQ files are paired-end
+        skip_pathway: Skip pathway processing
+        skip_gene: Skip gene family processing
+        skip_downstream: Skip downstream analysis
+        log_file: Path to log file
+        
+    Returns:
+        Tuple of (pathway_file, gene_file, success_flag)
+    """
+    # Setup logging
+    logger = setup_logger(log_file=log_file)
+    log_print("Starting Full Microbiome Analysis Pipeline", level="info")
+    start_time = time.time()
+    
+    # Create preprocessing output directory
+    preproc_dir = os.path.join(output_dir, "PreprocessedData")
+    os.makedirs(preproc_dir, exist_ok=True)
+    
+    # Step 1: Run preprocessing (KneadData + HUMAnN3)
+    preprocessing_results = run_preprocessing_pipeline(
+        input_files=input_fastq,
+        output_dir=preproc_dir,
+        threads=threads,
+        kneaddata_db=kneaddata_db,
+        nucleotide_db=nucleotide_db,
+        protein_db=protein_db,
+        paired=paired,
+        logger=logger
+    )
+    
+    if not preprocessing_results:
+        log_print("Preprocessing pipeline failed", level="error")
+        return None, None, False
+    
+    # Extract paths to HUMAnN3 output files
+    humann3_results = preprocessing_results['humann3_results']
+    pathway_files = []
+    gene_files = []
+    
+    for sample, files in humann3_results.items():
+        if files.get('pathabundance'):
+            pathway_files.append((sample, files['pathabundance']))
+        if files.get('genefamilies'):
+            gene_files.append((sample, files['genefamilies']))
+    
+    # Step 2: Process sample metadata
+    samples, selected_columns = validate_sample_key(sample_key, no_interactive=True)
+    
+    # Step 3: Process pathway files
+    pathway_unstrat_file = None
+    if not skip_pathway and pathway_files:
+        pathway_unstrat_file = process_pathway_abundance(
+            pathway_files,
+            preproc_dir,
+            output_dir,
+            output_prefix,
+            selected_columns=selected_columns
+        )
+    
+    # Step 4: Process gene family files
+    gene_unstrat_file = None
+    if not skip_gene and gene_files:
+        gene_unstrat_file = process_gene_families(
+            gene_files,
+            preproc_dir,
+            output_dir,
+            output_prefix,
+            selected_columns=selected_columns
+        )
+    
+    # Step 5: Downstream analysis
+    success = True
+    if not skip_downstream:
+        if not pathway_unstrat_file and not gene_unstrat_file:
+            log_print("No unstratified HUMAnN3 outputs found; cannot run downstream analysis", level="warning")
+            success = False
+        else:
+            try:
+                # Create downstream analysis directory
+                downstream_out = os.path.join(output_dir, "DownstreamAnalysis")
+                os.makedirs(downstream_out, exist_ok=True)
+                
+                # Read sample metadata
+                sample_key_df = read_and_process_metadata(sample_key, logger)
+                
+                # Process gene families if available
+                if gene_unstrat_file:
+                    read_and_process_gene_families(gene_unstrat_file, sample_key_df, downstream_out, logger)
+                
+                # Process pathways if available
+                if pathway_unstrat_file:
+                    pathways_merged = read_and_process_pathways(pathway_unstrat_file, sample_key_df, downstream_out, logger)
+                    run_statistical_tests(pathways_merged, downstream_out, logger, group_col=group_col)
+            except Exception as e:
+                logger.error(f"Downstream analysis failed: {e}")
+                logger.error(traceback.format_exc())
+                success = False
+    
+    elapsed = time.time() - start_time
+    hh, rr = divmod(elapsed, 3600)
+    mm, ss = divmod(rr, 60)
+    log_print(f"Pipeline finished in {int(hh)}h {int(mm)}m {int(ss)}s", level="info")
+    
     return pathway_unstrat_file, gene_unstrat_file, success
 
 

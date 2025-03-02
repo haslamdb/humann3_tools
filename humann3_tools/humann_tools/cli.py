@@ -14,12 +14,33 @@ from humann3_tools.analysis.metadata import read_and_process_metadata
 from humann3_tools.analysis.visualizations import read_and_process_gene_families, read_and_process_pathways
 from humann3_tools.analysis.statistical import run_statistical_tests
 from humann3_tools.utils.file_utils import check_file_exists_with_logger
+from humann3_tools.preprocessing.pipeline import run_preprocessing_pipeline, run_preprocessing_pipeline_parallel
+from humann3_tools.preprocessing.kneaddata import check_kneaddata_installation
+from humann3_tools.preprocessing.humann3_run import check_humann3_installation
+from humann3_tools.utils.resource_utils import limit_memory_usage
+
 
 def main():
+    
     """Main entry point for the humann3_tools CLI."""
     parser = argparse.ArgumentParser(description="HUMAnN3 Tools: Process and analyze HUMAnN3 output")
-    
-    # --- Stage 1 arguments (HUMAnN3 processing) ---
+
+    #  --- Preprocessing and Humann alignment ---
+    parser.add_argument("--run-preprocessing", action="store_true",
+                    help="Run preprocessing (KneadData and HUMAnN3) on raw sequence files")
+    parser.add_argument("--input-fastq", nargs="+",
+                    help="Input FASTQ file(s) for preprocessing")
+    parser.add_argument("--paired", action="store_true",
+                    help="Input files are paired-end reads")
+    parser.add_argument("--kneaddata-db",
+                    help="Path to KneadData reference database")
+    parser.add_argument("--humann3-nucleotide-db",
+                    help="Path to HUMAnN3 nucleotide database (ChocoPhlAn)")
+    parser.add_argument("--humann3-protein-db",
+                    help="Path to HUMAnN3 protein database (UniRef)")
+    parser.add_argument("--threads", type=int, default=1,
+                    help="Number of threads to use for preprocessing")    
+    # ---  HUMAnN3 output processing ---
     parser.add_argument("--sample-key", required=True,
                         help="CSV file with columns for sample names and metadata")
     parser.add_argument("--pathway-dir", required=True,
@@ -40,12 +61,12 @@ def main():
                         help="Just list input files in --pathway-dir and --gene-dir, then exit")
     parser.add_argument("--no-interactive", action="store_true",
                         help="Non-interactive mode for sample key column selection")
+    parser.add_argument("--max-memory", type=int, default=None,
+                   help="Maximum memory usage in MB (default: unlimited)")
 
-    # --- Stage 2 arguments (Downstream analysis) ---
+    # --- Downstream analysis ---
     parser.add_argument("--skip-downstream", action="store_true",
                         help="Skip the downstream analysis stage entirely")
-
-    # New argument for grouping variable
     parser.add_argument("--group-col", default="Group",
                         help="The column name to use for grouping in statistical tests (default: 'Group')")
 
@@ -62,6 +83,14 @@ def main():
                         help="Comma-separated list of differential abundance methods to use (default: aldex2,ancom,ancom-bc)")
     parser.add_argument("--exclude-unmapped", action="store_true",
                         help="Exclude unmapped features from differential abundance analysis")
+    
+    # --- Parallel processing ---
+    parser.add_argument("--threads-per-sample", type=int, default=1,
+                   help="Number of threads to use per sample")
+    parser.add_argument("--max-parallel", type=int, default=None,
+                    help="Maximum number of samples to process in parallel (default: CPU count)")
+    parser.add_argument("--use-parallel", action="store_true",
+                    help="Use parallel processing for preprocessing steps")
     
     args = parser.parse_args()
 
@@ -89,36 +118,116 @@ def main():
         
         sys.exit(0)
 
-    # ========== STAGE 1: HUMAnN3 Processing ==========
-    # Validate sample key
+    # Validate sample key first - we'll need it for both paths
     samples, selected_columns = validate_sample_key(args.sample_key, no_interactive=args.no_interactive)
-    
-    # Check input files
-    valid_path_samples, valid_gene_samples = check_input_files_exist(samples, args.pathway_dir, args.gene_dir)
+
+    ## Preprocessing and HUMAnN3 alignment ###
+    preprocessing_results = None
+    if args.run_preprocessing:
+        # If memory limit is specified, try to apply it
+        if args.max_memory:
+            success = limit_memory_usage(args.max_memory)
+            if success:
+                log_print(f"Set memory limit to {args.max_memory} MB", level='info')
+            else:
+                log_print("Failed to set memory limit, proceeding with unlimited memory", level='warning')
+
+        if not args.input_fastq:
+            log_print("ERROR: --input-fastq is required when using --run-preprocessing", level='error')
+            sys.exit(1)
+
+        # Check installations
+        kneaddata_ok, kneaddata_msg = check_kneaddata_installation()
+        if not kneaddata_ok:
+            log_print(f"ERROR: KneadData not properly installed: {kneaddata_msg}", level='error')
+            sys.exit(1)
+
+        humann3_ok, humann3_msg = check_humann3_installation()
+        if not humann3_ok:
+            log_print(f"ERROR: HUMAnN3 not properly installed: {humann3_msg}", level='error')
+            sys.exit(1)
+
+        # Create preprocessing output directory
+        preproc_dir = os.path.join(args.output_dir, "PreprocessedData")
+        os.makedirs(preproc_dir, exist_ok=True)
+
+        # Choose between regular or parallel processing
+        if args.use_parallel:
+            log_print("Using parallel preprocessing pipeline", level='info')
+            preprocessing_results = run_preprocessing_pipeline_parallel(
+                input_files=args.input_fastq,
+                output_dir=preproc_dir,
+                threads_per_sample=args.threads_per_sample,
+                max_parallel=args.max_parallel,
+                kneaddata_db=args.kneaddata_db,
+                nucleotide_db=args.humann3_nucleotide_db,
+                protein_db=args.humann3_protein_db,
+                paired=args.paired,
+                logger=logger
+            )
+        else:
+            log_print("Using standard preprocessing pipeline", level='info')
+            preprocessing_results = run_preprocessing_pipeline(
+                input_files=args.input_fastq,
+                output_dir=preproc_dir,
+                threads=args.threads,
+                kneaddata_db=args.kneaddata_db,
+                nucleotide_db=args.humann3_nucleotide_db,
+                protein_db=args.humann3_protein_db,
+                paired=args.paired,
+                logger=logger
+            )
+
+        if not preprocessing_results:
+            log_print("Preprocessing pipeline failed", level='error')
+            sys.exit(1)
+
+        log_print("Preprocessing completed successfully", level='info')
+
+        # Extract preprocessing outputs
+        pathway_files = []
+        gene_files = []
+
+        if preprocessing_results and 'humann3_results' in preprocessing_results:
+            humann3_results = preprocessing_results['humann3_results']
+            for sample, files in humann3_results.items():
+                if files.get('pathabundance'):
+                    pathway_files.append((sample, files['pathabundance']))
+                if files.get('genefamilies'):
+                    gene_files.append((sample, files['genefamilies']))
+
+    # Process HUMAnN3 output files - either from preprocessing or directly from directories
+    if preprocessing_results is None:
+        # Check input files from directories
+        valid_path_samples, valid_gene_samples = check_input_files_exist(samples, args.pathway_dir, args.gene_dir)
+    else:
+        # Use results from preprocessing
+        valid_path_samples, valid_gene_samples = pathway_files, gene_files
 
     # Process pathways
     pathway_unstrat_file = None
     if not args.skip_pathway and valid_path_samples:
+        source_dir = preproc_dir if preprocessing_results else args.pathway_dir
         pathway_unstrat_file = process_pathway_abundance(valid_path_samples,
-                                                         args.pathway_dir,
-                                                         args.output_dir,
-                                                         args.output_prefix,
-                                                         selected_columns=selected_columns)
+                                                       source_dir,
+                                                       args.output_dir,
+                                                       args.output_prefix,
+                                                       selected_columns=selected_columns)
     else:
         if args.skip_pathway:
             log_print("Skipping HUMAnN3 pathway processing", level='info')
         else:
             log_print("No valid pathway files; skipping pathway stage", level='warning')
 
-
     # Process gene families
     gene_unstrat_file = None
     if not args.skip_gene and valid_gene_samples:
+        source_dir = preproc_dir if preprocessing_results else args.gene_dir
         gene_unstrat_file = process_gene_families(valid_gene_samples,
-                                                  args.gene_dir,
-                                                  args.output_dir,
-                                                  args.output_prefix,
-                                                  selected_columns=selected_columns)
+                                                source_dir,
+                                                args.output_dir,
+                                                args.output_prefix,
+                                                selected_columns=selected_columns)
     else:
         if args.skip_gene:
             log_print("Skipping HUMAnN3 gene processing", level='info')
