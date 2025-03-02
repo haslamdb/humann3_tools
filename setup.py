@@ -35,7 +35,7 @@ setup(
         ],
     },
     author="David Haslam",
-    author_email="david.haslam@example.com",
+    author_email="dbhaslam@gmail.com",
     description="A comprehensive Python package for processing and analyzing HUMAnN3 output data from metagenomic sequencing",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
