@@ -5,6 +5,9 @@
 ## 🛠️ Bugs to Fix
 - [ ] --paired flag not working in from cli because kneaddata doesn't acccept paired flag
 - [ ] Move kneaddata output files and humann output files to new directories then get rid of intermediate files
+- [ ] Specify that sample_file requires path to files, like this:
+		sample1   /path/to/file1_R1.fastq /path/to/file1_R2.fastq
+		sample2   /path/to/file2_R1.fastq /path/to/file2_R2.fastq
 `
 
 ## 🔧 Features to Improve

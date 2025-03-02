@@ -787,3 +787,181 @@ Final output files created:
 2025-03-02 15:55:24,144 - INFO - Starting HUMAnN3 step...
 2025-03-02 15:55:24,144 - INFO - Running HUMAnN3 for sample D19G: humann --input test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_concat.fastq --output test.out2/PreprocessedData/humann3_output/D19G --threads 24
 2025-03-02 15:55:24,144 - INFO - Running: humann --input test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_concat.fastq --output test.out2/PreprocessedData/humann3_output/D19G --threads 24
+2025-03-02 16:11:36,005 - DEBUG - Command stdout: Output files will be written to: /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/humann3_output/D19G
+
+Running metaphlan ........
+
+Found t__SGB8185 : 57.85% of mapped reads ( s__Streptococcus_mitis,g__Streptococcus.s__Streptococcus_oralis,g__Streptococcus.s__Streptococcus_sp_IMAU_99125 )
+Found t__SGB8047_group : 13.82% of mapped reads ( s__Streptococcus_salivarius,g__Streptococcus.s__Streptococcus_cristatus,g__Streptococcus.s__Streptococcus_sp_CCH8_C6 )
+Found t__SGB8168 : 7.08% of mapped reads ( s__Streptococcus_mitis,g__Streptococcus.s__Streptococcus_sp_HMSC073F11,g__Bacteria_unclassified.s__bacterium )
+Found t__SGB7292 : 6.10% of mapped reads ( s__Gemella_haemolysans )
+Found t__SGB9450_group : 3.75% of mapped reads ( s__Neisseria_flavescens,g__Neisseria.s__Neisseria_mucosa,g__Neisseria.s__Neisseria_sp_HMSC058F07,g__Neisseria.s__Neisseria_sp_HMSC072B12,g__Neisseria.s__Neisseria_sp_HMSC063B05,g__Neisseria.s__Neisseria_sp_HMSC071A01,g__Neisseria.s__Neisseria_perflava )
+Found t__SGB9652_group : 3.72% of mapped reads ( s__Haemophilus_haemolyticus,g__Haemophilus.s__Haemophilus_sp_C1,g__Haemophilus.s__Haemophilus_sp_oral_taxon_851 )
+Found g__GGB1088.s__GGB1088_SGB1395 : 3.62% of mapped reads (  )
+Found g__GGB1144.s__GGB1144_SGB1469 : 2.06% of mapped reads (  )
+Found g__Prevotella.s__Prevotella_nanceiensis : 0.60% of mapped reads (  )
+Found t__SGB2492 : 0.60% of mapped reads ( s__Capnocytophaga_leadbetteri,g__Capnocytophaga.s__Capnocytophaga_sp_oral_taxon_329,g__Capnocytophaga.s__Capnocytophaga_sp_FDAARGOS_737 )
+Found t__SGB7285_group : 0.34% of mapped reads ( s__Gemella_haemolysans )
+Found g__Porphyromonas.s__Porphyromonas_bobii : 0.21% of mapped reads ( g__Porphyromonas.s__Porphyromonas_sp_oral_taxon_279,g__Porphyromonadaceae_unclassified.s__Porphyromonadaceae_bacterium_KA00676,g__Porphyromonas.s__Porphyromonas_sp_KLE_1280,g__Porphyromonas.s__Porphyromonas_pasteri )
+Found t__SGB1552 : 0.15% of mapped reads ( s__Prevotella_melaninogenica,g__Prevotella.s__Prevotella_sp_ICM33 )
+Found t__SGB5989_group : 0.06% of mapped reads ( s__Fusobacterium_periodonticum,g__Fusobacterium.s__Fusobacterium_pseudoperiodonticum )
+Found t__SGB8094 : 0.04% of mapped reads ( s__Streptococcus_infantis )
+
+Total species selected from prescreen: 48
+
+Selected species explain 100.00% of predicted community composition
+
+
+Creating custom ChocoPhlAn database ........
+
+
+Running bowtie2-build ........
+
+
+Running bowtie2 ........
+
+Total bugs from nucleotide alignment: 16
+g__Streptococcus.s__Streptococcus_mitis: 134557 hits
+g__Streptococcus.s__Streptococcus_oralis: 42741 hits
+g__Streptococcus.s__Streptococcus_salivarius: 25663 hits
+g__Streptococcus.s__Streptococcus_infantis: 23518 hits
+g__Gemella.s__Gemella_haemolysans: 17010 hits
+g__Streptococcus.s__Streptococcus_sanguinis: 39487 hits
+g__Haemophilus.s__Haemophilus_haemolyticus: 8630 hits
+g__Haemophilus.s__Haemophilus_sp_C1: 4417 hits
+g__Streptococcus.s__Streptococcus_cristatus: 3966 hits
+g__Fusobacterium.s__Fusobacterium_periodonticum: 342 hits
+g__Neisseria.s__Neisseria_subflava: 3150 hits
+g__Neisseria.s__Neisseria_mucosa: 2365 hits
+g__Neisseria.s__Neisseria_perflava: 3062 hits
+g__Capnocytophaga.s__Capnocytophaga_leadbetteri: 141 hits
+g__Neisseria.s__Neisseria_flavescens: 3338 hits
+g__Prevotella.s__Prevotella_melaninogenica: 146 hits
+
+Total gene families from nucleotide alignment: 10392
+
+Unaligned reads after nucleotide alignment: 47.0928697183 %
+
+
+Running diamond ........
+
+
+Aligning to reference database: uniref90_201901b_full.dmnd
+
+Total bugs after translated alignment: 17
+g__Streptococcus.s__Streptococcus_mitis: 134557 hits
+g__Streptococcus.s__Streptococcus_oralis: 42741 hits
+g__Streptococcus.s__Streptococcus_salivarius: 25663 hits
+g__Streptococcus.s__Streptococcus_infantis: 23518 hits
+g__Gemella.s__Gemella_haemolysans: 17010 hits
+g__Streptococcus.s__Streptococcus_sanguinis: 39487 hits
+g__Haemophilus.s__Haemophilus_haemolyticus: 8630 hits
+g__Haemophilus.s__Haemophilus_sp_C1: 4417 hits
+g__Streptococcus.s__Streptococcus_cristatus: 3966 hits
+g__Fusobacterium.s__Fusobacterium_periodonticum: 342 hits
+g__Neisseria.s__Neisseria_subflava: 3150 hits
+g__Neisseria.s__Neisseria_mucosa: 2365 hits
+g__Neisseria.s__Neisseria_perflava: 3062 hits
+g__Capnocytophaga.s__Capnocytophaga_leadbetteri: 141 hits
+g__Neisseria.s__Neisseria_flavescens: 3338 hits
+g__Prevotella.s__Prevotella_melaninogenica: 146 hits
+unclassified: 102391 hits
+
+Total gene families after translated alignment: 16730
+
+Unaligned reads after translated alignment: 35.0812567714 %
+
+
+Computing gene families ...
+
+Computing pathways abundance and coverage ...
+
+Output files created: 
+/home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_paired_concat_genefamilies.tsv
+/home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_paired_concat_pathabundance.tsv
+/home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_paired_concat_pathcoverage.tsv
+
+
+2025-03-02 16:11:36,005 - DEBUG - Command stderr: /home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+
+2025-03-02 16:11:36,006 - INFO - HUMAnN3 completed for 1 samples
+2025-03-02 16:11:36,006 - INFO - HUMAnN3 completed successfully for 1 samples
+2025-03-02 16:11:36,006 - INFO - Preprocessing completed successfully
+2025-03-02 16:11:36,007 - INFO - PROCESSING PATHWAY ABUNDANCE FILES
+2025-03-02 16:11:36,007 - INFO - Running: cp test.out2/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_paired_concat_pathabundance.tsv test.out2/pathways/test-/D19G_pathabundance.tsv
+2025-03-02 16:11:36,012 - INFO - Running: humann_renorm_table --input test.out2/pathways/test-/D19G_pathabundance.tsv --output test.out2/pathways/test-/D19G_pathabundance-cpm.tsv --units cpm --update-snames
+2025-03-02 16:11:36,065 - DEBUG - Command stderr: Loading table from: test.out2/pathways/test-/D19G_pathabundance.tsv
+  Treating test.out2/pathways/test-/D19G_pathabundance.tsv as stratified output, e.g. ['UNINTEGRATED', 'g__Streptococcus.s__Streptococcus_mitis']
+
+2025-03-02 16:11:36,065 - INFO - Running: mv test.out2/pathways/test-/D19G_pathabundance-cpm.tsv test.out2/pathways/test-/Normalized
+2025-03-02 16:11:36,067 - INFO - Running: humann_join_tables -i test.out2/pathways/test-/Normalized -o test.out2/pathways/test-/test-_pathabundance-cpm.tsv
+2025-03-02 16:11:36,124 - DEBUG - Command stdout: Gene table created: /home/david/Documents/Code/humann3_analysis/test.out2/pathways/test-/test-_pathabundance-cpm.tsv
+
+2025-03-02 16:11:36,124 - INFO - Running: humann_split_stratified_table -i test.out2/pathways/test-/test-_pathabundance-cpm.tsv -o test.out2/pathways/test-
+2025-03-02 16:11:36,163 - DEBUG - Command stdout: Split stratified tables created:
+test.out2/pathways/test-/test-_pathabundance-cpm_stratified.tsv
+test.out2/pathways/test-/test-_pathabundance-cpm_unstratified.tsv
+
+2025-03-02 16:11:36,163 - INFO - Renamed unstratified file to: test.out2/pathways/test-/pathway_abundance.tsv
+2025-03-02 16:11:36,163 - INFO - PROCESSING GENE FAMILY FILES
+2025-03-02 16:11:36,164 - INFO - Running: cp test.out2/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_paired_concat_genefamilies.tsv test.out2/genes/test-/D19G_genefamilies.tsv
+2025-03-02 16:11:36,167 - INFO - Running: humann_renorm_table --input test.out2/genes/test-/D19G_genefamilies.tsv --output test.out2/genes/test-/D19G_genefamilies-cpm.tsv --units cpm --update-snames
+2025-03-02 16:11:36,371 - DEBUG - Command stderr: Loading table from: test.out2/genes/test-/D19G_genefamilies.tsv
+  Treating test.out2/genes/test-/D19G_genefamilies.tsv as stratified output, e.g. ['UniRef90_Q5LXM5', 'g__Streptococcus.s__Streptococcus_mitis']
+
+2025-03-02 16:11:36,372 - INFO - Running: mv test.out2/genes/test-/D19G_genefamilies-cpm.tsv test.out2/genes/test-/Normalized
+2025-03-02 16:11:36,375 - INFO - Running: humann_join_tables -i test.out2/genes/test-/Normalized -o test.out2/genes/test-/test-_genefamilies-cpm.tsv
+2025-03-02 16:11:36,559 - DEBUG - Command stdout: Gene table created: /home/david/Documents/Code/humann3_analysis/test.out2/genes/test-/test-_genefamilies-cpm.tsv
+
+2025-03-02 16:11:36,559 - INFO - Running: humann_split_stratified_table -i test.out2/genes/test-/test-_genefamilies-cpm.tsv -o test.out2/genes/test-
+2025-03-02 16:11:36,622 - DEBUG - Command stdout: Split stratified tables created:
+test.out2/genes/test-/test-_genefamilies-cpm_stratified.tsv
+test.out2/genes/test-/test-_genefamilies-cpm_unstratified.tsv
+
+2025-03-02 16:11:36,622 - INFO - === HUMAnN3 Stage Outputs ===
+2025-03-02 16:11:36,623 - INFO -   Pathway unstratified file: test.out2/pathways/test-/pathway_abundance.tsv
+2025-03-02 16:11:36,623 - INFO -   Gene families unstratified file: test.out2/genes/test-/test-_genefamilies-cpm_unstratified.tsv
+2025-03-02 16:11:36,623 - INFO - Skipping downstream analysis stage (--skip-downstream)
+2025-03-02 16:11:36,623 - INFO - Pipeline finished in 0h 28m 15s
+2025-03-02 16:11:36,623 - INFO - All done!
+2025-03-02 18:03:40,990 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 18:03:40,990 - INFO - Loaded 0 sequence files from samples file
+2025-03-02 18:03:40,990 - ERROR - ERROR: No input files specified. Use --input-fastq, --samples-file, or --use-metadata
+2025-03-02 18:31:18,416 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 18:31:18,420 - INFO - Auto-detected sample ID column: SampleName
+2025-03-02 18:31:18,422 - WARNING - No sequence files found for sample D19G
+2025-03-02 18:31:18,423 - WARNING - No sequence files found for sample D33G
+2025-03-02 18:31:18,423 - INFO - Found sequence files for 0 out of 2 samples
+2025-03-02 18:31:18,423 - INFO - Collected 0 sequence files from 0 samples
+2025-03-02 18:31:18,423 - ERROR - ERROR: No input files specified. Use --input-fastq, --samples-file, or --use-metadata

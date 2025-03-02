@@ -198,7 +198,7 @@ def run_preprocessing_and_analysis(
     start_time = time.time()
     
     # Create preprocessing output directory
-    preproc_dir = os.path.join(output_dir, "PreprocessedData")
+    preproc_dir = os.path.join(output_dir, "processed_files")
     os.makedirs(preproc_dir, exist_ok=True)
     
     # Step 1: Run preprocessing (KneadData + HUMAnN3)

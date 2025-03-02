@@ -1,3 +1,5 @@
+# humann3_tools/utils/metadata_utils.py 
+# (This file already exists, but we'll enhance it)
 
 import os
 import glob
@@ -33,6 +35,7 @@ def find_sample_files(sample_id: str,
         pattern = file_pattern.replace('{sample}', sample_id)
         search_pattern = os.path.join(search_dir, pattern)
         files = sorted(glob.glob(search_pattern))
+        logger.debug(f"Searching with pattern {search_pattern}, found {len(files)} files")
         
     # For paired-end reads
     elif paired and r1_suffix and r2_suffix:
@@ -43,6 +46,9 @@ def find_sample_files(sample_id: str,
         
         r1_files = sorted(glob.glob(r1_search))
         r2_files = sorted(glob.glob(r2_search))
+        
+        logger.debug(f"Searching for R1: {r1_search}, found {len(r1_files)} files")
+        logger.debug(f"Searching for R2: {r2_search}, found {len(r2_files)} files")
         
         # Ensure we have matching pairs
         if len(r1_files) == len(r2_files) and len(r1_files) > 0:
@@ -67,9 +73,13 @@ def find_sample_files(sample_id: str,
         for pattern in common_patterns:
             search_pattern = os.path.join(search_dir, pattern)
             matches = glob.glob(search_pattern)
+            logger.debug(f"Trying pattern {search_pattern}, found {len(matches)} files")
             if matches:
                 files.extend(matches)
                 break
+    
+    if files:
+        logger.debug(f"Found {len(files)} files for sample {sample_id}: {[os.path.basename(f) for f in files]}")
     
     return files
 
@@ -104,6 +114,7 @@ def collect_samples_from_metadata(metadata_file: str,
     # Read metadata file
     try:
         metadata = pd.read_csv(metadata_file)
+        logger.info(f"Read metadata file with {len(metadata)} rows and columns: {metadata.columns.tolist()}")
     except Exception as e:
         logger.error(f"Error reading metadata file: {e}")
         return {}
@@ -150,14 +161,17 @@ def collect_samples_from_metadata(metadata_file: str,
                     r2_path = os.path.join(seq_dir, r2_path)
                 
                 samples[sample_id] = [r1_path, r2_path]
+                logger.debug(f"Found paired files for {sample_id} from metadata columns")
             else:
                 file_path = row[r1_col]
                 if not os.path.isabs(file_path):
                     file_path = os.path.join(seq_dir, file_path)
                 samples[sample_id] = [file_path]
+                logger.debug(f"Found single file for {sample_id} from metadata column")
         
         # Case 2: Need to find files based on patterns
         else:
+            logger.debug(f"Looking for files for sample {sample_id} using pattern/suffix")
             files = find_sample_files(
                 sample_id=sample_id,
                 search_dir=seq_dir,
@@ -174,6 +188,10 @@ def collect_samples_from_metadata(metadata_file: str,
     
     # Log the results
     logger.info(f"Found sequence files for {len(samples)} out of {len(metadata)} samples")
+    if samples:
+        logger.debug("Sample examples:")
+        for sample_id, files in list(samples.items())[:2]:
+            logger.debug(f"  {sample_id}: {[os.path.basename(f) for f in files]}")
     
     return samples
 
@@ -226,3 +244,54 @@ def prompt_for_sequence_file_patterns(paired: bool = False) -> Tuple[Optional[st
     else:
         print("Invalid choice. Using auto-detection.")
         return None, None, None
+
+def read_samples_file(samples_file):
+    """
+    Read a tab-delimited samples file.
+    
+    Format:
+    sample_id    file1 file2 ...
+    
+    Args:
+        samples_file: Path to the tab-delimited samples file
+        
+    Returns:
+        Dictionary mapping sample IDs to lists of file paths
+    """
+    logger = logging.getLogger('humann3_analysis')
+    samples = {}
+    
+    try:
+        with open(samples_file, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
+                    
+                parts = line.split('\t')
+                if len(parts) < 2:
+                    parts = line.split()  # Try space delimiter if tab doesn't work
+                
+                if len(parts) >= 2:
+                    sample_id = parts[0]
+                    file_paths = parts[1].split()
+                    
+                    # Check if files exist
+                    valid_files = []
+                    for file_path in file_paths:
+                        if os.path.exists(file_path):
+                            valid_files.append(file_path)
+                        else:
+                            logger.warning(f"File not found: {file_path}")
+                    
+                    if valid_files:
+                        samples[sample_id] = valid_files
+                    
+        logger.info(f"Loaded {len(samples)} samples from {samples_file}")
+        for sample_id, files in list(samples.items())[:2]:
+            logger.debug(f"  {sample_id}: {[os.path.basename(f) for f in files]}")
+        
+        return samples
+    except Exception as e:
+        logger.error(f"Error reading samples file {samples_file}: {e}")
+        return {}

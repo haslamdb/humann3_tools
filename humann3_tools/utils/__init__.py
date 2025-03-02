@@ -31,5 +31,6 @@ from humann3_tools.utils.resource_utils import (
 from humann3_tools.utils.metadata_utils import (
     collect_samples_from_metadata,
     find_sample_files,
-    prompt_for_sequence_file_patterns
+    prompt_for_sequence_file_patterns,
+    read_samples_file
 )
