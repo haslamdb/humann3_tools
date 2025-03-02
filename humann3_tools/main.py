@@ -1,4 +1,4 @@
-# humann3_tools/humann3_tools/main.py
+# humann3_tools/main.py
 """
 Main module for humann3_tools package.
 
