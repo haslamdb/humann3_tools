@@ -1,11 +1,14 @@
 # Core dependencies
 
 # HUMAnN3 dependencies (if not installed separately)
-# biobakery-humann3>=3.0.0 
+# biobakery-humann3>=3.5.0 
 # or biobakery3 conda environment
 
+# Kneaddata and dependencies (https://github.com/biobakery/kneaddata)
+# requires: human and (optionally) contaminant bowtie databases
+
+
 # Potential additional requirements for specialized environments
-# tensorflow>=2.8.0  # For machine learning extensions
 # biopython>=1.79  # For sequence analysis
 # plotly>=5.5.0  # For interactive plots
 
