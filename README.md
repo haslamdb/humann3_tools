@@ -245,7 +245,7 @@ output_dir/
 │   │   ├── ProcessedFiles_pathabundance-cpm.tsv
 │   │   ├── ProcessedFiles_pathabundance-cpm_stratified.tsv
 │   │   ├── ProcessedFiles_pathabundance-cpm_unstratified.tsv
-│   │   └── pathway_abundance.tsv  # renamed for easier reference
+│   │   └── pathway_abundance.tsv 
 │   └── ...
 ├── genes/
 │   ├── ProcessedFiles/
