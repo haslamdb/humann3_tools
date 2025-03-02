@@ -448,6 +448,131 @@ humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/
 
 ---
 
+# Metadata-Driven Workflow
+
+HUMAnN3 Tools now supports metadata-driven workflows that automatically locate and use sequence files based on sample information in your metadata file. This eliminates the need to manually specify each input file on the command line.
+
+## Using Metadata to Find Sequence Files
+
+You can use the sample information in your metadata file to automatically find and process sequence files:
+
+```bash
+humann3-tools --run-preprocessing --use-metadata \
+    --sample-key /path/to/metadata.csv \
+    --seq-dir /path/to/sequence/files \
+    --r1-suffix "_R1.fastq.gz" --r2-suffix "_R2.fastq.gz" --paired \
+    --kneaddata-dbs /path/to/kneaddata_db1 /path/to/kneaddata_db2 \
+    --humann3-nucleotide-db /path/to/chocophlan \
+    --humann3-protein-db /path/to/uniref \
+    --output-dir /path/to/output \
+    --group-col "Group"
+```
+
+This command will:
+1. Read your metadata file to get sample IDs
+2. Find sequence files in the specified directory using the provided suffixes
+3. Process all found samples through the pipeline
+
+## Metadata with File Paths
+
+If your metadata already contains columns with file paths:
+
+```bash
+humann3-tools --run-preprocessing --use-metadata \
+    --sample-key /path/to/metadata.csv \
+    --seq-dir /path/to/sequence/files \
+    --sample-col "SampleID" --r1-col "ForwardRead" --r2-col "ReverseRead" --paired \
+    --kneaddata-dbs /path/to/kneaddata_db1 /path/to/kneaddata_db2 \
+    --humann3-nucleotide-db /path/to/chocophlan \
+    --humann3-protein-db /path/to/uniref \
+    --output-dir /path/to/output
+```
+
+In this case, the tool will use the file paths specified in the "ForwardRead" and "ReverseRead" columns of your metadata file.
+
+## Using File Patterns
+
+You can also specify a pattern to find files:
+
+```bash
+humann3-tools --run-preprocessing --use-metadata \
+    --sample-key /path/to/metadata.csv \
+    --seq-dir /path/to/sequence/files \
+    --file-pattern "{sample}_S*_L001_R*_001.fastq.gz" --paired \
+    --kneaddata-dbs /path/to/kneaddata_db1 /path/to/kneaddata_db2 \
+    --output-dir /path/to/output
+```
+
+Replace `{sample}` with the sample ID from your metadata file to generate file paths.
+
+## Using a Pre-Generated Samples File
+
+For more control, you can generate a samples file separately and use it with the workflow:
+
+```bash
+# First, generate the samples file
+python -m humann3_tools.utils.metadata_collect \
+    --metadata /path/to/metadata.csv \
+    --seq-dir /path/to/sequence/files \
+    --r1-suffix "_R1.fastq.gz" --r2-suffix "_R2.fastq.gz" --paired \
+    --output samples.txt
+
+# Then use it in the workflow
+humann3-tools --run-preprocessing \
+    --samples-file samples.txt --paired \
+    --kneaddata-dbs /path/to/kneaddata_db1 /path/to/kneaddata_db2 \
+    --output-dir /path/to/output
+```
+
+The samples file is a tab-delimited file with sample IDs and their corresponding file paths.
+
+## Metadata Format Example
+
+Your metadata file should include a column for sample identifiers and optionally columns for file paths:
+
+```csv
+SampleID,Group,Treatment,ForwardRead,ReverseRead
+sample1,Control,Placebo,sample1_R1.fastq.gz,sample1_R2.fastq.gz
+sample2,Treatment,Drug,sample2_R1.fastq.gz,sample2_R2.fastq.gz
+sample3,Control,Placebo,sample3_R1.fastq.gz,sample3_R2.fastq.gz
+```
+
+The tool will automatically detect common sample ID column names (SampleID, Sample_ID, SampleName, etc.) if not specified.
+
+## Python API for Metadata-Driven Workflow
+
+```python
+from humann3_tools.utils.metadata_utils import collect_samples_from_metadata
+from humann3_tools import run_preprocessing_and_analysis
+
+# Collect samples from metadata
+samples = collect_samples_from_metadata(
+    metadata_file="metadata.csv",
+    seq_dir="/path/to/sequence/files",
+    r1_suffix="_R1.fastq.gz",
+    r2_suffix="_R2.fastq.gz",
+    paired=True
+)
+
+# Flatten the list of files for processing
+input_files = []
+for sample_files in samples.values():
+    input_files.extend(sample_files)
+
+# Run the analysis pipeline
+pathway_file, gene_file, success = run_preprocessing_and_analysis(
+    input_fastq=input_files,
+    sample_key="metadata.csv",
+    output_dir="results",
+    paired=True,
+    threads=8,
+    kneaddata_dbs=["/path/to/kneaddata_db1", "/path/to/kneaddata_db2"],
+    nucleotide_db="/path/to/chocophlan",
+    protein_db="/path/to/uniref",
+    group_col="Group"
+)
+```
+
 ## Examples
 
 ### Example 1: Basic Analysis Workflow
@@ -461,7 +586,41 @@ humann3-tools --sample-key metadata.csv \
     --group-col "DiseaseStatus"
 ```
 
-### Example 2: Focused Differential Abundance Analysis
+### Example 2: End-to-End Pipeline Using Metadata-Driven Workflow
+
+```bash
+# Process raw sequence files using sample information from metadata.csv
+humann3-tools --run-preprocessing --use-metadata \
+    --sample-key metadata.csv \
+    --seq-dir /path/to/sequence/files \
+    --r1-suffix "_R1.fastq.gz" --r2-suffix "_R2.fastq.gz" --paired \
+    --kneaddata-dbs /path/to/human_db /path/to/contaminants_db \
+    --humann3-nucleotide-db /path/to/chocophlan \
+    --humann3-protein-db /path/to/uniref \
+    --output-dir results/ \
+    --group-col "DiseaseStatus" \
+    --threads 8
+```
+
+### Example 3: Processing a Large Dataset with Parallel Execution
+
+```bash
+# Automatically identify and process samples in parallel from metadata
+humann3-tools --run-preprocessing --use-metadata \
+    --sample-key metadata.csv \
+    --seq-dir /path/to/sequence/files \
+    --file-pattern "{sample}_S*_L001_R*_001.fastq.gz" --paired \
+    --kneaddata-dbs /path/to/human_db /path/to/mouse_db \
+    --humann3-nucleotide-db /path/to/chocophlan \
+    --humann3-protein-db /path/to/uniref \
+    --output-dir results/ \
+    --group-col "Group" \
+    --use-parallel \
+    --threads-per-sample 4 \
+    --max-parallel 6
+```
+
+### Example 4: Focused Differential Abundance Analysis
 
 ```bash
 # Run only specific differential abundance methods on pathways, excluding unmapped reads
@@ -476,13 +635,25 @@ humann3-tools --sample-key metadata.csv \
     --exclude-unmapped
 ```
 
-### Example 3: Python API for Custom Analysis
+### Example 5: Python API for Custom Analysis with Metadata
 
 ```python
 import pandas as pd
 from humann3_tools import process_humann3_files_only, run_pathway_differential_abundance
+from humann3_tools.utils.metadata_utils import collect_samples_from_metadata
 
-# First, process the raw HUMAnN3 files
+# First, collect sample information from metadata
+samples = collect_samples_from_metadata(
+    metadata_file="metadata.csv",
+    seq_dir="/path/to/sequence/files",
+    r1_suffix="_R1.fastq.gz",
+    r2_suffix="_R2.fastq.gz",
+    paired=True
+)
+
+print(f"Found {len(samples)} samples with valid sequence files")
+
+# Process the raw HUMAnN3 files
 pathway_file, gene_file = process_humann3_files_only(
     sample_key="metadata.csv",
     pathway_dir="pathways/",
@@ -490,7 +661,7 @@ pathway_file, gene_file = process_humann3_files_only(
     output_dir="processed/"
 )
 
-# Now run a custom differential abundance analysis
+# Run a custom differential abundance analysis
 # For a subgroup of samples
 metadata = pd.read_csv("metadata.csv")
 responders = metadata[metadata["Response"] == "Yes"]["SampleID"].tolist()
@@ -514,6 +685,29 @@ if "ancom" in results:
     print("Top features by ANCOM:")
     for _, row in top_features.iterrows():
         print(f"- {row['feature']}: W-ratio = {row['W_ratio']:.2f}")
+```
+
+### Example 6: Processing Samples from Pre-Generated Sample File
+
+```bash
+# First, generate a sample file with sequence file paths
+python -m humann3_tools.utils.metadata_collect \
+    --metadata metadata.csv \
+    --seq-dir /path/to/sequence/files \
+    --r1-suffix "_R1.fastq.gz" --r2-suffix "_R2.fastq.gz" --paired \
+    --output samples.txt \
+    --interactive
+
+# Then run the pipeline using the samples file
+humann3-tools --run-preprocessing \
+    --samples-file samples.txt \
+    --paired \
+    --kneaddata-dbs /path/to/human_db /path/to/vector_db \
+    --humann3-nucleotide-db /path/to/chocophlan \
+    --humann3-protein-db /path/to/uniref \
+    --output-dir results/ \
+    --run-diff-abundance \
+    --group-col "Group"
 ```
 
 ---

@@ -69,7 +69,6 @@ def run_full_pipeline(
     # Check input files
     valid_path_samples, valid_gene_samples = check_input_files_exist(samples, pathway_dir, gene_dir)
 
-
     # Process pathways
     pathway_unstrat_file = None
     if not skip_pathway and valid_path_samples:

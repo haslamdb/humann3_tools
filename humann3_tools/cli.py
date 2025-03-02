@@ -18,6 +18,7 @@ from humann3_tools.preprocessing.pipeline import run_preprocessing_pipeline, run
 from humann3_tools.preprocessing.kneaddata import check_kneaddata_installation
 from humann3_tools.preprocessing.humann3_run import check_humann3_installation
 from humann3_tools.utils.resource_utils import limit_memory_usage
+from humann3_tools.utils.metadata_utils import collect_samples_from_metadata, find_sample_files
 
 
 def main():
@@ -103,6 +104,52 @@ def main():
     log_print("Starting HUMAnN3 Tools Pipeline", level='info')
 
     start_time = time.time()
+
+   # Handle metadata-driven workflow - collect input files
+    input_files = []
+    if args.run_preprocessing:
+        if args.samples_file:
+            # Read from samples file
+            try:
+                with open(args.samples_file, 'r') as f:
+                    for line in f:
+                        parts = line.strip().split('\t')
+                        if len(parts) >= 2:
+                            sample_id = parts[0]
+                            files = parts[1].split()
+                            input_files.extend(files)
+                log_print(f"Loaded {len(input_files)} sequence files from samples file", level='info')
+            except Exception as e:
+                log_print(f"ERROR: Failed to read samples file: {e}", level='error')
+                sys.exit(1)
+        
+        elif args.use_metadata and args.seq_dir:
+            # Collect samples from metadata
+            samples = collect_samples_from_metadata(
+                metadata_file=args.sample_key,
+                seq_dir=args.seq_dir,
+                sample_col=args.sample_col,
+                r1_col=args.r1_col,
+                r2_col=args.r2_col,
+                file_pattern=args.file_pattern,
+                r1_suffix=args.r1_suffix,
+                r2_suffix=args.r2_suffix,
+                paired=args.paired
+            )
+            
+            for sample_id, files in samples.items():
+                input_files.extend(files)
+            
+            log_print(f"Collected {len(input_files)} sequence files from {len(samples)} samples", level='info')
+        
+        # If input files were collected, override args.input_fastq
+        if input_files:
+            args.input_fastq = input_files
+            
+        # Now proceed with the original input_fastq check
+        if not args.input_fastq:
+            log_print("ERROR: No input files specified. Use --input-fastq, --samples-file, or --use-metadata", level='error')
+            sys.exit(1)
 
     # If only listing files, do that and exit
     if args.list_files:

@@ -196,7 +196,7 @@ def run_kneaddata(input_files, output_dir, threads=1, reference_dbs=None,
     # Add threads
     cmd.extend(["--threads", str(threads)])
     
-    # Add reference database(s) if provided
+    # Add reference database(s) 
     if reference_dbs:
         # Handle both string and list inputs
         if isinstance(reference_dbs, str):
