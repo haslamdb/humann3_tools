@@ -53,11 +53,13 @@ pip install humann3-tools
 
 ## Overview
 
-**HUMAnN3 Tools** is designed to streamline the workflow for analyzing HUMAnN3 output data. It handles three main tasks:
+**HUMAnN3 Tools** provides an end-to-end solution for metagenomic analysis:
 
-1. **HUMAnN3 Processing**: Normalizes, joins, and splits HUMAnN3 output files.  
-2. **Downstream Analysis**: Performs statistical tests, PCA, and visualization.  
-3. **Differential Abundance Analysis**: Applies methods like ALDEx2, ANCOM, and ANCOM-BC.
+1. **Preprocessing**: Run quality control and host depletion with KneadData
+2. **Functional Profiling**: Process raw sequences through HUMAnN3
+3. **HUMAnN3 Processing**: Normalize, join, and split HUMAnN3 output files
+4. **Downstream Analysis**: Perform statistical tests, PCA, and visualization
+5. **Differential Abundance Analysis**: Apply methods like ALDEx2, ANCOM, and ANCOM-BC
 
 ---
 
@@ -74,6 +76,19 @@ humann3-tools --sample-key /path/to/SampleKey.csv \
     --gene-dir /path/to/GeneFamilies \
     --output-dir /path/to/Output \
     --group-col "Group"
+```
+
+### End-to-End Pipeline (Raw Sequences to Analysis)
+
+```bash
+humann3-tools --run-preprocessing --input-fastq reads_1.fastq reads_2.fastq --paired \
+    --kneaddata-db /path/to/kneaddata_db \
+    --humann3-nucleotide-db /path/to/chocophlan \
+    --humann3-protein-db /path/to/uniref \
+    --sample-key /path/to/metadata.csv \
+    --output-dir /path/to/output \
+    --group-col "Group" \
+    --threads 8
 ```
 
 ### Common Options
@@ -96,55 +111,32 @@ humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/
     --output-dir results/ --run-diff-abundance
 ```
 
-### Full Options List
+### Parallel Processing for Large Datasets
 
-<details>
-<summary>Click to expand</summary>
-
-```text
-usage: humann3-tools [-h] --sample-key SAMPLE_KEY --pathway-dir PATHWAY_DIR
-                     --gene-dir GENE_DIR [--output-dir OUTPUT_DIR]
-                     [--output-prefix OUTPUT_PREFIX] [--skip-pathway]
-                     [--skip-gene] [--annotations-dir ANNOTATIONS_DIR]
-                     [--list-files] [--no-interactive] [--skip-downstream]
-                     [--group-col GROUP_COL] [--log-file LOG_FILE]
-                     [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}]
-                     [--run-diff-abundance] [--diff-methods DIFF_METHODS]
-                     [--exclude-unmapped]
-
-HUMAnN3 Tools: Process and analyze HUMAnN3 output
-
-required arguments:
-  --sample-key SAMPLE_KEY
-                        CSV file with columns for sample names and metadata
-  --pathway-dir PATHWAY_DIR
-                        Directory containing raw pathway abundance files
-  --gene-dir GENE_DIR   Directory containing raw gene family files
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --output-dir OUTPUT_DIR
-                        Directory where HUMAnN3-processed files and downstream results will go
-  --output-prefix OUTPUT_PREFIX
-                        Prefix for intermediate HUMAnN3 output
-  --skip-pathway        Skip HUMAnN3 pathway abundance processing
-  --skip-gene           Skip HUMAnN3 gene family processing
-  --annotations-dir ANNOTATIONS_DIR
-                        Directory name for additional HUMAnN3 annotations
-  --list-files          Just list input files in --pathway-dir and --gene-dir, then exit
-  --no-interactive      Non-interactive mode for sample key column selection
-  --skip-downstream     Skip the downstream analysis stage entirely
-  --group-col GROUP_COL
-                        Column name to use for grouping in statistical tests
-  --log-file LOG_FILE   Path to combined log file
-  --log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}
-                        Logging level (default=INFO)
-  --run-diff-abundance  Run differential abundance analysis using ANCOM, ALDEx2, and/or ANCOM-BC
-  --diff-methods DIFF_METHODS
-                        Comma-separated list of differential abundance methods (default: aldex2,ancom,ancom-bc)
-  --exclude-unmapped    Exclude unmapped features from differential abundance analysis
+```bash
+humann3-tools --run-preprocessing --input-fastq reads_*.fastq --paired \
+    --kneaddata-db /path/to/kneaddata_db \
+    --humann3-nucleotide-db /path/to/chocophlan \
+    --humann3-protein-db /path/to/uniref \
+    --sample-key /path/to/metadata.csv \
+    --output-dir /path/to/output \
+    --group-col "Group" \
+    --use-parallel \
+    --threads-per-sample 4 \
+    --max-parallel 8
 ```
-</details>
+
+### Run Differential Abundance Analysis
+
+```bash
+humann3-tools --sample-key /path/to/metadata.csv \
+    --pathway-dir /path/to/pathways \
+    --gene-dir /path/to/genes \
+    --output-dir /path/to/output \
+    --run-diff-abundance \
+    --diff-methods aldex2,ancom,ancom-bc \
+    --group-col "Group"
+```
 
 ---
 
@@ -163,7 +155,7 @@ pathway_file, gene_file, success = run_full_pipeline(
     gene_dir="/path/to/gene_dir",
     output_dir="/path/to/output",
     group_col="Group",
-    run_diff_abundance=True,  # If your pipeline includes that option
+    run_diff_abundance=True,
     log_file="humann3_analysis.log"
 )
 
@@ -171,6 +163,24 @@ if success:
     print("Analysis completed successfully!")
     print(f"Pathway file: {pathway_file}")
     print(f"Gene family file: {gene_file}")
+```
+
+### Run End-to-End Preprocessing and Analysis
+
+```python
+from humann3_tools import run_preprocessing_and_analysis
+
+pathway_file, gene_file, success = run_preprocessing_and_analysis(
+    input_fastq=["reads_1.fastq", "reads_2.fastq"],
+    sample_key="metadata.csv",
+    output_dir="results",
+    paired=True,
+    threads=8,
+    kneaddata_db="/path/to/kneaddata_db",
+    nucleotide_db="/path/to/chocophlan",
+    protein_db="/path/to/uniref",
+    group_col="Group"
+)
 ```
 
 ### Processing HUMAnN3 Files Only
@@ -228,7 +238,7 @@ if 'aldex2' in results:
 
 HUMAnN3 Tools automates several key processing steps for HUMAnN3 output files:
 
-- **Normalization**: Converts abundance values to counts per million (CPM) using HUMAnN3’s `humann_renorm_table` utility  
+- **Normalization**: Converts abundance values to counts per million (CPM) using HUMAnN3's `humann_renorm_table` utility  
 - **Joining**: Combines files from multiple samples into a single table using `humann_join_tables`  
 - **Stratification**: Splits tables into stratified and unstratified versions using `humann_split_stratified_table`
 
@@ -268,7 +278,7 @@ The downstream analysis module performs several types of analyses on the process
 
 - **Principal Component Analysis (PCA)**: Visualizes similarities and differences between samples  
 - **Bar Plots**: Shows abundance patterns across different groups  
-- **Statistical Tests**: Performs Kruskal-Wallis tests followed by Dunn’s post-hoc tests  
+- **Statistical Tests**: Performs Kruskal-Wallis tests followed by Dunn's post-hoc tests  
 - **Differential Abundance Analysis**: Identifies significantly different features between groups (if enabled)
 
 Results are organized in the `DownstreamAnalysis` directory:
@@ -356,9 +366,9 @@ A non-parametric alternative to ANOVA for comparing the abundance of features ac
 - Adjusted p-value (q-value) using Benjamini-Hochberg FDR correction  
 - Binary indicator of significance (Reject_H0)
 
-### Dunn’s Post-hoc Test
+### Dunn's Post-hoc Test
 
-For features with significant Kruskal-Wallis results, a Dunn’s post-hoc test identifies which specific group pairs differ significantly.
+For features with significant Kruskal-Wallis results, a Dunn's post-hoc test identifies which specific group pairs differ significantly.
 
 ---
 
@@ -404,6 +414,17 @@ SampleName,Group,Treatment,Site
 sample1,Control,Placebo,Gut
 sample2,Treatment,Drug,Gut
 sample3,Control,Placebo,Skin
+```
+
+### Resource Management
+
+Optimize memory and CPU usage:
+
+```bash
+humann3-tools --run-preprocessing --input-fastq reads_*.fastq \
+    --max-memory 32000 \        # Limit memory usage to 32GB
+    --threads-per-sample 4 \    # Threads per sample
+    --max-parallel 6            # Max samples to process in parallel
 ```
 
 ### Non-interactive Mode
@@ -546,4 +567,14 @@ If you encounter issues not covered in this documentation, please:
 
 ---
 
-*Note: This documentation is a work in progress. Please contribute improvements or file bug reports via GitHub issues.*
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Citation
+
+If you use HUMAnN3 Tools in your research, please cite:
+
+- The original HUMAnN3 paper: Franzosa EA, et al. (2018). Species-level functional profiling of metagenomes and metatranscriptomes. Nature Methods, 15(11), 962-968.
+- KneadData: The Huttenhower Lab (https://github.com/biobakery/kneaddata)
+- This tool: Haslam, D. (2025). HUMAnN3 Tools: A comprehensive framework for metagenomic analysis.
