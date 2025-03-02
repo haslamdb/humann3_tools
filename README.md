@@ -453,7 +453,7 @@ humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/
 
 ```bash
 # Process HUMAnN3 files and run standard downstream analysis
-humann3-tools --sample-key patient_metadata.csv \
+humann3-tools --sample-key metadata.csv \
     --pathway-dir raw_pathways/ \
     --gene-dir raw_genes/ \
     --output-dir results/ \
@@ -464,7 +464,7 @@ humann3-tools --sample-key patient_metadata.csv \
 
 ```bash
 # Run only specific differential abundance methods on pathways, excluding unmapped reads
-humann3-tools --sample-key patient_metadata.csv \
+humann3-tools --sample-key metadata.csv \
     --pathway-dir raw_pathways/ \
     --gene-dir raw_genes/ \
     --output-dir results/ \
