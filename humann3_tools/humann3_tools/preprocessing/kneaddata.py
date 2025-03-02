@@ -17,7 +17,6 @@ def check_kneaddata_installation():
     except FileNotFoundError:
         return False, "KneadData not found in PATH"
     
-# Add this to humann3_tools/preprocessing/kneaddata.py
 
 def process_single_sample_kneaddata(input_file, sample_id=None, output_dir=None, 
                                    threads=1, reference_db=None, paired_file=None, 

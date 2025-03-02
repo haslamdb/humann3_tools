@@ -5,7 +5,7 @@ import csv
 import logging
 
 from humann3_tools.utils.file_utils import check_file_exists
-from humann3_tools.logger import log_print
+from humann3_tools.humann3_tools.logger import log_print
 
 def validate_sample_key_noninteractive(sample_key_file):
     """Simpler version of reading sample key in non-interactive mode."""

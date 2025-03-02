@@ -1,7 +1,4 @@
-## Step 3: Extract Functions into Module Files
 
-
-# humann3_tools/humann3_tools/utils/cmd_utils.py
 import os
 import sys
 import subprocess

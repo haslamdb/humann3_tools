@@ -20,7 +20,7 @@ from humann3_tools.humann_tools.main import (
 )
 
 # Make logger functions available at the package level
-from humann3_tools.logger import setup_logger, log_print
+from humann3_tools.humann3_tools.logger import setup_logger, log_print
 
 # Import key utility functions
 from humann3_tools.utils.file_utils import check_file_exists, sanitize_filename
