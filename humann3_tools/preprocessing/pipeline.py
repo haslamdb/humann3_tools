@@ -1,8 +1,8 @@
 # humann3_tools/preprocessing/pipeline.py
 import os
 import logging
-from humann3_tools.preprocessing.kneaddata import run_kneaddata, check_kneaddata_installation
-from humann3_tools.preprocessing.humann3_run import run_humann3, check_humann3_installation
+from humann3_tools.preprocessing.kneaddata import run_kneaddata, check_kneaddata_installation, run_kneaddata_parallel
+from humann3_tools.preprocessing.humann3_run import run_humann3, check_humann3_installation, run_humann3_parallel
 from humann3_tools.logger import log_print
 from humann3_tools.utils.resource_utils import (
     track_peak_memory, 
@@ -61,7 +61,7 @@ def run_preprocessing_pipeline(input_files, output_dir, threads=1,
         input_files=input_files,
         output_dir=kneaddata_output,
         threads=threads,
-        reference_dbs=kneaddata_dbs,  # Changed from reference_db to reference_dbs
+        reference_dbs=kneaddata_dbs, 
         paired=paired,
         additional_options=kneaddata_options,
         logger=logger
@@ -73,10 +73,54 @@ def run_preprocessing_pipeline(input_files, output_dir, threads=1,
     
     logger.info(f"KneadData completed successfully with {len(kneaddata_files)} output files")
     
+    # Filter out contaminant files
+    kneaddata_files = [f for f in kneaddata_files if "contam" not in os.path.basename(f).lower()]
+    logger.info(f"After filtering, {len(kneaddata_files)} files will be used for HUMAnN3")
+
+    # Concatenate paired files for HUMAnN3
+    logger.info("Preparing KneadData outputs for HUMAnN3...")
+    paired_files = {}
+
+    # Group files by sample name (remove _paired_1, _paired_2 suffixes)
+    for file in kneaddata_files:
+        # Extract the base sample name
+        filename = os.path.basename(file)
+        if "_paired_1.fastq" in filename or "_paired_2.fastq" in filename:
+            base_name = filename.replace("_paired_1.fastq", "").replace("_paired_2.fastq", "")
+            if base_name not in paired_files:
+                paired_files[base_name] = []
+            paired_files[base_name].append(file)
+
+    # Concatenate paired files for each sample
+    concatenated_files = []
+    for sample, files in paired_files.items():
+        if len(files) == 2:
+            # Sort to ensure _paired_1 comes before _paired_2
+            files.sort()
+            concatenated_file = os.path.join(os.path.dirname(files[0]), f"{sample}_paired_concat.fastq")
+            
+            # Concatenate the files
+            logger.info(f"Concatenating paired files for sample {sample}")
+            with open(concatenated_file, 'w') as outfile:
+                for file in files:
+                    with open(file, 'r') as infile:
+                        for line in infile:
+                            outfile.write(line)
+            
+            concatenated_files.append(concatenated_file)
+        else:
+            # If not a proper pair, use the files individually
+            logger.info(f"Found {len(files)} files for sample {sample}, using individually")
+            concatenated_files.extend(files)
+
+    # Use concatenated files for HUMAnN3
+    humann3_input_files = concatenated_files
+    logger.info(f"Prepared {len(humann3_input_files)} input files for HUMAnN3")
+    
     # Step 2: Run HUMAnN3
     logger.info("Starting HUMAnN3 step...")
     humann3_results = run_humann3(
-        input_files=kneaddata_files,
+        input_files=humann3_input_files, 
         output_dir=humann3_output,
         threads=threads,
         nucleotide_db=nucleotide_db,
@@ -84,7 +128,6 @@ def run_preprocessing_pipeline(input_files, output_dir, threads=1,
         additional_options=humann3_options,
         logger=logger
     )
-    
     if not humann3_results:
         logger.error("HUMAnN3 step failed")
         return None
@@ -168,6 +211,10 @@ def run_preprocessing_pipeline_parallel(input_files, output_dir, threads_per_sam
     for sample_id, files in kneaddata_results.items():
         if isinstance(files, list):
             kneaddata_files.extend(files)
+            
+    # Filter out contaminant files
+    kneaddata_files = [f for f in kneaddata_files if "contam" not in os.path.basename(f).lower()]
+    logger.info(f"After filtering, {len(kneaddata_files)} files will be used for HUMAnN3")
     
     logger.info(f"KneadData completed with {len(kneaddata_files)} output files")
     

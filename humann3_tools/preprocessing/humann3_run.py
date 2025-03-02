@@ -65,13 +65,18 @@ def process_single_sample_humann3(input_file, sample_id=None, output_dir=None,
     output_files = {
         'genefamilies': None,
         'pathabundance': None,
-        'pathcoverage': None
+        'pathcoverage': None,
+        'metaphlan': None 
     }
-    
+
     for file in os.listdir(output_dir):
         for output_type in output_files.keys():
             if output_type in file.lower() and file.endswith(".tsv"):
                 output_files[output_type] = os.path.join(output_dir, file)
+        
+        # check for metaphlan
+        if "metaphlan_bugs_list" in file.lower() and file.endswith(".tsv"):
+            output_files['metaphlan'] = os.path.join(output_dir, file)
     
     logger.info(f"HUMAnN3 completed for sample {sample_id}")
     return output_files

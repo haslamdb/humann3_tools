@@ -4,8 +4,6 @@
 
 ## 🛠️ Bugs to Fix
 - [ ] --paired flag not working in from cli because kneaddata doesn't acccept paired flag
-- [ ] Keep metaphlan.tsv output file # currently being left in temp folder
-- [ ] Prevent humann from running on contam file: _kneaddata_hg_39_bowtie2_paired_contam_1
 - [ ] humann appears to not be using paired input. Can that be specified
 `
 

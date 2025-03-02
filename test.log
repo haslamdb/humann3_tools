@@ -382,3 +382,361 @@ Output files created:
 
 2025-03-02 14:16:27,685 - INFO - Running HUMAnN3 for sample D19G: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_contam_1.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
 2025-03-02 14:16:27,685 - INFO - Running: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_contam_1.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
+2025-03-02 14:44:41,054 - DEBUG - Command stdout: Output files will be written to: /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G
+
+Running metaphlan ........
+
+
+Total species selected from prescreen: 0
+
+Selected species explain 0.00% of predicted community composition
+
+
+
+No species were selected from the prescreen.
+Because of this the custom ChocoPhlAn database is empty.
+This will result in zero species-specific gene families and pathways.
+
+
+
+Running diamond ........
+
+
+Aligning to reference database: uniref90_201901b_full.dmnd
+
+Total bugs after translated alignment: 1
+unclassified: 1090090 hits
+
+Total gene families after translated alignment: 6483
+
+Unaligned reads after translated alignment: 94.0270601066 %
+
+
+Computing gene families ...
+
+Computing pathways abundance and coverage ...
+
+Output files created: 
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_hg_39_bowtie2_paired_contam_1_genefamilies.tsv
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_hg_39_bowtie2_paired_contam_1_pathabundance.tsv
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_hg_39_bowtie2_paired_contam_1_pathcoverage.tsv
+
+
+2025-03-02 14:44:41,054 - DEBUG - Command stderr: /home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+
+2025-03-02 14:44:41,055 - INFO - Running HUMAnN3 for sample D19G: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_contam_2.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
+2025-03-02 14:44:41,055 - INFO - Running: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_contam_2.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
+2025-03-02 15:10:30,879 - DEBUG - Command stdout: Output files will be written to: /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G
+
+Running metaphlan ........
+
+
+Total species selected from prescreen: 0
+
+Selected species explain 0.00% of predicted community composition
+
+
+
+No species were selected from the prescreen.
+Because of this the custom ChocoPhlAn database is empty.
+This will result in zero species-specific gene families and pathways.
+
+
+
+Running diamond ........
+
+
+Aligning to reference database: uniref90_201901b_full.dmnd
+
+Total bugs after translated alignment: 1
+unclassified: 1093146 hits
+
+Total gene families after translated alignment: 6446
+
+Unaligned reads after translated alignment: 94.0270442318 %
+
+
+Computing gene families ...
+
+Computing pathways abundance and coverage ...
+
+Output files created: 
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_hg_39_bowtie2_paired_contam_2_genefamilies.tsv
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_hg_39_bowtie2_paired_contam_2_pathabundance.tsv
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_hg_39_bowtie2_paired_contam_2_pathcoverage.tsv
+
+
+2025-03-02 15:10:30,880 - DEBUG - Command stderr: /home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+
+2025-03-02 15:10:30,880 - INFO - Running HUMAnN3 for sample D19G: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_contam_2.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
+2025-03-02 15:10:30,881 - INFO - Running: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_contam_2.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
+2025-03-02 15:15:18,353 - DEBUG - Command stdout: Output files will be written to: /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G
+
+Running metaphlan ........
+
+
+Total species selected from prescreen: 0
+
+Selected species explain 0.00% of predicted community composition
+
+
+
+No species were selected from the prescreen.
+Because of this the custom ChocoPhlAn database is empty.
+This will result in zero species-specific gene families and pathways.
+
+
+
+Running diamond ........
+
+
+Aligning to reference database: uniref90_201901b_full.dmnd
+
+Total bugs after translated alignment: 1
+unclassified: 793 hits
+
+Total gene families after translated alignment: 89
+
+Unaligned reads after translated alignment: 76.5401146132 %
+
+
+Computing gene families ...
+
+Computing pathways abundance and coverage ...
+
+Output files created: 
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_contam_2_genefamilies.tsv
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_contam_2_pathabundance.tsv
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_contam_2_pathcoverage.tsv
+
+
+2025-03-02 15:15:18,354 - INFO - Running HUMAnN3 for sample D19G: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_contam_1.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
+2025-03-02 15:15:18,354 - INFO - Running: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_contam_1.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
+2025-03-02 15:20:16,386 - DEBUG - Command stdout: Output files will be written to: /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G
+
+Running metaphlan ........
+
+
+Total species selected from prescreen: 0
+
+Selected species explain 0.00% of predicted community composition
+
+
+
+No species were selected from the prescreen.
+Because of this the custom ChocoPhlAn database is empty.
+This will result in zero species-specific gene families and pathways.
+
+
+
+Running diamond ........
+
+
+Aligning to reference database: uniref90_201901b_full.dmnd
+
+Total bugs after translated alignment: 1
+unclassified: 888 hits
+
+Total gene families after translated alignment: 93
+
+Unaligned reads after translated alignment: 75.1074498567 %
+
+
+Computing gene families ...
+
+Computing pathways abundance and coverage ...
+
+Output files created: 
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_contam_1_genefamilies.tsv
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_contam_1_pathabundance.tsv
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_contam_1_pathcoverage.tsv
+
+
+2025-03-02 15:20:16,387 - INFO - Running HUMAnN3 for sample D19G: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_2.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
+2025-03-02 15:20:16,388 - INFO - Running: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_2.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
+2025-03-02 15:35:09,422 - DEBUG - Command stdout: Output files will be written to: /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G
+
+Running metaphlan ........
+
+Found t__SGB8185 : 58.57% of mapped reads ( s__Streptococcus_mitis,g__Streptococcus.s__Streptococcus_oralis,g__Streptococcus.s__Streptococcus_sp_IMAU_99125 )
+Found t__SGB8047_group : 14.04% of mapped reads ( s__Streptococcus_salivarius,g__Streptococcus.s__Streptococcus_cristatus,g__Streptococcus.s__Streptococcus_sp_CCH8_C6 )
+Found t__SGB8168 : 6.79% of mapped reads ( s__Streptococcus_mitis,g__Streptococcus.s__Streptococcus_sp_HMSC073F11,g__Bacteria_unclassified.s__bacterium )
+Found t__SGB7292 : 6.11% of mapped reads ( s__Gemella_haemolysans )
+Found g__GGB1088.s__GGB1088_SGB1395 : 3.72% of mapped reads (  )
+Found t__SGB9652_group : 3.52% of mapped reads ( s__Haemophilus_haemolyticus,g__Haemophilus.s__Haemophilus_sp_C1,g__Haemophilus.s__Haemophilus_sp_oral_taxon_851 )
+Found t__SGB9450_group : 3.30% of mapped reads ( s__Neisseria_flavescens,g__Neisseria.s__Neisseria_mucosa,g__Neisseria.s__Neisseria_sp_HMSC058F07,g__Neisseria.s__Neisseria_sp_HMSC072B12,g__Neisseria.s__Neisseria_sp_HMSC063B05,g__Neisseria.s__Neisseria_sp_HMSC071A01,g__Neisseria.s__Neisseria_perflava )
+Found g__GGB1144.s__GGB1144_SGB1469 : 2.08% of mapped reads (  )
+Found g__Prevotella.s__Prevotella_nanceiensis : 0.63% of mapped reads (  )
+Found t__SGB2492 : 0.55% of mapped reads ( s__Capnocytophaga_leadbetteri,g__Capnocytophaga.s__Capnocytophaga_sp_oral_taxon_329,g__Capnocytophaga.s__Capnocytophaga_sp_FDAARGOS_737 )
+Found t__SGB7285_group : 0.31% of mapped reads ( s__Gemella_haemolysans )
+Found g__Porphyromonas.s__Porphyromonas_bobii : 0.18% of mapped reads ( g__Porphyromonas.s__Porphyromonas_sp_oral_taxon_279,g__Porphyromonadaceae_unclassified.s__Porphyromonadaceae_bacterium_KA00676,g__Porphyromonas.s__Porphyromonas_sp_KLE_1280,g__Porphyromonas.s__Porphyromonas_pasteri )
+Found t__SGB1552 : 0.16% of mapped reads ( s__Prevotella_melaninogenica,g__Prevotella.s__Prevotella_sp_ICM33 )
+Found t__SGB5989_group : 0.04% of mapped reads ( s__Fusobacterium_periodonticum,g__Fusobacterium.s__Fusobacterium_pseudoperiodonticum )
+
+Total species selected from prescreen: 46
+
+Selected species explain 100.00% of predicted community composition
+
+
+Creating custom ChocoPhlAn database ........
+
+
+Running bowtie2-build ........
+
+
+Running bowtie2 ........
+
+Total bugs from nucleotide alignment: 15
+g__Streptococcus.s__Streptococcus_mitis: 67647 hits
+g__Streptococcus.s__Streptococcus_salivarius: 12727 hits
+g__Gemella.s__Gemella_haemolysans: 7495 hits
+g__Streptococcus.s__Streptococcus_sanguinis: 19382 hits
+g__Streptococcus.s__Streptococcus_oralis: 22257 hits
+g__Haemophilus.s__Haemophilus_sp_C1: 1663 hits
+g__Streptococcus.s__Streptococcus_cristatus: 2100 hits
+g__Haemophilus.s__Haemophilus_haemolyticus: 3228 hits
+g__Neisseria.s__Neisseria_flavescens: 1036 hits
+g__Neisseria.s__Neisseria_perflava: 861 hits
+g__Neisseria.s__Neisseria_subflava: 935 hits
+g__Fusobacterium.s__Fusobacterium_periodonticum: 168 hits
+g__Neisseria.s__Neisseria_mucosa: 723 hits
+g__Prevotella.s__Prevotella_melaninogenica: 22 hits
+g__Capnocytophaga.s__Capnocytophaga_leadbetteri: 19 hits
+
+Total gene families from nucleotide alignment: 7816
+
+Unaligned reads after nucleotide alignment: 52.5111728061 %
+
+
+Running diamond ........
+
+
+Aligning to reference database: uniref90_201901b_full.dmnd
+
+Total bugs after translated alignment: 16
+g__Streptococcus.s__Streptococcus_mitis: 67647 hits
+g__Streptococcus.s__Streptococcus_salivarius: 12727 hits
+g__Gemella.s__Gemella_haemolysans: 7495 hits
+g__Streptococcus.s__Streptococcus_sanguinis: 19382 hits
+g__Streptococcus.s__Streptococcus_oralis: 22257 hits
+g__Haemophilus.s__Haemophilus_sp_C1: 1663 hits
+g__Streptococcus.s__Streptococcus_cristatus: 2100 hits
+g__Haemophilus.s__Haemophilus_haemolyticus: 3228 hits
+g__Neisseria.s__Neisseria_flavescens: 1036 hits
+g__Neisseria.s__Neisseria_perflava: 861 hits
+g__Neisseria.s__Neisseria_subflava: 935 hits
+g__Fusobacterium.s__Fusobacterium_periodonticum: 168 hits
+g__Neisseria.s__Neisseria_mucosa: 723 hits
+g__Prevotella.s__Prevotella_melaninogenica: 22 hits
+g__Capnocytophaga.s__Capnocytophaga_leadbetteri: 19 hits
+unclassified: 58916 hits
+
+Total gene families after translated alignment: 13784
+
+Unaligned reads after translated alignment: 38.8041711809 %
+
+
+Computing gene families ...
+
+Computing pathways abundance and coverage ...
+
+Output files created: 
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_paired_2_genefamilies.tsv
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_paired_2_pathabundance.tsv
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_paired_2_pathcoverage.tsv
+
+
+2025-03-02 15:35:09,422 - DEBUG - Command stderr: /home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+
+2025-03-02 15:35:09,423 - INFO - HUMAnN3 completed for 1 samples
+2025-03-02 15:35:09,423 - INFO - HUMAnN3 completed successfully for 1 samples
+2025-03-02 15:35:09,423 - INFO - Preprocessing completed successfully
+2025-03-02 15:35:09,423 - INFO - PROCESSING PATHWAY ABUNDANCE FILES
+2025-03-02 15:35:09,423 - INFO - Running: cp test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_hg_39_bowtie2_paired_contam_2_pathabundance.tsv test.out/pathways/test-/D19G_pathabundance.tsv
+2025-03-02 15:35:09,427 - INFO - Running: humann_renorm_table --input test.out/pathways/test-/D19G_pathabundance.tsv --output test.out/pathways/test-/D19G_pathabundance-cpm.tsv --units cpm --update-snames
+2025-03-02 15:35:09,481 - DEBUG - Command stderr: Loading table from: test.out/pathways/test-/D19G_pathabundance.tsv
+WARNING: Column 1 (D19G_R1_kneaddata_hg_39_bowtie2_paired_contam_2_Abundance) has zero sum at level 1
+
+2025-03-02 15:35:09,482 - INFO - Running: mv test.out/pathways/test-/D19G_pathabundance-cpm.tsv test.out/pathways/test-/Normalized
+2025-03-02 15:35:09,487 - INFO - Running: humann_join_tables -i test.out/pathways/test-/Normalized -o test.out/pathways/test-/test-_pathabundance-cpm.tsv
+2025-03-02 15:35:09,542 - DEBUG - Command stdout: Gene table created: /home/david/Documents/Code/humann3_analysis/test.out/pathways/test-/test-_pathabundance-cpm.tsv
+
+2025-03-02 15:35:09,543 - INFO - Running: humann_split_stratified_table -i test.out/pathways/test-/test-_pathabundance-cpm.tsv -o test.out/pathways/test-
+2025-03-02 15:35:09,596 - DEBUG - Command stdout: Split stratified tables created:
+test.out/pathways/test-/test-_pathabundance-cpm_stratified.tsv
+test.out/pathways/test-/test-_pathabundance-cpm_unstratified.tsv
+
+2025-03-02 15:35:09,596 - INFO - Renamed unstratified file to: test.out/pathways/test-/pathway_abundance.tsv
+2025-03-02 15:35:09,597 - INFO - PROCESSING GENE FAMILY FILES
+2025-03-02 15:35:09,597 - INFO - Running: cp test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_paired_1_genefamilies.tsv test.out/genes/test-/D19G_genefamilies.tsv
+2025-03-02 15:35:09,605 - INFO - Running: humann_renorm_table --input test.out/genes/test-/D19G_genefamilies.tsv --output test.out/genes/test-/D19G_genefamilies-cpm.tsv --units cpm --update-snames
+2025-03-02 15:35:09,770 - DEBUG - Command stderr: Loading table from: test.out/genes/test-/D19G_genefamilies.tsv
+  Treating test.out/genes/test-/D19G_genefamilies.tsv as stratified output, e.g. ['UniRef90_F8DKM2', 'g__Streptococcus.s__Streptococcus_cristatus']
+
+2025-03-02 15:35:09,771 - INFO - Running: mv test.out/genes/test-/D19G_genefamilies-cpm.tsv test.out/genes/test-/Normalized
+2025-03-02 15:35:09,775 - INFO - Running: humann_join_tables -i test.out/genes/test-/Normalized -o test.out/genes/test-/test-_genefamilies-cpm.tsv
+2025-03-02 15:35:09,937 - DEBUG - Command stdout: Gene table created: /home/david/Documents/Code/humann3_analysis/test.out/genes/test-/test-_genefamilies-cpm.tsv
+
+2025-03-02 15:35:09,938 - INFO - Running: humann_split_stratified_table -i test.out/genes/test-/test-_genefamilies-cpm.tsv -o test.out/genes/test-
+2025-03-02 15:35:10,000 - DEBUG - Command stdout: Split stratified tables created:
+test.out/genes/test-/test-_genefamilies-cpm_stratified.tsv
+test.out/genes/test-/test-_genefamilies-cpm_unstratified.tsv
+
+2025-03-02 15:35:10,001 - INFO - === HUMAnN3 Stage Outputs ===
+2025-03-02 15:35:10,001 - INFO -   Pathway unstratified file: test.out/pathways/test-/pathway_abundance.tsv
+2025-03-02 15:35:10,001 - INFO -   Gene families unstratified file: test.out/genes/test-/test-_genefamilies-cpm_unstratified.tsv
+2025-03-02 15:35:10,001 - INFO - Skipping downstream analysis stage (--skip-downstream)
+2025-03-02 15:35:10,001 - INFO - Pipeline finished in 1h 47m 8s
+2025-03-02 15:35:10,002 - INFO - All done!
+2025-03-02 15:43:21,002 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 15:43:21,002 - INFO - Loaded 0 sequence files from samples file
+2025-03-02 15:43:21,002 - INFO - 
+Available columns in sample key (2):
+2025-03-02 15:43:21,002 - INFO -   1. SampleName
+2025-03-02 15:43:21,002 - INFO -   2.  Group
+2025-03-02 15:43:21,003 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-02 15:43:21,003 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-02 15:43:21,003 - INFO -   1.  Group
+2025-03-02 15:43:21,003 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-02 15:43:23,028 - INFO - Using standard preprocessing pipeline
+2025-03-02 15:43:23,172 - INFO - Starting preprocessing pipeline with 2 input files
+2025-03-02 15:43:23,173 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-02 15:43:23,173 - INFO - HUMAnN3 version: humann v3.9
+2025-03-02 15:43:23,173 - INFO - Starting KneadData step...
+2025-03-02 15:43:23,173 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out2/PreprocessedData/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 15:43:23,174 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out2/PreprocessedData/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
