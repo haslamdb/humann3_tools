@@ -67,17 +67,6 @@ pip install humann3-tools
 
 The package provides a command-line tool `humann3-tools` that can be used to run the full analysis pipeline.
 
-### Basic Usage
-
-```bash
-# Full pipeline with defaults
-humann3-tools --sample-key /path/to/SampleKey.csv \
-    --pathway-dir /path/to/PathwayAbundance \
-    --gene-dir /path/to/GeneFamilies \
-    --output-dir /path/to/Output \
-    --group-col "Group"
-```
-
 ### End-to-End Pipeline (Raw Sequences to Analysis)
 
 ```bash
@@ -90,6 +79,18 @@ humann3-tools --run-preprocessing --input-fastq reads_1.fastq reads_2.fastq --pa
     --group-col "Group" \
     --threads 8
 ```
+
+### Analysis of Existing HUMAnN Output Files (pathway-abundance and gene-family files)
+
+```bash
+# Full pipeline with defaults
+humann3-tools --sample-key /path/to/SampleKey.csv \
+    --pathway-dir /path/to/PathwayAbundance \
+    --gene-dir /path/to/GeneFamilies \
+    --output-dir /path/to/Output \
+    --group-col "Group"
+```
+
 
 ### Common Options
 
