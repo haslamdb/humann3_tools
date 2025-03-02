@@ -33,11 +33,11 @@ logging>=0.5.1
 traceback2>=1.4.0
 
 # Optional but recommended
-jupyterlab>=3.0.0  # For interactive exploration
-pandas-profiling>=3.0.0  # For data profiling
+jupyterlab>=3.0.0  
+pandas-profiling>=3.0.0  
 
 # Development tools
 pytest>=6.2.5
 flake8>=4.0.1
 black>=22.3.0
-sphinx>=4.4.0  # For documentation
+sphinx>=4.4.0 
