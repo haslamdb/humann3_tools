@@ -33,12 +33,16 @@ def main():
                     help="Input FASTQ file(s) for preprocessing")
     parser.add_argument("--paired", action="store_true",
                     help="Input files are paired-end reads")
-    # CHANGED: Replace --kneaddata-db with --kneaddata-dbs to allow for multiple databases
+    parser.add_argument("--samples-file", 
+                  help="Tab-delimited file with sample IDs and sequence file paths")
+    parser.add_argument("--use-metadata", action="store_true",
+                    help="Read samples and file paths from metadata file")
+    parser.add_argument("--seq-dir", 
+                    help="Directory containing sequence files (when using --use-metadata)")
+    parser.add_argument("--sample-col", 
+                    help="Column name for sample IDs in metadata (when using --use-metadata)")
     parser.add_argument("--kneaddata-dbs", nargs="+",
                     help="Path(s) to KneadData reference database(s). Can specify multiple databases.")
-    # Keep the old argument for backward compatibility
-    parser.add_argument("--kneaddata-db",
-                    help="Path to KneadData reference database (deprecated, use --kneaddata-dbs instead)")
     parser.add_argument("--humann3-nucleotide-db",
                     help="Path to HUMAnN3 nucleotide database (ChocoPhlAn)")
     parser.add_argument("--humann3-protein-db",
@@ -74,13 +78,11 @@ def main():
                         help="Skip the downstream analysis stage entirely")
     parser.add_argument("--group-col", default="Group",
                         help="The column name to use for grouping in statistical tests (default: 'Group')")
-
     # Logging
     parser.add_argument("--log-file", default=None,
                         help="Path to combined log file")
     parser.add_argument("--log-level", default="INFO", choices=["DEBUG","INFO","WARNING","ERROR","CRITICAL"],
                         help="Logging level (default=INFO)")
-    
     # --- Differential abundance analysis ---
     parser.add_argument("--run-diff-abundance", action="store_true",
                         help="Run differential abundance analysis using ANCOM, ALDEx2, and/or ANCOM-BC")
@@ -88,7 +90,6 @@ def main():
                         help="Comma-separated list of differential abundance methods to use (default: aldex2,ancom,ancom-bc)")
     parser.add_argument("--exclude-unmapped", action="store_true",
                         help="Exclude unmapped features from differential abundance analysis")
-    
     # --- Parallel processing ---
     parser.add_argument("--threads-per-sample", type=int, default=1,
                    help="Number of threads to use per sample")

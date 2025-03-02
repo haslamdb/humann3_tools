@@ -27,3 +27,9 @@ from humann3_tools.utils.resource_utils import (
     track_peak_memory,
     limit_memory_usage
 )
+
+from humann3_tools.utils.metadata_utils import (
+    collect_samples_from_metadata,
+    find_sample_files,
+    prompt_for_sequence_file_patterns
+)
