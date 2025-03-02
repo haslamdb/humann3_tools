@@ -10,7 +10,7 @@
 
 # Core dependencies
 
-humann>=3.5
+humann>=3.8
 kneaddata
 
 pandas>=1.3.0
