@@ -65,8 +65,3 @@ pip install -e .
 
             """)
 
-# humann3-tools --sample-key /path/to/SampleKey.csv \\
-#     --pathway-dir /path/to/PathwayAbundance \\
-#     --gene-dir /path/to/GeneFamilies \\
-#     --output-dir /path/to/Output \\
-#     --group-col "Group"
