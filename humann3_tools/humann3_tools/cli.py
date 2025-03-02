@@ -32,8 +32,12 @@ def main():
                     help="Input FASTQ file(s) for preprocessing")
     parser.add_argument("--paired", action="store_true",
                     help="Input files are paired-end reads")
+    # CHANGED: Replace --kneaddata-db with --kneaddata-dbs to allow for multiple databases
+    parser.add_argument("--kneaddata-dbs", nargs="+",
+                    help="Path(s) to KneadData reference database(s). Can specify multiple databases.")
+    # Keep the old argument for backward compatibility
     parser.add_argument("--kneaddata-db",
-                    help="Path to KneadData reference database")
+                    help="Path to KneadData reference database (deprecated, use --kneaddata-dbs instead)")
     parser.add_argument("--humann3-nucleotide-db",
                     help="Path to HUMAnN3 nucleotide database (ChocoPhlAn)")
     parser.add_argument("--humann3-protein-db",
@@ -150,6 +154,13 @@ def main():
         # Create preprocessing output directory
         preproc_dir = os.path.join(args.output_dir, "PreprocessedData")
         os.makedirs(preproc_dir, exist_ok=True)
+
+        # Handle both --kneaddata-db and --kneaddata-dbs
+        kneaddata_dbs = args.kneaddata_dbs if args.kneaddata_dbs else []
+        if args.kneaddata_db and args.kneaddata_db not in kneaddata_dbs:
+            kneaddata_dbs.append(args.kneaddata_db)
+            if args.kneaddata_dbs:
+                log_print("WARNING: Both --kneaddata-db and --kneaddata-dbs specified. Using all databases.", level='warning')
 
         # Choose between regular or parallel processing
         if args.use_parallel:

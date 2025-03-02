@@ -11,7 +11,7 @@ from humann3_tools.utils.resource_utils import (
 )
 
 def run_preprocessing_pipeline(input_files, output_dir, threads=1, 
-                              kneaddata_db=None, nucleotide_db=None, protein_db=None,
+                              kneaddata_dbs=None, nucleotide_db=None, protein_db=None,
                               kneaddata_options=None, humann3_options=None, 
                               paired=False, logger=None):
     """
@@ -21,7 +21,7 @@ def run_preprocessing_pipeline(input_files, output_dir, threads=1,
         input_files: List of input FASTQ files
         output_dir: Base directory for outputs
         threads: Number of threads to use
-        kneaddata_db: Path to KneadData reference database
+        kneaddata_dbs: Path to KneadData reference database(s). Can be a string or a list of paths.
         nucleotide_db: Path to HUMAnN3 nucleotide database
         protein_db: Path to HUMAnN3 protein database
         kneaddata_options: Dict of additional KneadData options
@@ -61,7 +61,7 @@ def run_preprocessing_pipeline(input_files, output_dir, threads=1,
         input_files=input_files,
         output_dir=kneaddata_output,
         threads=threads,
-        reference_db=kneaddata_db,
+        reference_dbs=kneaddata_dbs,  # Changed from reference_db to reference_dbs
         paired=paired,
         additional_options=kneaddata_options,
         logger=logger
@@ -98,10 +98,9 @@ def run_preprocessing_pipeline(input_files, output_dir, threads=1,
     }
 
 
-# Add support for parallels processing
 
 def run_preprocessing_pipeline_parallel(input_files, output_dir, threads_per_sample=1, 
-                                       max_parallel=None, kneaddata_db=None, 
+                                       max_parallel=None, kneaddata_dbs=None, 
                                        nucleotide_db=None, protein_db=None,
                                        kneaddata_options=None, humann3_options=None, 
                                        paired=False, logger=None):
@@ -113,7 +112,7 @@ def run_preprocessing_pipeline_parallel(input_files, output_dir, threads_per_sam
         output_dir: Base directory for outputs
         threads_per_sample: Number of threads per sample
         max_parallel: Maximum number of parallel samples (None = CPU count)
-        kneaddata_db: Path to KneadData reference database
+        kneaddata_dbs: Path(s) to KneadData reference database(s). Can be a string or a list of paths.
         nucleotide_db: Path to HUMAnN3 nucleotide database
         protein_db: Path to HUMAnN3 protein database
         kneaddata_options: Dict of additional KneadData options
@@ -154,7 +153,7 @@ def run_preprocessing_pipeline_parallel(input_files, output_dir, threads_per_sam
         output_dir=kneaddata_output,
         threads=threads_per_sample,
         max_parallel=max_parallel,
-        reference_db=kneaddata_db,
+        reference_dbs=kneaddata_dbs,  # Changed from reference_db to reference_dbs
         paired=paired,
         additional_options=kneaddata_options,
         logger=logger

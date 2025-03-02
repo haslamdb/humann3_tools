@@ -1,4 +1,4 @@
-# humann3_tools/preprocessing/kneaddata.py
+
 import os
 import subprocess
 import logging
@@ -19,9 +19,23 @@ def check_kneaddata_installation():
     
 
 def process_single_sample_kneaddata(input_file, sample_id=None, output_dir=None, 
-                                   threads=1, reference_db=None, paired_file=None, 
+                                   threads=1, reference_dbs=None, paired_file=None, 
                                    additional_options=None, logger=None):
-    """Process a single sample with KneadData."""
+    """Process a single sample with KneadData.
+    
+    Args:
+        input_file: Input FASTQ file path
+        sample_id: Sample identifier
+        output_dir: Output directory path
+        threads: Number of threads to use
+        reference_dbs: List of reference database paths
+        paired_file: Paired FASTQ file path (for paired-end data)
+        additional_options: Dictionary of additional options
+        logger: Logger instance
+        
+    Returns:
+        List of output FASTQ files
+    """
     if logger is None:
         logger = logging.getLogger('humann3_analysis')
     
@@ -43,9 +57,15 @@ def process_single_sample_kneaddata(input_file, sample_id=None, output_dir=None,
     # Add threads (per sample)
     cmd.extend(["--threads", str(threads)])
     
-    # Add reference database if provided
-    if reference_db:
-        cmd.extend(["--reference-db", reference_db])
+    # Add reference database(s) if provided
+    if reference_dbs:
+        # Handle both string and list inputs
+        if isinstance(reference_dbs, str):
+            cmd.extend(["--reference-db", reference_dbs])
+        else:
+            # Add each reference database with its own --reference-db flag
+            for db in reference_dbs:
+                cmd.extend(["--reference-db", db])
     
     # Add additional options
     if additional_options:
@@ -72,10 +92,10 @@ def process_single_sample_kneaddata(input_file, sample_id=None, output_dir=None,
     logger.info(f"KneadData completed for sample {sample_id} with {len(output_files)} output files")
     return output_files
 
-# Add support for parallel processing
+# Parallel processing
 @track_peak_memory
 def run_kneaddata_parallel(input_files, output_dir, threads=1, max_parallel=None, 
-                          reference_db=None, paired=False, additional_options=None, 
+                          reference_dbs=None, paired=False, additional_options=None, 
                           logger=None):
     """
     Run KneadData on multiple samples in parallel.
@@ -85,7 +105,7 @@ def run_kneaddata_parallel(input_files, output_dir, threads=1, max_parallel=None
         output_dir: Base directory for outputs
         threads: Number of threads per sample
         max_parallel: Maximum number of parallel samples (None = CPU count)
-        reference_db: Path to reference database
+        reference_dbs: List of reference database paths
         paired: Whether input is paired-end
         additional_options: Dict of additional KneadData options
         logger: Logger instance
@@ -113,7 +133,6 @@ def run_kneaddata_parallel(input_files, output_dir, threads=1, max_parallel=None
             sample_name = os.path.basename(r1_file).split('_R1')[0]
             
             # Store the paired file separately
-            sample_tuple = (sample_name, r1_file)
             sample_list.append((sample_name, (r1_file, r2_file)))
     else:
         # Single-end reads
@@ -125,7 +144,7 @@ def run_kneaddata_parallel(input_files, output_dir, threads=1, max_parallel=None
     kwargs = {
         'output_dir': output_dir,
         'threads': threads,
-        'reference_db': reference_db,
+        'reference_dbs': reference_dbs,
         'additional_options': additional_options,
         'logger': logger
     }
@@ -136,7 +155,7 @@ def run_kneaddata_parallel(input_files, output_dir, threads=1, max_parallel=None
     
     return results
 
-def run_kneaddata(input_files, output_dir, threads=1, reference_db=None, 
+def run_kneaddata(input_files, output_dir, threads=1, reference_dbs=None, 
                  paired=False, additional_options=None, logger=None):
     """
     Run KneadData on input sequence files.
@@ -145,7 +164,7 @@ def run_kneaddata(input_files, output_dir, threads=1, reference_db=None,
         input_files: List of input FASTQ files
         output_dir: Directory for KneadData output
         threads: Number of threads to use
-        reference_db: Path to reference database
+        reference_dbs: List of reference database paths
         paired: Whether input files are paired
         additional_options: Dict of additional KneadData options
         logger: Logger instance
@@ -177,9 +196,15 @@ def run_kneaddata(input_files, output_dir, threads=1, reference_db=None,
     # Add threads
     cmd.extend(["--threads", str(threads)])
     
-    # Add reference database if provided
-    if reference_db:
-        cmd.extend(["--reference-db", reference_db])
+    # Add reference database(s) if provided
+    if reference_dbs:
+        # Handle both string and list inputs
+        if isinstance(reference_dbs, str):
+            cmd.extend(["--reference-db", reference_dbs])
+        else:
+            # Add each reference database with its own --reference-db flag
+            for db in reference_dbs:
+                cmd.extend(["--reference-db", db])
     
     # Add any additional options
     if additional_options:
