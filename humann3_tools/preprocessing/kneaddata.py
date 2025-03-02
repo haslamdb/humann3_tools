@@ -182,10 +182,10 @@ def run_kneaddata(input_files, output_dir, threads=1, reference_dbs=None,
     
     # Handle paired vs single end
     if paired and len(input_files) >= 2:
-        cmd.extend(["--input", input_files[0], "--input", input_files[1]])
+        cmd.extend(["--input1", input_files[0], "--input2", input_files[1]])
         cmd.extend(["--paired"])
     elif len(input_files) >= 1:
-        cmd.extend(["--input", input_files[0]])
+        cmd.extend(["--input1", input_files[0], "--input2", input_files[1]])
     else:
         logger.error("No input files provided for KneadData")
         return []

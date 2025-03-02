@@ -233,13 +233,6 @@ def main():
         preproc_dir = os.path.join(args.output_dir, "PreprocessedData")
         os.makedirs(preproc_dir, exist_ok=True)
 
-        # Handle both --kneaddata-db and --kneaddata-dbs
-        kneaddata_dbs = args.kneaddata_dbs if args.kneaddata_dbs else []
-        if args.kneaddata_db and args.kneaddata_db not in kneaddata_dbs:
-            kneaddata_dbs.append(args.kneaddata_db)
-            if args.kneaddata_dbs:
-                log_print("WARNING: Both --kneaddata-db and --kneaddata-dbs specified. Using all databases.", level='warning')
-
         # Choose between regular or parallel processing
         if args.use_parallel:
             log_print("Using parallel preprocessing pipeline", level='info')
@@ -260,7 +253,7 @@ def main():
                 input_files=args.input_fastq,
                 output_dir=preproc_dir,
                 threads=args.threads,
-                kneaddata_db=args.kneaddata_db,
+                kneaddata_dbs=args.kneaddata_dbs,
                 nucleotide_db=args.humann3_nucleotide_db,
                 protein_db=args.humann3_protein_db,
                 paired=args.paired,

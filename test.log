@@ -1,0 +1,261 @@
+2025-03-02 13:08:37,564 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 13:08:37,564 - INFO - Loaded 0 sequence files from samples file
+2025-03-02 13:08:37,564 - ERROR - ERROR: No input files specified. Use --input-fastq, --samples-file, or --use-metadata
+2025-03-02 13:09:38,734 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 13:09:38,734 - INFO - Loaded 0 sequence files from samples file
+2025-03-02 13:09:38,734 - ERROR - ERROR: No input files specified. Use --input-fastq, --samples-file, or --use-metadata
+2025-03-02 13:10:25,051 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 13:10:25,052 - INFO - Loaded 0 sequence files from samples file
+2025-03-02 13:10:25,052 - ERROR - ERROR: No input files specified. Use --input-fastq, --samples-file, or --use-metadata
+2025-03-02 13:11:49,836 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 13:11:49,836 - INFO - Loaded 0 sequence files from samples file
+2025-03-02 13:11:49,837 - INFO - 
+Available columns in sample key (2):
+2025-03-02 13:11:49,837 - INFO -   1. SampleName
+2025-03-02 13:11:49,837 - INFO -   2.  Group
+2025-03-02 13:11:49,837 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-02 13:11:49,837 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-02 13:11:49,837 - INFO -   1.  Group
+2025-03-02 13:11:49,837 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-02 13:13:31,517 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 13:13:31,517 - INFO - Loaded 0 sequence files from samples file
+2025-03-02 13:13:31,518 - INFO - 
+Available columns in sample key (2):
+2025-03-02 13:13:31,518 - INFO -   1. SampleName
+2025-03-02 13:13:31,518 - INFO -   2.  Group
+2025-03-02 13:13:31,518 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-02 13:13:31,518 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-02 13:13:31,518 - INFO -   1.  Group
+2025-03-02 13:13:31,518 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-02 13:13:34,556 - INFO - Using standard preprocessing pipeline
+2025-03-02 13:14:07,468 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 13:14:07,468 - INFO - Loaded 0 sequence files from samples file
+2025-03-02 13:14:07,468 - INFO - 
+Available columns in sample key (2):
+2025-03-02 13:14:07,468 - INFO -   1. SampleName
+2025-03-02 13:14:07,468 - INFO -   2.  Group
+2025-03-02 13:14:07,468 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-02 13:14:07,469 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-02 13:14:07,469 - INFO -   1.  Group
+2025-03-02 13:14:07,469 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-02 13:14:09,936 - INFO - Using standard preprocessing pipeline
+2025-03-02 13:14:49,693 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 13:14:49,693 - INFO - Loaded 0 sequence files from samples file
+2025-03-02 13:14:49,694 - INFO - 
+Available columns in sample key (2):
+2025-03-02 13:14:49,694 - INFO -   1. SampleName
+2025-03-02 13:14:49,694 - INFO -   2.  Group
+2025-03-02 13:14:49,694 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-02 13:14:49,694 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-02 13:14:49,694 - INFO -   1.  Group
+2025-03-02 13:14:49,694 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-02 13:14:51,950 - INFO - Using standard preprocessing pipeline
+2025-03-02 13:14:52,110 - INFO - Starting preprocessing pipeline with 2 input files
+2025-03-02 13:14:52,110 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-02 13:14:52,110 - INFO - HUMAnN3 version: humann v3.9
+2025-03-02 13:14:52,111 - INFO - Starting KneadData step...
+2025-03-02 13:14:52,111 - INFO - Running KneadData: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output test.out/PreprocessedData/kneaddata_output --threads 12 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 13:14:52,111 - INFO - Running: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output test.out/PreprocessedData/kneaddata_output --threads 12 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 13:14:52,170 - ERROR - ERROR: Command failed with exit code 2
+2025-03-02 13:14:52,170 - ERROR - Error message: usage: kneaddata [-h] [--version] [-v] [-i1 INPUT1] [-i2 INPUT2]
+                 [-un UNPAIRED] -o OUTPUT_DIR [-s SCRATCH_DIR]
+                 [-db REFERENCE_DB] [--bypass-trim]
+                 [--output-prefix OUTPUT_PREFIX] [-t <1>] [-p <1>]
+                 [-q {phred33,phred64}] [--run-bmtagger] [--bypass-trf]
+                 [--run-trf] [--run-fastqc-start] [--run-fastqc-end]
+                 [--store-temp-output] [--remove-intermediate-output]
+                 [--cat-final-output]
+                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--log LOG]
+                 [--trimmomatic TRIMMOMATIC_PATH] [--run-trim-repetitive]
+                 [--max-memory MAX_MEMORY]
+                 [--trimmomatic-options TRIMMOMATIC_OPTIONS]
+                 [--sequencer-source {NexteraPE,TruSeq2,TruSeq3,none}]
+                 [--bowtie2 BOWTIE2_PATH] [--bowtie2-options BOWTIE2_OPTIONS]
+                 [--decontaminate-pairs {strict,lenient,unpaired}] [--reorder]
+                 [--serial] [--bmtagger BMTAGGER_PATH] [--trf TRF_PATH]
+                 [--match MATCH] [--mismatch MISMATCH] [--delta DELTA]
+                 [--pm PM] [--pi PI] [--minscore MINSCORE]
+                 [--maxperiod MAXPERIOD] [--fastqc FASTQC_PATH]
+kneaddata: error: ambiguous option: --input could match --input1, --input2
+
+2025-03-02 13:14:52,170 - ERROR - Failed command: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output test.out/PreprocessedData/kneaddata_output --threads 12 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 13:14:52,171 - ERROR - KneadData run failed
+2025-03-02 13:14:52,171 - ERROR - KneadData step failed, stopping pipeline
+2025-03-02 13:14:52,171 - ERROR - Preprocessing pipeline failed
+2025-03-02 13:20:56,953 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 13:20:56,953 - INFO - Loaded 0 sequence files from samples file
+2025-03-02 13:20:56,954 - INFO - 
+Available columns in sample key (2):
+2025-03-02 13:20:56,954 - INFO -   1. SampleName
+2025-03-02 13:20:56,954 - INFO -   2.  Group
+2025-03-02 13:20:56,954 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-02 13:20:56,954 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-02 13:20:56,954 - INFO -   1.  Group
+2025-03-02 13:20:56,954 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-02 13:20:59,906 - INFO - Using standard preprocessing pipeline
+2025-03-02 13:21:00,060 - INFO - Starting preprocessing pipeline with 2 input files
+2025-03-02 13:21:00,061 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-02 13:21:00,061 - INFO - HUMAnN3 version: humann v3.9
+2025-03-02 13:21:00,061 - INFO - Starting KneadData step...
+2025-03-02 13:21:00,061 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output test.out/PreprocessedData/kneaddata_output --threads 12 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 13:21:00,062 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output test.out/PreprocessedData/kneaddata_output --threads 12 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 13:21:00,117 - ERROR - ERROR: Command failed with exit code 2
+2025-03-02 13:21:00,118 - ERROR - Error message: usage: kneaddata [-h] [--version] [-v] [-i1 INPUT1] [-i2 INPUT2]
+                 [-un UNPAIRED] -o OUTPUT_DIR [-s SCRATCH_DIR]
+                 [-db REFERENCE_DB] [--bypass-trim]
+                 [--output-prefix OUTPUT_PREFIX] [-t <1>] [-p <1>]
+                 [-q {phred33,phred64}] [--run-bmtagger] [--bypass-trf]
+                 [--run-trf] [--run-fastqc-start] [--run-fastqc-end]
+                 [--store-temp-output] [--remove-intermediate-output]
+                 [--cat-final-output]
+                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--log LOG]
+                 [--trimmomatic TRIMMOMATIC_PATH] [--run-trim-repetitive]
+                 [--max-memory MAX_MEMORY]
+                 [--trimmomatic-options TRIMMOMATIC_OPTIONS]
+                 [--sequencer-source {NexteraPE,TruSeq2,TruSeq3,none}]
+                 [--bowtie2 BOWTIE2_PATH] [--bowtie2-options BOWTIE2_OPTIONS]
+                 [--decontaminate-pairs {strict,lenient,unpaired}] [--reorder]
+                 [--serial] [--bmtagger BMTAGGER_PATH] [--trf TRF_PATH]
+                 [--match MATCH] [--mismatch MISMATCH] [--delta DELTA]
+                 [--pm PM] [--pi PI] [--minscore MINSCORE]
+                 [--maxperiod MAXPERIOD] [--fastqc FASTQC_PATH]
+kneaddata: error: unrecognized arguments: --paired
+
+2025-03-02 13:21:00,118 - ERROR - Failed command: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output test.out/PreprocessedData/kneaddata_output --threads 12 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 13:21:00,118 - ERROR - KneadData run failed
+2025-03-02 13:21:00,118 - ERROR - KneadData step failed, stopping pipeline
+2025-03-02 13:21:00,119 - ERROR - Preprocessing pipeline failed
+2025-03-02 13:23:31,218 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 13:23:31,219 - INFO - Loaded 0 sequence files from samples file
+2025-03-02 13:23:31,219 - INFO - 
+Available columns in sample key (2):
+2025-03-02 13:23:31,219 - INFO -   1. SampleName
+2025-03-02 13:23:31,219 - INFO -   2.  Group
+2025-03-02 13:23:31,219 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-02 13:23:31,219 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-02 13:23:31,220 - INFO -   1.  Group
+2025-03-02 13:23:31,220 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-02 13:23:33,512 - INFO - Using standard preprocessing pipeline
+2025-03-02 13:23:33,662 - INFO - Starting preprocessing pipeline with 2 input files
+2025-03-02 13:23:33,662 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-02 13:23:33,663 - INFO - HUMAnN3 version: humann v3.9
+2025-03-02 13:23:33,663 - INFO - Starting KneadData step...
+2025-03-02 13:23:33,663 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out/PreprocessedData/kneaddata_output --threads 12 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 13:23:33,663 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out/PreprocessedData/kneaddata_output --threads 12 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 13:43:10,794 - DEBUG - Command stdout: Reformatting file sequence identifiers ...
+
+Reformatting file sequence identifiers ...
+
+Initial number of reads ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/reformatted_identifiersz5ym9bcq_D19G_R1 ): 10644848.0
+Initial number of reads ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/reformatted_identifierssgypylpb_D19G_R2 ): 10644848.0
+Running Trimmomatic ... 
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata.trimmed.1.fastq ): 6961227.0
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata.trimmed.2.fastq ): 6961227.0
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata.trimmed.single.1.fastq ): 346202.0
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata.trimmed.single.2.fastq ): 264206.0
+Running trf ... 
+Running trf ... 
+Running trf ... 
+Running trf ... 
+Decontaminating ...
+Running bowtie2 ... 
+Running bowtie2 ... 
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_clean_1.fastq ): 298152.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_clean_2.fastq ): 298152.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_1.fastq ): 295360.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_2.fastq ): 295360.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq ): 295360.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_2.fastq ): 295360.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_unmatched_1_clean.fastq ): 16735.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_1_clean.fastq ): 16566.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_unmatched_1.fastq ): 16566.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_unmatched_2_clean.fastq ): 9093.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_2_clean.fastq ): 9000.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_unmatched_2.fastq ): 9000.0
+
+Final output files created: 
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_2.fastq
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_unmatched_1.fastq
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_unmatched_2.fastq
+
+
+2025-03-02 13:43:10,795 - INFO - KneadData completed with 6 output files
+2025-03-02 13:43:10,795 - INFO - KneadData completed successfully with 6 output files
+2025-03-02 13:43:10,795 - INFO - Starting HUMAnN3 step...
+2025-03-02 13:43:10,796 - INFO - Running HUMAnN3 for sample D19G: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 12
+2025-03-02 13:43:10,796 - INFO - Running: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 12
+2025-03-02 13:48:01,233 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 13:48:01,234 - INFO - Loaded 0 sequence files from samples file
+2025-03-02 13:48:01,234 - INFO - 
+Available columns in sample key (2):
+2025-03-02 13:48:01,234 - INFO -   1. SampleName
+2025-03-02 13:48:01,234 - INFO -   2.  Group
+2025-03-02 13:48:01,234 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-02 13:48:01,234 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-02 13:48:01,234 - INFO -   1.  Group
+2025-03-02 13:48:01,234 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-02 13:48:03,893 - INFO - Using standard preprocessing pipeline
+2025-03-02 13:48:04,037 - INFO - Starting preprocessing pipeline with 2 input files
+2025-03-02 13:48:04,037 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-02 13:48:04,038 - INFO - HUMAnN3 version: humann v3.9
+2025-03-02 13:48:04,038 - INFO - Starting KneadData step...
+2025-03-02 13:48:04,038 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out/PreprocessedData/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 13:48:04,038 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out/PreprocessedData/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 14:00:55,879 - DEBUG - Command stdout: Reformatting file sequence identifiers ...
+
+Reformatting file sequence identifiers ...
+
+Initial number of reads ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/reformatted_identifiers_nraxf8__D19G_R1 ): 10644848.0
+Initial number of reads ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/reformatted_identifiersgzz73muh_D19G_R2 ): 10644848.0
+Running Trimmomatic ... 
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata.trimmed.1.fastq ): 6961227.0
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata.trimmed.2.fastq ): 6961227.0
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata.trimmed.single.1.fastq ): 346202.0
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata.trimmed.single.2.fastq ): 264206.0
+Running trf ... 
+Running trf ... 
+Running trf ... 
+Running trf ... 
+Decontaminating ...
+Running bowtie2 ... 
+Running bowtie2 ... 
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_clean_1.fastq ): 298152.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_clean_2.fastq ): 298152.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_1.fastq ): 295360.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_2.fastq ): 295360.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq ): 295360.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_2.fastq ): 295360.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_unmatched_1_clean.fastq ): 16735.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_1_clean.fastq ): 16566.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_unmatched_1.fastq ): 16566.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_unmatched_2_clean.fastq ): 9093.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_2_clean.fastq ): 9000.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_unmatched_2.fastq ): 9000.0
+
+Final output files created: 
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_2.fastq
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_unmatched_1.fastq
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_unmatched_2.fastq
+
+
+2025-03-02 14:00:55,880 - INFO - KneadData completed with 6 output files
+2025-03-02 14:00:55,880 - INFO - KneadData completed successfully with 6 output files
+2025-03-02 14:00:55,880 - INFO - Starting HUMAnN3 step...
+2025-03-02 14:00:55,881 - INFO - Running HUMAnN3 for sample D19G: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
+2025-03-02 14:00:55,881 - INFO - Running: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
