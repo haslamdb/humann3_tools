@@ -259,3 +259,126 @@ Final output files created:
 2025-03-02 14:00:55,880 - INFO - Starting HUMAnN3 step...
 2025-03-02 14:00:55,881 - INFO - Running HUMAnN3 for sample D19G: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
 2025-03-02 14:00:55,881 - INFO - Running: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
+2025-03-02 14:16:27,684 - DEBUG - Command stdout: Output files will be written to: /home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G
+
+Running metaphlan ........
+
+Found t__SGB8185 : 57.83% of mapped reads ( s__Streptococcus_mitis,g__Streptococcus.s__Streptococcus_oralis,g__Streptococcus.s__Streptococcus_sp_IMAU_99125 )
+Found t__SGB8047_group : 13.77% of mapped reads ( s__Streptococcus_salivarius,g__Streptococcus.s__Streptococcus_cristatus,g__Streptococcus.s__Streptococcus_sp_CCH8_C6 )
+Found t__SGB8168 : 7.70% of mapped reads ( s__Streptococcus_mitis,g__Streptococcus.s__Streptococcus_sp_HMSC073F11,g__Bacteria_unclassified.s__bacterium )
+Found t__SGB7292 : 6.20% of mapped reads ( s__Gemella_haemolysans )
+Found t__SGB9652_group : 3.80% of mapped reads ( s__Haemophilus_haemolyticus,g__Haemophilus.s__Haemophilus_sp_C1,g__Haemophilus.s__Haemophilus_sp_oral_taxon_851 )
+Found t__SGB9450_group : 3.66% of mapped reads ( s__Neisseria_flavescens,g__Neisseria.s__Neisseria_mucosa,g__Neisseria.s__Neisseria_sp_HMSC058F07,g__Neisseria.s__Neisseria_sp_HMSC072B12,g__Neisseria.s__Neisseria_sp_HMSC063B05,g__Neisseria.s__Neisseria_sp_HMSC071A01,g__Neisseria.s__Neisseria_perflava )
+Found g__GGB1088.s__GGB1088_SGB1395 : 3.30% of mapped reads (  )
+Found g__GGB1144.s__GGB1144_SGB1469 : 1.95% of mapped reads (  )
+Found t__SGB2492 : 0.61% of mapped reads ( s__Capnocytophaga_leadbetteri,g__Capnocytophaga.s__Capnocytophaga_sp_oral_taxon_329,g__Capnocytophaga.s__Capnocytophaga_sp_FDAARGOS_737 )
+Found g__Prevotella.s__Prevotella_nanceiensis : 0.59% of mapped reads (  )
+Found t__SGB7285_group : 0.32% of mapped reads ( s__Gemella_haemolysans )
+Found g__Porphyromonas.s__Porphyromonas_bobii : 0.16% of mapped reads ( g__Porphyromonas.s__Porphyromonas_sp_oral_taxon_279,g__Porphyromonadaceae_unclassified.s__Porphyromonadaceae_bacterium_KA00676,g__Porphyromonas.s__Porphyromonas_sp_KLE_1280,g__Porphyromonas.s__Porphyromonas_pasteri )
+Found t__SGB1552 : 0.11% of mapped reads ( s__Prevotella_melaninogenica,g__Prevotella.s__Prevotella_sp_ICM33 )
+Found t__SGB5989_group : 0.02% of mapped reads ( s__Fusobacterium_periodonticum,g__Fusobacterium.s__Fusobacterium_pseudoperiodonticum )
+
+Total species selected from prescreen: 46
+
+Selected species explain 100.00% of predicted community composition
+
+
+Creating custom ChocoPhlAn database ........
+
+
+Running bowtie2-build ........
+
+
+Running bowtie2 ........
+
+Total bugs from nucleotide alignment: 15
+g__Streptococcus.s__Streptococcus_oralis: 22224 hits
+g__Streptococcus.s__Streptococcus_mitis: 67367 hits
+g__Streptococcus.s__Streptococcus_salivarius: 12795 hits
+g__Streptococcus.s__Streptococcus_sanguinis: 19277 hits
+g__Haemophilus.s__Haemophilus_haemolyticus: 3144 hits
+g__Gemella.s__Gemella_haemolysans: 7493 hits
+g__Streptococcus.s__Streptococcus_cristatus: 2126 hits
+g__Haemophilus.s__Haemophilus_sp_C1: 1571 hits
+g__Neisseria.s__Neisseria_flavescens: 1088 hits
+g__Neisseria.s__Neisseria_perflava: 925 hits
+g__Neisseria.s__Neisseria_subflava: 1059 hits
+g__Neisseria.s__Neisseria_mucosa: 716 hits
+g__Fusobacterium.s__Fusobacterium_periodonticum: 184 hits
+g__Capnocytophaga.s__Capnocytophaga_leadbetteri: 20 hits
+g__Prevotella.s__Prevotella_melaninogenica: 17 hits
+
+Total gene families from nucleotide alignment: 7758
+
+Unaligned reads after nucleotide alignment: 52.5981852654 %
+
+
+Running diamond ........
+
+
+Aligning to reference database: uniref90_201901b_full.dmnd
+
+Total bugs after translated alignment: 16
+g__Streptococcus.s__Streptococcus_oralis: 22224 hits
+g__Streptococcus.s__Streptococcus_mitis: 67367 hits
+g__Streptococcus.s__Streptococcus_salivarius: 12795 hits
+g__Streptococcus.s__Streptococcus_sanguinis: 19277 hits
+g__Haemophilus.s__Haemophilus_haemolyticus: 3144 hits
+g__Gemella.s__Gemella_haemolysans: 7493 hits
+g__Streptococcus.s__Streptococcus_cristatus: 2126 hits
+g__Haemophilus.s__Haemophilus_sp_C1: 1571 hits
+g__Neisseria.s__Neisseria_flavescens: 1088 hits
+g__Neisseria.s__Neisseria_perflava: 925 hits
+g__Neisseria.s__Neisseria_subflava: 1059 hits
+g__Neisseria.s__Neisseria_mucosa: 716 hits
+g__Fusobacterium.s__Fusobacterium_periodonticum: 184 hits
+g__Capnocytophaga.s__Capnocytophaga_leadbetteri: 20 hits
+g__Prevotella.s__Prevotella_melaninogenica: 17 hits
+unclassified: 57902 hits
+
+Total gene families after translated alignment: 13667
+
+Unaligned reads after translated alignment: 39.0002031419 %
+
+
+Computing gene families ...
+
+Computing pathways abundance and coverage ...
+
+Output files created: 
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_paired_1_genefamilies.tsv
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_paired_1_pathabundance.tsv
+/home/david/Documents/Code/humann3_analysis/test.out/PreprocessedData/humann3_output/D19G/D19G_R1_kneaddata_paired_1_pathcoverage.tsv
+
+
+2025-03-02 14:16:27,685 - DEBUG - Command stderr: /home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+
+2025-03-02 14:16:27,685 - INFO - Running HUMAnN3 for sample D19G: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_contam_1.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
+2025-03-02 14:16:27,685 - INFO - Running: humann --input test.out/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_contam_1.fastq --output test.out/PreprocessedData/humann3_output/D19G --threads 24
