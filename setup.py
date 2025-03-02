@@ -1,67 +1,51 @@
-# Create the main package folder
-import os
 from setuptools import setup, find_packages
-
-def create_package_structure():
-    """Create the initial package directory structure"""
-    
-    directories = [
-        "humann3_tools",
-        "humann3_tools/humann3_tools",
-        "humann3_tools/humann3_tools/utils",
-        "humann3_tools/humann3_tools/humann3",
-        "humann3_tools/humann3_tools/analysis"
-    ]
-    
-    for directory in directories:
-        os.makedirs(directory, exist_ok=True)
-        # Create __init__.py files in each directory
-        if directory.startswith("humann3_tools/humann3_tools"):
-            with open(os.path.join(directory, "__init__.py"), 'w') as f:
-                f.write("# Package initialization\n")
-    
-    # Create the root level files
-    with open("humann3_tools/setup.py", 'w') as f:
-        f.write("""from setuptools import setup, find_packages
 
 setup(
     name="humann3_tools",
     version="0.1.0",
     packages=find_packages(),
     install_requires=[
-        "pandas",
-        "numpy",
-        "scipy",
-        "scikit-bio",
-        "statsmodels",
-        "matplotlib",
-        "seaborn",
-        "scikit-posthocs",
-        "scikit-learn",
-        # New dependencies for differential abundance
-        "matplotlib-venn"  # Optional but useful for method comparisons
+        # Core data processing
+        "pandas>=1.3.0",
+        "numpy>=1.20.0",
+        "scipy>=1.7.0",
+        
+        # Statistical and scientific libraries
+        "scikit-bio>=0.5.7",
+        "scikit-learn>=1.0.0", 
+        "scikit-posthocs>=0.7.0",
+        "statsmodels>=0.13.0",
+        
+        # Visualization
+        "matplotlib>=3.4.0",
+        "seaborn>=0.11.0",
+        "matplotlib-venn>=0.11.7",
+        
+        # System monitoring and utilities
+        "psutil>=5.9.0",
+        "tqdm>=4.62.0",
+        
+        # Optional but recommended
+        "humann>=3.8",
+        "kneaddata"
     ],
     entry_points={
         'console_scripts': [
-            'humann3-tools=humann3_tools.cli:main',
+            'humann3-tools=humann3_tools.humann_tools.cli:main',
         ],
     },
-    author="Your Name",
-    author_email="your.email@example.com",
-    description="Tools for HUMAnN3 output data processing and analysis",
-        )
-            """)
-        
-        
-with open("humann3_tools/README.md", 'w') as f:
-    f.write("""# HUMAnN3 Tools
-
-A Python package for processing and analyzing HUMAnN3 output data.
-
-## Installation
-
-```bash
-pip install -e .
-
-            """)
-
+    author="David Haslam",
+    author_email="dbhaslam@gmail.com",
+    description="A comprehensive Python package for processing and analyzing HUMAnN3 output data from metagenomic sequencing",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
+    url="https://github.com/dhaslam/humann3_tools",
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Topic :: Scientific/Engineering :: Bio-Informatics",
+        "Intended Audience :: Science/Research",
+    ],
+    python_requires=">=3.7",
+)
