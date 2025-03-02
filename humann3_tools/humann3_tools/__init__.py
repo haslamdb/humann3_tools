@@ -11,12 +11,13 @@ This package provides functions for:
 __version__ = "0.1.0"
 
 # Import main functions for easy access
-from humann3_tools.humann_tools.main import (
+from humann3_tools.humann3_tools.main import (
     run_full_pipeline,
     process_humann3_files_only,
     analyze_existing_humann3_files,
     run_pathway_differential_abundance,
-    run_gene_differential_abundance
+    run_gene_differential_abundance,
+    run_preprocessing_and_analysis  
 )
 
 # Make logger functions available at the package level
@@ -31,4 +32,15 @@ from humann3_tools.analysis.differential_abundance import (
     ancom,
     ancom_bc,
     run_differential_abundance_analysis
+)
+
+# Import preprocessing functions for easier access
+from humann3_tools.preprocessing.kneaddata import (
+    run_kneaddata,
+    run_kneaddata_parallel
+)
+
+from humann3_tools.preprocessing.pipeline import (
+    run_preprocessing_pipeline,
+    run_preprocessing_pipeline_parallel
 )
