@@ -1,10 +1,8 @@
 # Core dependencies
 
-# HUMAnN3 dependencies (if not installed separately)
-# biobakery-humann3>=3.5.0 
-# or biobakery3 conda environment
 
 humann>=3.5
+kneaddata
 
 # Kneaddata and dependencies (https://github.com/biobakery/kneaddata)
 # requires: human and (optionally) contaminant bowtie databases
