@@ -47,7 +47,7 @@ It is **highly recommended** to use a Conda environment to manage the dependenci
     ```
 
     This script will:
-    *   Create a new Conda environment named `humann3_env` (you can modify this in the script if needed).
+    *   Create a new Conda environment named `humann3_tools` (you can modify this in the script if needed).
     *   Install all required and recommended dependencies into this environment.
     *   Install the `humann3_tools` package in development mode (`-e .`).
     *   Activate the new environment

@@ -41,6 +41,8 @@ A comprehensive Python package for assigning raw metagenomic sequence reads to m
 
 ## Table of Contents
 - [Installation](#installation)
+    - [Conda Environment Setup](#conda-environment-setup)
+    - [Standard Installation](#standard-installation)
 - [Overview](#overview)
 - [Command-Line Usage](#command-line-usage)
 - [Python API Usage](#python-api-usage)
@@ -59,14 +61,61 @@ A comprehensive Python package for assigning raw metagenomic sequence reads to m
 
 ## Installation
 
-Install from GitHub:
+This section describes how to install and setup the `humann3_tools` package.
+
+### Conda Environment Setup
+
+It is **highly recommended** to use a Conda environment to manage the dependencies for `humann3_tools`. This ensures a clean and isolated environment, avoiding potential conflicts with other Python packages you might have installed.
+
+**Steps:**
+
+1.  **Navigate to the Package Directory:**
+    Before running the setup script, make sure you are in the top-level directory of the `humann3_tools` package (the directory containing `conda_setup.py`, `README.md`, `pyproject.toml` etc). If you cloned the repository, this would be:
+
+    ```bash
+    cd humann3_tools 
+    ```
+
+2.  **Run the Setup Script:**
+    Use the provided `conda_setup.py` script to create and activate a new Conda environment, and then install the `humann3_tools` package and its dependencies.
+
+    ```bash
+    python conda_setup.py
+    ```
+
+    This script will:
+    *   Create a new Conda environment named `humann3_tools` (you can modify this in the script if needed).
+    *   Install all required and recommended dependencies into this environment.
+    *   Install the `humann3_tools` package in development mode (`-e .`).
+    *   Activate the new environment
+
+3.  **Activate the Environment (if not done automatically):**
+    If the environment is not activated automatically, you can activate it manually:
+
+    ```bash
+    conda activate humann3_env
+    ```
+    
+4. **Verify the installation**
+    You can then check the installation by using:
+    ```bash
+    humann3-tools --help
+    ```
+
+**Note:** You only need to run `conda_setup.py` once. To use `humann3_tools` in the future, just activate the environment using `conda activate humann3_env`.
+
+### Standard Installation
+
+If you prefer not to use Conda, you can install directly using pip:
+
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/humann3_tools.git
+git clone https://github.com/dhaslam/humann3_tools.git
 cd humann3_tools
 
 # Install in development mode
 pip install -e .
+
 ```
 
 Or install directly using pip (once published to PyPI):
