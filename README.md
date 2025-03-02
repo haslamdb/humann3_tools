@@ -1,6 +1,6 @@
 # HUMAnN3 Tools
 
-A comprehensive Python package for processing and analyzing HUMAnN3 output data from metagenomic sequencing.
+A comprehensive Python package for assigning raw metagenomic sequence reads to microbial gene and pathway databases using HUMAnN3, followed by downstream processing and analysis.
 
 ## Table of Contents
 - [Installation](#installation)
