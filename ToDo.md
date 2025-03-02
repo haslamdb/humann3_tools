@@ -4,7 +4,7 @@
 
 ## 🛠️ Bugs to Fix
 - [ ] --paired flag not working in from cli because kneaddata doesn't acccept paired flag
-- [ ] humann appears to not be using paired input. Can that be specified
+- [ ] Move kneaddata output files and humann output files to new directories then get rid of intermediate files
 `
 
 ## 🔧 Features to Improve

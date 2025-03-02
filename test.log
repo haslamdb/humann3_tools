@@ -740,3 +740,50 @@ Select columns for grouping (optional). Press Enter to skip:
 2025-03-02 15:43:23,173 - INFO - Starting KneadData step...
 2025-03-02 15:43:23,173 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out2/PreprocessedData/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
 2025-03-02 15:43:23,174 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out2/PreprocessedData/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 15:55:23,587 - DEBUG - Command stdout: Reformatting file sequence identifiers ...
+
+Reformatting file sequence identifiers ...
+
+Initial number of reads ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/reformatted_identifierskk_kkhki_D19G_R1 ): 10644848.0
+Initial number of reads ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/reformatted_identifierszfvpltai_D19G_R2 ): 10644848.0
+Running Trimmomatic ... 
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata.trimmed.1.fastq ): 6961227.0
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata.trimmed.2.fastq ): 6961227.0
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata.trimmed.single.1.fastq ): 346202.0
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata.trimmed.single.2.fastq ): 264206.0
+Running trf ... 
+Running trf ... 
+Running trf ... 
+Running trf ... 
+Decontaminating ...
+Running bowtie2 ... 
+Running bowtie2 ... 
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_clean_1.fastq ): 298152.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_clean_2.fastq ): 298152.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_1.fastq ): 295360.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_2.fastq ): 295360.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq ): 295360.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_2.fastq ): 295360.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_unmatched_1_clean.fastq ): 16735.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_1_clean.fastq ): 16566.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_unmatched_1.fastq ): 16566.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_unmatched_2_clean.fastq ): 9093.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_2_clean.fastq ): 9000.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_unmatched_2.fastq ): 9000.0
+
+Final output files created: 
+/home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq
+/home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_2.fastq
+/home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_unmatched_1.fastq
+/home/david/Documents/Code/humann3_analysis/test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_unmatched_2.fastq
+
+
+2025-03-02 15:55:23,587 - INFO - KneadData completed with 2 output files
+2025-03-02 15:55:23,587 - INFO - KneadData completed successfully with 2 output files
+2025-03-02 15:55:23,587 - INFO - After filtering, 2 files will be used for HUMAnN3
+2025-03-02 15:55:23,587 - INFO - Preparing KneadData outputs for HUMAnN3...
+2025-03-02 15:55:23,588 - INFO - Concatenating paired files for sample D19G_R1_kneaddata
+2025-03-02 15:55:24,144 - INFO - Prepared 1 input files for HUMAnN3
+2025-03-02 15:55:24,144 - INFO - Starting HUMAnN3 step...
+2025-03-02 15:55:24,144 - INFO - Running HUMAnN3 for sample D19G: humann --input test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_concat.fastq --output test.out2/PreprocessedData/humann3_output/D19G --threads 24
+2025-03-02 15:55:24,144 - INFO - Running: humann --input test.out2/PreprocessedData/kneaddata_output/D19G_R1_kneaddata_paired_concat.fastq --output test.out2/PreprocessedData/humann3_output/D19G --threads 24
