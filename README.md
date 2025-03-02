@@ -71,7 +71,7 @@ The package provides a command-line tool `humann3-tools` that can be used to run
 
 ```bash
 humann3-tools --run-preprocessing --input-fastq reads_1.fastq reads_2.fastq --paired \
-    --kneaddata-db /path/to/kneaddata_db \
+    --kneaddata-dbs /path/to/kneaddata_db1 /path/to/kneaddata_db2 /path/to/kneaddata_db3 \
     --humann3-nucleotide-db /path/to/chocophlan \
     --humann3-protein-db /path/to/uniref \
     --sample-key /path/to/metadata.csv \
@@ -116,7 +116,7 @@ humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/
 
 ```bash
 humann3-tools --run-preprocessing --input-fastq reads_*.fastq --paired \
-    --kneaddata-db /path/to/kneaddata_db \
+    --kneaddata-dbs /path/to/kneaddata_db1 /path/to/kneaddata_db2 /path/to/kneaddata_db3 \
     --humann3-nucleotide-db /path/to/chocophlan \
     --humann3-protein-db /path/to/uniref \
     --sample-key /path/to/metadata.csv \
