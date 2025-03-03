@@ -1,4 +1,3 @@
-
 import os
 import subprocess
 import logging
@@ -48,30 +47,24 @@ def process_single_sample_kneaddata(input_file, sample_id=None, output_dir=None,
     os.makedirs(output_dir, exist_ok=True)
     
     # Build command
-    cmd = ["kneaddata"]
-    
-    # Add input file
-    cmd.extend(["-i1", input_file])
+    cmd = ["kneaddata", "--input", input_file, "--output", output_dir]
     
     # Add paired file if provided
     if paired_file:
-        cmd.extend(["-i2", paired_file])
-    
-    # Add output directory
-    cmd.extend(["-o", output_dir])
+        cmd.extend(["--input", paired_file, "--paired"])
     
     # Add threads (per sample)
-    cmd.extend(["-t", str(threads)])
+    cmd.extend(["--threads", str(threads)])
     
     # Add reference database(s) if provided
     if reference_dbs:
         # Handle both string and list inputs
         if isinstance(reference_dbs, str):
-            cmd.extend(["-db", reference_dbs])
+            cmd.extend(["--reference-db", reference_dbs])
         else:
-            # Add each reference database with its own -db flag
+            # Add each reference database with its own --reference-db flag
             for db in reference_dbs:
-                cmd.extend(["-db", db])
+                cmd.extend(["--reference-db", db])
     
     # Add additional options
     if additional_options:
@@ -82,23 +75,18 @@ def process_single_sample_kneaddata(input_file, sample_id=None, output_dir=None,
                 cmd.extend([f"--{key}", str(value)])
     
     # Run KneadData
-    logger.info(f"Running KneadData for sample {sample_id}: {' '.join(str(x) for x in cmd)}")
+    logger.info(f"Running KneadData for sample {sample_id}")
     success = run_cmd(cmd, exit_on_error=False)
     
     if not success:
         logger.error(f"KneadData run failed for sample {sample_id}")
         return None
     
-    # Find output files - look for all non-contaminant FASTQ files
+    # Find output files
     output_files = []
     for file in os.listdir(output_dir):
-        file_path = os.path.join(output_dir, file)
-        # Check if it's a non-empty file
-        if os.path.isfile(file_path) and os.path.getsize(file_path) > 0:
-            # Check if it's a fastq file and not a contaminant file
-            if file.endswith(".fastq") and "contam" not in file:
-                output_files.append(file_path)
-                logger.debug(f"Found KneadData output file: {file} (size: {os.path.getsize(file_path)} bytes)")
+        if file.endswith(".fastq") and "paired" in file:
+            output_files.append(os.path.join(output_dir, file))
     
     logger.info(f"KneadData completed for sample {sample_id} with {len(output_files)} output files")
     return output_files
@@ -141,30 +129,15 @@ def run_kneaddata_parallel(input_files, output_dir, threads=1, max_parallel=None
         for i in range(0, len(input_files), 2):
             r1_file = input_files[i]
             r2_file = input_files[i+1]
-            # Try to extract sample name from filename
-            sample_name = None
-            r1_basename = os.path.basename(r1_file)
+            sample_name = os.path.basename(r1_file).split('_R1')[0]
             
-            # Try common naming patterns
-            if "_R1" in r1_basename:
-                sample_name = r1_basename.split("_R1")[0]
-            elif "_1." in r1_basename:
-                sample_name = r1_basename.split("_1.")[0]
-            else:
-                # Fallback to using the filename without extension
-                sample_name = os.path.splitext(r1_basename)[0]
-            
-            # Store the paired files
-            sample_list.append((sample_name, {"input_file": r1_file, "paired_file": r2_file}))
-            logger.info(f"Paired sample {sample_name}: {r1_file} + {r2_file}")
+            # Store the paired file separately
+            sample_list.append((sample_name, (r1_file, r2_file)))
     else:
         # Single-end reads
         for file in input_files:
-            # Try to extract sample name from filename
-            basename = os.path.basename(file)
-            sample_name = os.path.splitext(basename)[0]
-            sample_list.append((sample_name, {"input_file": file}))
-            logger.info(f"Single-end sample {sample_name}: {file}")
+            sample_name = os.path.basename(file).split('.')[0]
+            sample_list.append((sample_name, file))
     
     # Prepare common arguments for all samples
     kwargs = {
@@ -175,19 +148,8 @@ def run_kneaddata_parallel(input_files, output_dir, threads=1, max_parallel=None
         'logger': logger
     }
     
-    # Define a wrapper function to handle the different input format
-    def process_sample_wrapper(sample_data, sample_id, **kwargs):
-        input_file = sample_data["input_file"]
-        paired_file = sample_data.get("paired_file")
-        return process_single_sample_kneaddata(
-            input_file=input_file, 
-            paired_file=paired_file, 
-            sample_id=sample_id, 
-            **kwargs
-        )
-    
     # Run in parallel
-    results = run_parallel(sample_list, process_sample_wrapper, 
+    results = run_parallel(sample_list, process_single_sample_kneaddata, 
                           max_workers=max_parallel, **kwargs)
     
     return results
@@ -217,32 +179,31 @@ def run_kneaddata(input_files, output_dir, threads=1, reference_dbs=None,
     # Basic command
     cmd = ["kneaddata"]
     
-    # Handle paired vs single end using correct flags (-i1/-i2)
+    # Handle paired vs single end
     if paired and len(input_files) >= 2:
-        # For paired data
-        cmd.extend(["-i1", input_files[0], "-i2", input_files[1]])
+        cmd.extend(["--input1", input_files[0], "--input2", input_files[1]])
+        cmd.extend(["--paired"])
     elif len(input_files) >= 1:
-        # For single-end data
-        cmd.extend(["-i1", input_files[0]])
+        cmd.extend(["--input1", input_files[0], "--input2", input_files[1]])
     else:
         logger.error("No input files provided for KneadData")
         return []
     
     # Add output directory
-    cmd.extend(["-o", output_dir])
+    cmd.extend(["--output", output_dir])
     
     # Add threads
-    cmd.extend(["-t", str(threads)])
+    cmd.extend(["--threads", str(threads)])
     
     # Add reference database(s) 
     if reference_dbs:
         # Handle both string and list inputs
         if isinstance(reference_dbs, str):
-            cmd.extend(["-db", reference_dbs])
+            cmd.extend(["--reference-db", reference_dbs])
         else:
-            # Add each reference database with its own -db flag
+            # Add each reference database with its own --reference-db flag
             for db in reference_dbs:
-                cmd.extend(["-db", db])
+                cmd.extend(["--reference-db", db])
     
     # Add any additional options
     if additional_options:
@@ -253,31 +214,18 @@ def run_kneaddata(input_files, output_dir, threads=1, reference_dbs=None,
                 cmd.extend([f"--{key}", str(value)])
     
     # Run KneadData
-    logger.info(f"Running KneadData: {' '.join(str(x) for x in cmd)}")
+    logger.info(f"Running KneadData: {' '.join(cmd)}")
     success = run_cmd(cmd, exit_on_error=False)
     
     if not success:
         logger.error("KneadData run failed")
         return []
     
-    # Find output files - look for all non-contaminant FASTQ files
+    # Find output files
     output_files = []
     for file in os.listdir(output_dir):
-        file_path = os.path.join(output_dir, file)
-        # Check if it's a non-empty file
-        if os.path.isfile(file_path) and os.path.getsize(file_path) > 0:
-            # Check if it's a fastq file and not a contaminant file
-            if file.endswith(".fastq") and "contam" not in file:
-                output_files.append(file_path)
-                logger.debug(f"Found KneadData output file: {file} (size: {os.path.getsize(file_path)} bytes)")
-    
-    if not output_files:
-        logger.warning("No valid output files found in KneadData output directory")
-        # List all files in the directory for debugging
-        for file in os.listdir(output_dir):
-            file_path = os.path.join(output_dir, file)
-            if os.path.isfile(file_path):
-                logger.debug(f"File in output dir: {file} (size: {os.path.getsize(file_path)} bytes)")
+        if file.endswith(".fastq") and "paired" in file:
+            output_files.append(os.path.join(output_dir, file))
     
     logger.info(f"KneadData completed with {len(output_files)} output files")
     return output_files

@@ -1,5 +1,3 @@
-# humann3_tools/utils/metadata_utils.py 
-# (This file already exists, but we'll enhance it)
 
 import os
 import glob
@@ -58,7 +56,7 @@ def find_sample_files(sample_id: str,
         else:
             logger.warning(f"Couldn't find matching paired files for sample {sample_id}")
     
-    # For single-end reads or auto-detection
+    # For single-end reads
     else:
         # Try common patterns
         common_patterns = [
@@ -67,11 +65,10 @@ def find_sample_files(sample_id: str,
             f"{sample_id}.fastq.gz", 
             f"{sample_id}.fq.gz",
             f"{sample_id}_*.fastq.gz",
-            f"{sample_id}*.fastq.gz",
+            f"{sample_id}*.fastq.gz"
             f"{sample_id}_R1.fastq",
-            f"{sample_id}_R2.fastq",
             f"{sample_id}_R1.fastq.gz",
-            f"{sample_id}_R2.fastq.gz"
+            f"{sample_id}_*.fastq"
         ]
         
         for pattern in common_patterns:
@@ -80,14 +77,6 @@ def find_sample_files(sample_id: str,
             logger.debug(f"Trying pattern {search_pattern}, found {len(matches)} files")
             if matches:
                 files.extend(matches)
-                if paired and "_R1." in pattern:
-                    # If we found R1 files, also look for corresponding R2 files
-                    r2_pattern = pattern.replace("_R1.", "_R2.")
-                    r2_search = os.path.join(search_dir, r2_pattern)
-                    r2_matches = glob.glob(r2_search)
-                    logger.debug(f"Also looking for R2 with pattern {r2_search}, found {len(r2_matches)} files")
-                    if r2_matches:
-                        files.extend(r2_matches)
                 break
     
     if files:
