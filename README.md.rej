@@ -1,0 +1,42 @@
+diff a/README.md b/README.md	(rejected hunks)
+@@ -129,6 +129,40 @@
+     --threads 8
+ ```
+ 
++### Required and Optional Parameters
++
++Below is a list of key parameters for the `humann3-tools` command, indicating which are required and which are optional:
++
++| Parameter | Required? | Description |
++|-----------|-----------|-------------|
++| `--sample-key` | Required | Path to CSV file with sample metadata |
++| `--output-dir` | Required | Directory where output files will be saved |
++| `--pathway-dir` | Required* | Directory containing HUMAnN3 pathway abundance files |
++| `--gene-dir` | Required* | Directory containing HUMAnN3 gene family files |
++| `--input-fastq` | Required** | Input FASTQ file(s) when running preprocessing |
++| `--run-preprocessing` | Optional | Flag to run KneadData and HUMAnN3 on raw sequence files |
++| `--kneaddata-dbs` | Required*** | Path(s) to KneadData reference database(s) |
++| `--humann3-nucleotide-db` | Optional | Path to HUMAnN3 nucleotide database (ChocoPhlAn) |
++| `--humann3-protein-db` | Optional | Path to HUMAnN3 protein database (UniRef) |
++| `--paired` | Optional | Flag indicating input files are paired-end reads |
++| `--threads` | Optional | Number of threads to use (default: 1) |
++| `--group-col` | Optional | Column name to use for grouping in stats (default: 'Group') |
++| `--skip-pathway` | Optional | Skip HUMAnN3 pathway processing |
++| `--skip-gene` | Optional | Skip HUMAnN3 gene family processing |
++| `--skip-downstream` | Optional | Skip downstream analysis |
++| `--run-diff-abundance` | Optional | Run differential abundance analysis |
++| `--diff-methods` | Optional | Comma-separated list of methods to use (default: aldex2,ancom,ancom-bc) |
++| `--exclude-unmapped` | Optional | Exclude unmapped features from differential abundance analysis |
++| `--use-parallel` | Optional | Use parallel processing for preprocessing steps |
++| `--threads-per-sample` | Optional | Number of threads to use per sample (with parallel processing) |
++| `--max-parallel` | Optional | Maximum number of samples to process in parallel |
++| `--log-file` | Optional | Path to combined log file |
++| `--log-level` | Optional | Logging level (default: INFO) |
++| `--no-interactive` | Optional | Non-interactive mode for sample key column selection |
++
++\* Required for processing existing HUMAnN3 output files  
++\*\* Required when `--run-preprocessing` is used  
++\*\*\* Required when `--run-preprocessing` is used  
+ ### Analysis of Existing HUMAnN Output Files (pathway-abundance and gene-family files)
+ 
+ ```bash
