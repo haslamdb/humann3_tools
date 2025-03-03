@@ -41,9 +41,9 @@ def process_single_sample_humann3(input_file, sample_id=None, output_dir=None,
     
     # Add database paths if provided
     if nucleotide_db:
-        cmd.extend(["--nucleotide-database", nucleotide_db])
+        cmd.extend(["--nucleotide-database", str(nucleotide_db)])
     if protein_db:
-        cmd.extend(["--protein-database", protein_db])
+        cmd.extend(["--protein-database", str(protein_db)])
     
     # Add additional options
     if additional_options:
@@ -130,6 +130,7 @@ def run_humann3_parallel(input_files, output_dir, threads=1, max_parallel=None,
     return results
 
 
+
 def run_humann3(input_files, output_dir, threads=1, nucleotide_db=None, 
                protein_db=None, additional_options=None, logger=None):
     """
@@ -163,14 +164,14 @@ def run_humann3(input_files, output_dir, threads=1, nucleotide_db=None,
         # Basic command
         cmd = ["humann", "--input", input_file, "--output", sample_output_dir]
         
-        # Add threads
+        # Add threads - ensure it's a string
         cmd.extend(["--threads", str(threads)])
         
         # Add database paths if provided
         if nucleotide_db:
-            cmd.extend(["--nucleotide-database", nucleotide_db])
+            cmd.extend(["--nucleotide-database", str(nucleotide_db)])
         if protein_db:
-            cmd.extend(["--protein-database", protein_db])
+            cmd.extend(["--protein-database", str(protein_db)])
         
         # Add any additional options
         if additional_options:
@@ -178,10 +179,14 @@ def run_humann3(input_files, output_dir, threads=1, nucleotide_db=None,
                 if value is True:
                     cmd.append(f"--{key}")
                 elif value is not None:
+                    # Convert value to string to ensure it's not a complex object
                     cmd.extend([f"--{key}", str(value)])
         
+        # Ensure all command elements are strings before joining
+        str_cmd = [str(item) for item in cmd]
+        
         # Run HUMAnN3
-        logger.info(f"Running HUMAnN3 for sample {sample_name}: {' '.join(cmd)}")
+        logger.info(f"Running HUMAnN3 for sample {sample_name}: {' '.join(str_cmd)}")
         success = run_cmd(cmd, exit_on_error=False)
         
         if not success:
