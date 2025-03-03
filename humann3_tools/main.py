@@ -31,7 +31,7 @@ def run_full_pipeline(
     pathway_dir,
     gene_dir,
     output_dir,
-    output_prefix="ProcessedFiles",
+    output_prefix="processed_files",
     group_col="Group",
     skip_pathway=False,
     skip_gene=False,

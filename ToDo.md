@@ -4,6 +4,7 @@
 
 ## 🛠️ Bugs to Fix
 - [ ] It doesn't seem downstream pipeline is running after humann anymore
+- [ ] move kneaddata and humann3 output files to a different directory then delete the temp directory
 `
 
 ## 🔧 Features to Improve

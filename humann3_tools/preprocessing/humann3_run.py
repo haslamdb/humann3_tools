@@ -154,6 +154,7 @@ def run_humann3_parallel(input_files, output_dir, threads=1, max_parallel=None,
                             logger.info(f"Post-process: Found MetaPhlAn output for {sample_id}: {file}")
                             break
     return results
+
 def run_humann3(input_files, output_dir, threads=1, nucleotide_db=None, 
                protein_db=None, additional_options=None, logger=None):
     """
