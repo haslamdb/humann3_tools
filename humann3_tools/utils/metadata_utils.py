@@ -34,8 +34,11 @@ def find_sample_files(sample_id: str,
         search_pattern = os.path.join(search_dir, pattern)
         files = sorted(glob.glob(search_pattern))
         logger.debug(f"Searching with pattern {search_pattern}, found {len(files)} files")
+        if paired and len(files) >= 2:
+            # Take only the first two files for paired mode
+            files = files[:2]
         
-    # For paired-end reads
+    # For paired-end reads with specific suffixes
     elif paired and r1_suffix and r2_suffix:
         r1_pattern = f"{sample_id}{r1_suffix}"
         r2_pattern = f"{sample_id}{r2_suffix}"
@@ -48,7 +51,7 @@ def find_sample_files(sample_id: str,
         logger.debug(f"Searching for R1: {r1_search}, found {len(r1_files)} files")
         logger.debug(f"Searching for R2: {r2_search}, found {len(r2_files)} files")
         
-        # Ensure we have matching pairs and only take one pair
+        # Ensure we have matching pairs
         if len(r1_files) > 0 and len(r2_files) > 0:
             # Only add one pair (the first pair found)
             files = [r1_files[0], r2_files[0]]
@@ -56,35 +59,86 @@ def find_sample_files(sample_id: str,
         else:
             logger.warning(f"Couldn't find matching paired files for sample {sample_id}")
     
-    # For single-end reads
+    # Generic pattern search
     else:
-        # Try common patterns
-        common_patterns = [
-            f"{sample_id}.fastq", 
-            f"{sample_id}.fq", 
-            f"{sample_id}.fastq.gz", 
-            f"{sample_id}.fq.gz",
-            f"{sample_id}_*.fastq.gz",
-            f"{sample_id}*.fastq.gz",
-            f"{sample_id}_R1.fastq",
-            f"{sample_id}_R1.fastq.gz",
-            f"{sample_id}_*.fastq"
-        ]
-        
-        for pattern in common_patterns:
-            search_pattern = os.path.join(search_dir, pattern)
-            matches = glob.glob(search_pattern)
-            logger.debug(f"Trying pattern {search_pattern}, found {len(matches)} files")
-            if matches:
-                # Only take the first file found
-                files = [matches[0]]
-                logger.debug(f"Selected file: {os.path.basename(matches[0])}")
-                break
+        # For paired-end data, look for R1/R2 pairs explicitly
+        if paired:
+            # Try to find R1 and R2 files
+            r1_patterns = [
+                f"{sample_id}_R1.fastq",
+                f"{sample_id}_R1.fastq.gz",
+                f"{sample_id}_1.fastq",
+                f"{sample_id}_1.fastq.gz",
+                f"{sample_id}.R1.fastq",
+                f"{sample_id}.R1.fastq.gz"
+            ]
+            
+            r2_patterns = [
+                f"{sample_id}_R2.fastq",
+                f"{sample_id}_R2.fastq.gz",
+                f"{sample_id}_2.fastq", 
+                f"{sample_id}_2.fastq.gz",
+                f"{sample_id}.R2.fastq",
+                f"{sample_id}.R2.fastq.gz"
+            ]
+            
+            r1_file = None
+            r2_file = None
+            
+            # Find R1 file
+            for pattern in r1_patterns:
+                search_pattern = os.path.join(search_dir, pattern)
+                matches = glob.glob(search_pattern)
+                logger.debug(f"Trying R1 pattern {search_pattern}, found {len(matches)} files")
+                if matches:
+                    r1_file = matches[0]
+                    break
+                    
+            # Find R2 file
+            for pattern in r2_patterns:
+                search_pattern = os.path.join(search_dir, pattern)
+                matches = glob.glob(search_pattern)
+                logger.debug(f"Trying R2 pattern {search_pattern}, found {len(matches)} files")
+                if matches:
+                    r2_file = matches[0]
+                    break
+            
+            # Add both files if found
+            if r1_file and r2_file:
+                files = [r1_file, r2_file]
+                logger.debug(f"Found paired files: {os.path.basename(r1_file)} and {os.path.basename(r2_file)}")
+            else:
+                logger.warning(f"Could not find complete paired files for sample {sample_id}")
+        else:
+            # Single-end mode - try common patterns
+            common_patterns = [
+                f"{sample_id}.fastq", 
+                f"{sample_id}.fq", 
+                f"{sample_id}.fastq.gz", 
+                f"{sample_id}.fq.gz",
+                f"{sample_id}_*.fastq.gz",
+                f"{sample_id}*.fastq.gz",
+                f"{sample_id}_R1.fastq",
+                f"{sample_id}_R1.fastq.gz",
+                f"{sample_id}_*.fastq"
+            ]
+            
+            for pattern in common_patterns:
+                search_pattern = os.path.join(search_dir, pattern)
+                matches = glob.glob(search_pattern)
+                logger.debug(f"Trying pattern {search_pattern}, found {len(matches)} files")
+                if matches:
+                    # Only take the first file found for single-end mode
+                    files = [matches[0]]
+                    logger.debug(f"Selected file: {os.path.basename(matches[0])}")
+                    break
     
     if files:
         logger.debug(f"Found {len(files)} files for sample {sample_id}: {[os.path.basename(f) for f in files]}")
     
     return files
+
+
 def collect_samples_from_metadata(metadata_file: str, 
                                  seq_dir: str, 
                                  sample_col: Optional[str] = None,

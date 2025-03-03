@@ -167,8 +167,7 @@ def main():
 
     start_time = time.time()
 
-    # Handle metadata-driven workflow - collect input files
-    if args.use_metadata and args.seq_dir:
+    if args.use_metadata and args.seq_dir:  
         # Collect samples from metadata
         from humann3_tools.utils.metadata_utils import collect_samples_from_metadata
         samples_dict = collect_samples_from_metadata(
@@ -186,29 +185,41 @@ def main():
         # Reset input_files to avoid duplication
         input_files = []
         
-        # Update the loop that collects input files to respect paired/unpaired status
+        # Log what we found for each sample
+        log_print(f"Found {len(samples_dict)} samples with the following files:", level='info')
+        for sample_id, files in samples_dict.items():
+            file_info = ", ".join([os.path.basename(f) for f in files])
+            log_print(f"  Sample {sample_id}: {file_info}", level='debug')
+        
+        # Process each sample according to paired/unpaired mode
         for sample_id, files in samples_dict.items():
             if args.paired:
-                # For paired reads, ensure we have pairs
-                if len(files) >= 2:
-                    # Add first two files (R1, R2)
-                    input_files.extend(files[:2])
+                # For paired reads, we need exactly 2 files
+                if len(files) == 2:
+                    # Add both files for this sample
+                    input_files.extend(files)
+                    log_print(f"Added paired files for sample {sample_id}", level='debug')
                 else:
-                    logger.warning(f"Skipping sample {sample_id}: not enough files for paired mode")
+                    log_print(f"Skipping sample {sample_id}: found {len(files)} files, need exactly 2 for paired mode", level='warning')
             else:
                 # For single-end reads, just add the first file
                 if files:
                     input_files.append(files[0])
+                    log_print(f"Added single file for sample {sample_id}", level='debug')
+                else:
+                    log_print(f"Skipping sample {sample_id}: no files found", level='warning')
         
         log_print(f"Collected {len(input_files)} sequence files from {len(samples_dict)} samples", level='info')
         
         # If input files were collected, override args.input_fastq
         if input_files:
             args.input_fastq = input_files
-            
-        # Now proceed with the original input_fastq check
-        if not args.input_fastq:
-            log_print("ERROR: No input files specified. Use --input-fastq, --samples-file, or --use-metadata", level='error')
+            # Log the collected input files
+            log_print("Input files for processing:", level='debug')
+            for i, file in enumerate(args.input_fastq):
+                log_print(f"  {i+1}: {os.path.basename(file)}", level='debug')
+        else:
+            log_print("ERROR: No input files collected from metadata. Cannot proceed.", level='error')
             sys.exit(1)
 
     # If only listing files, do that and exit
