@@ -1,0 +1,133 @@
+2025-03-03 16:17:08,850 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-03 16:17:08,852 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-03 16:17:08,852 - INFO - Auto-detected sample ID column: SampleName
+2025-03-03 16:17:08,852 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-03 16:17:08,852 - DEBUG - Trying R1 pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq, found 1 files
+2025-03-03 16:17:08,852 - DEBUG - Trying R2 pattern /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq, found 1 files
+2025-03-03 16:17:08,852 - DEBUG - Found paired files: D19G_R1.fastq and D19G_R2.fastq
+2025-03-03 16:17:08,852 - DEBUG - Found 2 files for sample D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
+2025-03-03 16:17:08,852 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-03 16:17:08,853 - DEBUG - Trying R1 pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq, found 1 files
+2025-03-03 16:17:08,853 - DEBUG - Trying R2 pattern /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq, found 1 files
+2025-03-03 16:17:08,853 - DEBUG - Found paired files: D33G_R1.fastq and D33G_R2.fastq
+2025-03-03 16:17:08,853 - DEBUG - Found 2 files for sample D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 16:17:08,853 - INFO - Found sequence files for 2 out of 2 samples
+2025-03-03 16:17:08,853 - DEBUG - Sample examples:
+2025-03-03 16:17:08,853 - DEBUG -   D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
+2025-03-03 16:17:08,853 - DEBUG -   D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 16:17:08,853 - INFO - Found 2 samples with the following files:
+2025-03-03 16:17:08,853 - DEBUG -   Sample D19G: D19G_R1.fastq, D19G_R2.fastq
+2025-03-03 16:17:08,853 - DEBUG -   Sample D33G: D33G_R1.fastq, D33G_R2.fastq
+2025-03-03 16:17:08,853 - DEBUG - Added paired files for sample D19G
+2025-03-03 16:17:08,853 - DEBUG - Added paired files for sample D33G
+2025-03-03 16:17:08,853 - INFO - Collected 4 sequence files from 2 samples
+2025-03-03 16:17:08,853 - DEBUG - Input files for processing:
+2025-03-03 16:17:08,853 - DEBUG -   1: D19G_R1.fastq
+2025-03-03 16:17:08,853 - DEBUG -   2: D19G_R2.fastq
+2025-03-03 16:17:08,854 - DEBUG -   3: D33G_R1.fastq
+2025-03-03 16:17:08,854 - DEBUG -   4: D33G_R2.fastq
+2025-03-03 16:17:08,854 - INFO - 
+Available columns in sample key (2):
+2025-03-03 16:17:08,854 - INFO -   1. SampleName
+2025-03-03 16:17:08,854 - INFO -   2.  Group
+2025-03-03 16:17:08,854 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-03 16:17:08,854 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-03 16:17:08,854 - INFO -   1.  Group
+2025-03-03 16:17:08,854 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-03 16:17:13,719 - INFO - Using parallel preprocessing pipeline
+2025-03-03 16:22:43,449 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-03 16:22:43,451 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-03 16:22:43,451 - INFO - Auto-detected sample ID column: SampleName
+2025-03-03 16:22:43,451 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-03 16:22:43,451 - DEBUG - Trying R1 pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq, found 1 files
+2025-03-03 16:22:43,451 - DEBUG - Trying R2 pattern /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq, found 1 files
+2025-03-03 16:22:43,451 - DEBUG - Found paired files: D19G_R1.fastq and D19G_R2.fastq
+2025-03-03 16:22:43,451 - DEBUG - Found 2 files for sample D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
+2025-03-03 16:22:43,451 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-03 16:22:43,452 - DEBUG - Trying R1 pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq, found 1 files
+2025-03-03 16:22:43,452 - DEBUG - Trying R2 pattern /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq, found 1 files
+2025-03-03 16:22:43,452 - DEBUG - Found paired files: D33G_R1.fastq and D33G_R2.fastq
+2025-03-03 16:22:43,452 - DEBUG - Found 2 files for sample D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 16:22:43,452 - INFO - Found sequence files for 2 out of 2 samples
+2025-03-03 16:22:43,452 - DEBUG - Sample examples:
+2025-03-03 16:22:43,452 - DEBUG -   D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
+2025-03-03 16:22:43,452 - DEBUG -   D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 16:22:43,452 - INFO - Found 2 samples with the following files:
+2025-03-03 16:22:43,452 - DEBUG -   Sample D19G: D19G_R1.fastq, D19G_R2.fastq
+2025-03-03 16:22:43,452 - DEBUG -   Sample D33G: D33G_R1.fastq, D33G_R2.fastq
+2025-03-03 16:22:43,452 - DEBUG - Added paired files for sample D19G
+2025-03-03 16:22:43,452 - DEBUG - Added paired files for sample D33G
+2025-03-03 16:22:43,452 - INFO - Collected 4 sequence files from 2 samples
+2025-03-03 16:22:43,452 - DEBUG - Input files for processing:
+2025-03-03 16:22:43,452 - DEBUG -   1: D19G_R1.fastq
+2025-03-03 16:22:43,452 - DEBUG -   2: D19G_R2.fastq
+2025-03-03 16:22:43,453 - DEBUG -   3: D33G_R1.fastq
+2025-03-03 16:22:43,453 - DEBUG -   4: D33G_R2.fastq
+2025-03-03 16:22:43,453 - INFO - 
+Available columns in sample key (2):
+2025-03-03 16:22:43,453 - INFO -   1. SampleName
+2025-03-03 16:22:43,453 - INFO -   2.  Group
+2025-03-03 16:22:43,453 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-03 16:22:43,453 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-03 16:22:43,453 - INFO -   1.  Group
+2025-03-03 16:22:43,453 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-03 16:22:45,781 - INFO - Using parallel preprocessing pipeline
+2025-03-03 16:34:47,655 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-03 16:34:47,657 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-03 16:34:47,657 - INFO - Auto-detected sample ID column: SampleName
+2025-03-03 16:34:47,657 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-03 16:34:47,657 - DEBUG - Trying R1 pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq, found 1 files
+2025-03-03 16:34:47,658 - DEBUG - Trying R2 pattern /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq, found 1 files
+2025-03-03 16:34:47,658 - DEBUG - Found paired files: D19G_R1.fastq and D19G_R2.fastq
+2025-03-03 16:34:47,658 - DEBUG - Found 2 files for sample D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
+2025-03-03 16:34:47,658 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-03 16:34:47,658 - DEBUG - Trying R1 pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq, found 1 files
+2025-03-03 16:34:47,658 - DEBUG - Trying R2 pattern /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq, found 1 files
+2025-03-03 16:34:47,658 - DEBUG - Found paired files: D33G_R1.fastq and D33G_R2.fastq
+2025-03-03 16:34:47,658 - DEBUG - Found 2 files for sample D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 16:34:47,658 - INFO - Found sequence files for 2 out of 2 samples
+2025-03-03 16:34:47,658 - DEBUG - Sample examples:
+2025-03-03 16:34:47,658 - DEBUG -   D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
+2025-03-03 16:34:47,658 - DEBUG -   D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 16:34:47,659 - INFO - Found 2 samples with the following files:
+2025-03-03 16:34:47,659 - DEBUG -   Sample D19G: D19G_R1.fastq, D19G_R2.fastq
+2025-03-03 16:34:47,659 - DEBUG -   Sample D33G: D33G_R1.fastq, D33G_R2.fastq
+2025-03-03 16:34:47,659 - DEBUG - Added paired files for sample D19G
+2025-03-03 16:34:47,659 - DEBUG - Added paired files for sample D33G
+2025-03-03 16:34:47,659 - INFO - Collected 4 sequence files from 2 samples
+2025-03-03 16:34:47,659 - DEBUG - Input files for processing:
+2025-03-03 16:34:47,659 - DEBUG -   1: D19G_R1.fastq
+2025-03-03 16:34:47,659 - DEBUG -   2: D19G_R2.fastq
+2025-03-03 16:34:47,659 - DEBUG -   3: D33G_R1.fastq
+2025-03-03 16:34:47,659 - DEBUG -   4: D33G_R2.fastq
+2025-03-03 16:34:47,660 - INFO - 
+Available columns in sample key (2):
+2025-03-03 16:34:47,660 - INFO -   1. SampleName
+2025-03-03 16:34:47,660 - INFO -   2.  Group
+2025-03-03 16:34:47,660 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-03 16:34:47,660 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-03 16:34:47,660 - INFO -   1.  Group
+2025-03-03 16:34:47,660 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-03 16:34:49,516 - INFO - Using parallel preprocessing pipeline
+2025-03-03 16:34:49,693 - INFO - Starting parallel preprocessing pipeline with 4 input files
+2025-03-03 16:34:49,694 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-03 16:34:49,694 - INFO - HUMAnN3 version: humann v3.9
+2025-03-03 16:34:49,694 - INFO - KneadData output dir: /home/david/Data/TrimmedMSSFiles
+2025-03-03 16:34:49,694 - INFO - HUMAnN3 output dir: /home/david/Documents/Alignments/Humann3Alignments
+2025-03-03 16:34:49,695 - INFO - Starting KneadData step in parallel...
+2025-03-03 16:34:49,696 - INFO - Starting memory: 203.10 MB
+2025-03-03 16:34:49,710 - INFO - Starting parallel processing of 2 samples with None workers
+2025-03-03 16:34:50,451 - INFO - Started processing sample D19G
+2025-03-03 16:34:50,452 - INFO - Running KneadData for sample D19G
+2025-03-03 16:34:50,456 - INFO - Started processing sample D33G
+2025-03-03 16:34:50,457 - INFO - Running KneadData for sample D33G
+2025-03-03 16:34:50,462 - ERROR - Error processing sample D19G: sequence item 2: expected str instance, tuple found
+2025-03-03 16:34:50,466 - ERROR - Error processing sample D33G: sequence item 2: expected str instance, tuple found
+2025-03-03 16:34:50,699 - INFO - Memory usage: start=203.10 MB, peak=203.10 MB, end=202.35 MB
+2025-03-03 16:34:50,699 - ERROR - KneadData step failed, stopping pipeline

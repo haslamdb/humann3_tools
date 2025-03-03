@@ -17,8 +17,33 @@ def process_sample_parallel(sample_tuple, function, **kwargs):
     Returns:
         Tuple of (sample_id, result)
     """
-    sample_id, file_path = sample_tuple
+    # Extract sample_id and file_path correctly, handling different formats
+    # Print for debugging
     logger = logging.getLogger('humann3_analysis')
+    logger.debug(f"Sample tuple received: {sample_tuple}")
+    
+    # Handle different tuple formats
+    if isinstance(sample_tuple, tuple) and len(sample_tuple) == 2:
+        sample_id, file_path = sample_tuple
+        
+        # If file_path is itself a tuple (for paired files), handle it
+        if isinstance(file_path, tuple):
+            # For kneaddata, the second argument should be paired_file
+            # Modify the function call to extract the paired files
+            r1_file, r2_file = file_path
+            logger.info(f"Processing paired files for sample {sample_id}: {os.path.basename(r1_file)}, {os.path.basename(r2_file)}")
+            
+            # For paired files, r1_file is the main input, r2_file is the paired input
+            start_time = time.time()
+            result = function(r1_file, sample_id=sample_id, paired_file=r2_file, **kwargs)
+            
+            elapsed = time.time() - start_time
+            logger.info(f"Finished processing sample {sample_id} in {elapsed:.2f} seconds")
+            
+            return sample_id, result
+    
+    # Original code for non-paired files
+    sample_id, file_path = sample_tuple
     
     start_time = time.time()
     logger.info(f"Started processing sample {sample_id}")

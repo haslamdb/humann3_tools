@@ -52,6 +52,7 @@ def process_single_sample_kneaddata(input_file, sample_id=None, output_dir=None,
     # Add paired file if provided
     if paired_file:
         cmd.extend(["--input", paired_file, "--paired"])
+        logger.debug(f"Running KneadData in paired mode with files: {os.path.basename(input_file)} and {os.path.basename(paired_file)}")
     
     # Add threads (per sample)
     cmd.extend(["--threads", str(threads)])
@@ -76,6 +77,8 @@ def process_single_sample_kneaddata(input_file, sample_id=None, output_dir=None,
     
     # Run KneadData
     logger.info(f"Running KneadData for sample {sample_id}")
+    # Debug print the command for troubleshooting
+    logger.debug(f"Command: {' '.join(cmd)}")
     success = run_cmd(cmd, exit_on_error=False)
     
     if not success:
@@ -90,6 +93,7 @@ def process_single_sample_kneaddata(input_file, sample_id=None, output_dir=None,
     
     logger.info(f"KneadData completed for sample {sample_id} with {len(output_files)} output files")
     return output_files
+
 
 # Parallel processing
 @track_peak_memory
@@ -131,8 +135,11 @@ def run_kneaddata_parallel(input_files, output_dir, threads=1, max_parallel=None
             r2_file = input_files[i+1]
             sample_name = os.path.basename(r1_file).split('_R1')[0]
             
-            # Store the paired file separately
-            sample_list.append((sample_name, (r1_file, r2_file)))
+            # Log the paired files for debugging
+            logger.debug(f"Pairing files for sample {sample_name}: {os.path.basename(r1_file)} and {os.path.basename(r2_file)}")
+            
+            # Instead of storing the paired file separately, we'll pass it directly to process_single_sample_kneaddata
+            sample_list.append((sample_name, r1_file, r2_file))
     else:
         # Single-end reads
         for file in input_files:
@@ -148,8 +155,27 @@ def run_kneaddata_parallel(input_files, output_dir, threads=1, max_parallel=None
         'logger': logger
     }
     
-    # Run in parallel
-    results = run_parallel(sample_list, process_single_sample_kneaddata, 
+    # Modified version of process_single_sample_kneaddata for paired processing
+    def paired_kneaddata_wrapper(input_file, sample_id=None, paired_file=None, **kwargs):
+        """Wrapper to handle paired files correctly"""
+        if paired and paired_file:
+            # This is a paired sample, call process_single_sample_kneaddata with paired_file
+            return process_single_sample_kneaddata(
+                input_file, 
+                sample_id=sample_id, 
+                paired_file=paired_file, 
+                **kwargs
+            )
+        else:
+            # This is a single-end sample, call normally
+            return process_single_sample_kneaddata(
+                input_file,
+                sample_id=sample_id,
+                **kwargs
+            )
+    
+    # Run in parallel with our wrapper function
+    results = run_parallel(sample_list, paired_kneaddata_wrapper, 
                           max_workers=max_parallel, **kwargs)
     
     return results

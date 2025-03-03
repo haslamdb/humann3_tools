@@ -5,6 +5,7 @@
 ## 🛠️ Bugs to Fix
 - [ ] It doesn't seem downstream pipeline is running after humann anymore
 - [ ] move kneaddata and humann3 output files to a different directory then delete the temp directory
+- [ ] in cli.py , if args.use_metadata is True but no --seq-dir is provided, the current code does not execute metadata-based file collection.
 `
 
 ## 🔧 Features to Improve

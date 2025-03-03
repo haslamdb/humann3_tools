@@ -179,7 +179,7 @@ def main():
             file_pattern=args.file_pattern,
             r1_suffix=args.r1_suffix,
             r2_suffix=args.r2_suffix,
-            paired=args.paired  # Use the consistent paired flag
+            paired=args.paired  
         )
         
         # Reset input_files to avoid duplication
@@ -239,7 +239,7 @@ def main():
 
         sys.exit(0)
 
-    # Validate sample key first - we'll need it for both paths
+    # Validate sample key first 
     samples, selected_columns = validate_sample_key(args.sample_key, no_interactive=args.no_interactive)
 
     ## Preprocessing and HUMAnN3 alignment ###
@@ -282,52 +282,40 @@ def main():
             humann3_output_dir = os.path.join(preproc_dir, "humann3_output")
 
         # Choose between regular or parallel processing
-        if args.use_parallel:
-            log_print("Using parallel preprocessing pipeline", level="info")
-            # Determine if files are paired or unpaired
-            is_paired = args.paired
+    if args.use_parallel:
+        log_print("Using parallel preprocessing pipeline", level="info")
+        # Determine if files are paired or unpaired
+        is_paired = args.paired
 
-            kneaddata_options = {}
-            if is_paired:
-                kneaddata_options["decontaminate-pairs"] = args.decontaminate_pairs
+        kneaddata_options = {}
+        if is_paired:
+            kneaddata_options["decontaminate-pairs"] = args.decontaminate_pairs
 
-            # Run the preprocessing pipeline with updated parameters
-            preprocessing_results = run_preprocessing_pipeline(
-                input_files=args.input_fastq,
-                output_dir=preproc_dir,
-                threads=args.threads,
-                kneaddata_dbs=args.kneaddata_dbs,
-                nucleotide_db=args.humann3_nucleotide_db,
-                protein_db=args.humann3_protein_db,
-                paired=is_paired,  # Consistently use this value
-                kneaddata_options=kneaddata_options,  
-                kneaddata_output_dir=kneaddata_output_dir,
-                humann3_output_dir=humann3_output_dir,
-                logger=logger,
-            )
-        else:
-            log_print("Using standard preprocessing pipeline", level="info")
-            # Determine if files are paired or unpaired
-            is_paired = args.paired
-
-            kneaddata_options = {}
-            if is_paired:
-                kneaddata_options["decontaminate-pairs"] = args.decontaminate_pairs
-
-            preprocessing_results = run_preprocessing_pipeline(
-                input_files=args.input_fastq,
-                output_dir=preproc_dir,
-                threads=args.threads,
-                kneaddata_dbs=args.kneaddata_dbs,
-                nucleotide_db=args.humann3_nucleotide_db,
-                protein_db=args.humann3_protein_db,
-                paired=is_paired,  
-                kneaddata_options=kneaddata_options,  
-                kneaddata_output_dir=kneaddata_output_dir,
-                humann3_output_dir=humann3_output_dir,
-                logger=logger,
-            )
-
+        # For parallel processing, we use threads_per_sample instead of threads
+        threads_per_sample = args.threads
+        if hasattr(args, 'threads_per_sample') and args.threads_per_sample:
+            threads_per_sample = args.threads_per_sample
+        
+        # Log paired status and file count
+        log_print(f"Running in {'paired' if is_paired else 'single-end'} mode with {len(args.input_fastq)} input files", level="debug")
+        for i, file in enumerate(args.input_fastq[:min(10, len(args.input_fastq))]):
+            log_print(f"  Input file {i+1}: {os.path.basename(file)}", level="debug")
+        
+        # Run the preprocessing pipeline with updated parameters
+        preprocessing_results = run_preprocessing_pipeline_parallel(
+            input_files=args.input_fastq,
+            output_dir=preproc_dir,
+            threads_per_sample=threads_per_sample,  # Use threads_per_sample instead of threads
+            max_parallel=args.max_parallel,  # Add this parameter
+            kneaddata_dbs=args.kneaddata_dbs,
+            nucleotide_db=args.humann3_nucleotide_db,
+            protein_db=args.humann3_protein_db,
+            paired=is_paired,  # Consistently use this value
+            kneaddata_options=kneaddata_options,  
+            kneaddata_output_dir=kneaddata_output_dir,
+            humann3_output_dir=humann3_output_dir,
+            logger=logger,
+        )
 
     if args.run_preprocessing and preprocessing_results:
         log_print("Preprocessing completed successfully. Continuing to HUMAnN3 file processing...", level='info')
@@ -356,7 +344,7 @@ def main():
         
         log_print(f"Found {len(valid_path_samples)} pathway files and {len(valid_gene_samples)} gene family files", level='info')
         
-        # Now we can run the processing steps using these files
+    # Now we can run the processing steps using these files
         
         # Process pathways
         pathway_unstrat_file = None
@@ -438,5 +426,8 @@ def main():
         
         # Skip the normal processing path since we've already done it
         log_print("Full pipeline completed successfully", level='info')
+        elapsed = time.time() - start_time
+        hh, rr = divmod(elapsed, 3600)
+        mm, ss = divmod(rr, 60)
+        log_print(f"Pipeline finished in {int(hh)}h {int(mm)}m {int(ss)}s", level="info")
         sys.exit(0)
-
