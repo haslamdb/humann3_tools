@@ -145,6 +145,7 @@ Below is a list of key parameters for the `humann3-tools` command, indicating wh
 | `--humann3-nucleotide-db` | Optional | Path to HUMAnN3 nucleotide database (ChocoPhlAn) |
 | `--humann3-protein-db` | Optional | Path to HUMAnN3 protein database (UniRef) |
 | `--paired` | Optional | Flag indicating input files are paired-end reads |
+| `--decontaminate-pairs` | Optional | Select level of decontamination of paired reads (default 'strict') |
 | `--threads` | Optional | Number of threads to use (default: 1) |
 | `--group-col` | Optional | Column name to use for grouping in stats (default: 'Group') |
 | `--skip-pathway` | Optional | Skip HUMAnN3 pathway processing |

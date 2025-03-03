@@ -3,9 +3,7 @@
 # TODO: Issues and Fixes for humann3_tools
 
 ## 🛠️ Bugs to Fix
-- [ ] Duplicate files are being run in kneaddata because it's collecting 3 pairs per sample.	
-		Add a check that there are no duplicate input files after collecting.
-
+- [ ] It doesn't seem downstream pipeline is running after humann anymore
 `
 
 ## 🔧 Features to Improve
@@ -17,11 +15,11 @@
 
 
 	
-humann3-tools --log-file test.log \
+humann3-tools 	--run-preprocessing \
+	--log-file test.log \
 	--log-level DEBUG \
 	--output-dir test.out2 \
 	--output-prefix test- \
-	--run-preprocessing \
 	--kneaddata-dbs  /home/david/Databases/KneadDataDB /home/david/Databases/BT2ContaminantDB \
 	--threads 24 \
 	--sample-key TestKey.csv \
