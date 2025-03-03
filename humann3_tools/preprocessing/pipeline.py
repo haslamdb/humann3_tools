@@ -22,30 +22,17 @@ def run_preprocessing_pipeline(input_files, output_dir, threads=1,
         input_files: List of input FASTQ files
         output_dir: Base directory for outputs
         threads: Number of threads to use
-        kneaddata_dbs: Path to KneadData reference database(s)
+        kneaddata_dbs: Path to KneadData reference database(s). Can be a string or a list of paths.
         nucleotide_db: Path to HUMAnN3 nucleotide database
         protein_db: Path to HUMAnN3 protein database
         kneaddata_options: Dict of additional KneadData options
         humann3_options: Dict of additional HUMAnN3 options
         paired: Whether input files are paired
-        kneaddata_output_dir: Custom directory for KneadData outputs
-        humann3_output_dir: Custom directory for HUMAnN3 outputs
         logger: Logger instance
+        
+    Returns:
+        Dict of final HUMAnN3 output file paths by sample and type
     """
-    # Create output directories
-    if kneaddata_output_dir is None:
-        kneaddata_output = os.path.join(output_dir, "PreprocessedData", "kneaddata_output")
-    else:
-        kneaddata_output = kneaddata_output_dir
-        
-    if humann3_output_dir is None:
-        humann3_output = os.path.join(output_dir, "PreprocessedData", "humann3_output")
-    else:
-        humann3_output = humann3_output_dir
-        
-    os.makedirs(kneaddata_output, exist_ok=True)
-    os.makedirs(humann3_output, exist_ok=True)
-    
     if logger is None:
         logger = logging.getLogger('humann3_analysis')
     
