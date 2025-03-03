@@ -179,19 +179,21 @@ def run_kneaddata(input_files, output_dir, threads=1, reference_dbs=None,
     # Basic command
     cmd = ["kneaddata"]
     
-    # Handle paired vs single end
+    # Handle paired vs single end based on the paired parameter
     if paired and len(input_files) >= 2:
-        cmd.extend(["--input1", input_files[0], "--input2", input_files[1]])
-        cmd.extend(["--paired"])
+        cmd.extend(["--input", input_files[0], "--input", input_files[1]])
+        cmd.append("--paired")
+        logger.info(f"Running KneadData in paired mode with files: {input_files[0]} and {input_files[1]}")
     elif len(input_files) >= 1:
-        cmd.extend(["--input1", input_files[0], "--input2", input_files[1]])
+        cmd.extend(["--input", input_files[0]])
+        logger.info(f"Running KneadData in single-end mode with file: {input_files[0]}")
     else:
         logger.error("No input files provided for KneadData")
         return []
     
     # Add output directory
     cmd.extend(["--output", output_dir])
-    
+
     # Add threads
     cmd.extend(["--threads", str(threads)])
     
@@ -205,10 +207,11 @@ def run_kneaddata(input_files, output_dir, threads=1, reference_dbs=None,
             for db in reference_dbs:
                 cmd.extend(["--reference-db", db])
     
+    # Add additional options
     if additional_options:
         for key, value in additional_options.items():
             if key == 'paired':
-                continue
+                continue  # Skip the paired option
                 
             if value is True:
                 cmd.append(f"--{key}")

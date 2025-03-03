@@ -68,8 +68,9 @@ def main():
     )
     preprocessing_group.add_argument("--input-fastq", nargs="+", help="Input FASTQ file(s) for preprocessing")
     preprocessing_group.add_argument(
-        "--un", action="store_true", help="Input files are unpaired (single-end) reads"
-    )
+    "--paired", action="store_true", help="Input files are paired-end reads (default: False)"
+)
+
     preprocessing_group.add_argument(
         "--decontaminate-pairs", default="strict", choices=["strict", "lenient", "unpaired"], 
         help="Method for decontaminating paired-end reads (default: strict)"
@@ -177,20 +178,35 @@ def main():
                 input_files.extend(files)
             log_print(f"Loaded {len(input_files)} sequence files from samples file", level='info')
         
-        elif args.use_metadata and args.seq_dir:
-            # Collect samples from metadata
-            from humann3_tools.utils.metadata_utils import collect_samples_from_metadata
-            samples_dict = collect_samples_from_metadata(
-                metadata_file=args.sample_key,
-                seq_dir=args.seq_dir,
-                sample_col=args.sample_col,
-                r1_col=args.r1_col,
-                r2_col=args.r2_col,
-                file_pattern=args.file_pattern,
-                r1_suffix=args.r1_suffix,
-                r2_suffix=args.r2_suffix,
-                paired=args.paired
-            )
+    # When using metadata-driven workflow with input files:
+    if args.use_metadata and args.seq_dir:
+        # Collect samples from metadata
+        from humann3_tools.utils.metadata_utils import collect_samples_from_metadata
+        samples_dict = collect_samples_from_metadata(
+            metadata_file=args.sample_key,
+            seq_dir=args.seq_dir,
+            sample_col=args.sample_col,
+            r1_col=args.r1_col,
+            r2_col=args.r2_col,
+            file_pattern=args.file_pattern,
+            r1_suffix=args.r1_suffix,
+            r2_suffix=args.r2_suffix,
+            paired=args.paired  # Use the consistent paired flag
+        )
+        
+        # Update the loop that collects input files to respect paired/unpaired status
+        for sample_id, files in samples_dict.items():
+            if args.paired:
+                # For paired reads, ensure we have pairs
+                if len(files) >= 2:
+                    # Add first two files (R1, R2)
+                    input_files.extend(files[:2])
+                else:
+                    logger.warning(f"Skipping sample {sample_id}: not enough files for paired mode")
+            else:
+                # For single-end reads, just add the first file
+                if files:
+                    input_files.append(files[0])
             
             for sample_id, files in samples_dict.items():
                 input_files.extend(files)
@@ -270,7 +286,7 @@ def main():
         if args.use_parallel:
             log_print("Using parallel preprocessing pipeline", level="info")
             # Determine if files are paired or unpaired
-            is_paired = not args.un
+            is_paired = args.paired
 
             kneaddata_options = {}
             if is_paired:
@@ -284,7 +300,7 @@ def main():
                 kneaddata_dbs=args.kneaddata_dbs,
                 nucleotide_db=args.humann3_nucleotide_db,
                 protein_db=args.humann3_protein_db,
-                paired=is_paired, 
+                paired=is_paired,  # Consistently use this value
                 kneaddata_options=kneaddata_options,  
                 kneaddata_output_dir=kneaddata_output_dir,
                 humann3_output_dir=humann3_output_dir,
@@ -293,7 +309,7 @@ def main():
         else:
             log_print("Using standard preprocessing pipeline", level="info")
             # Determine if files are paired or unpaired
-            is_paired = not args.un
+            is_paired = args.paired
 
             kneaddata_options = {}
             if is_paired:
@@ -306,7 +322,7 @@ def main():
                 kneaddata_dbs=args.kneaddata_dbs,
                 nucleotide_db=args.humann3_nucleotide_db,
                 protein_db=args.humann3_protein_db,
-                paired=is_paired,  
+                paired=is_paired,  # Consistently use this value
                 kneaddata_options=kneaddata_options,  
                 kneaddata_output_dir=kneaddata_output_dir,
                 humann3_output_dir=humann3_output_dir,

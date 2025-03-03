@@ -72,17 +72,71 @@ def run_preprocessing_pipeline(input_files, output_dir, threads=1,
     logger.info(f"Using KneadData output directory: {kneaddata_output}")
     logger.info(f"Using HUMAnN3 output directory: {humann3_output}")
     
-    # Step 1: Run KneadData
-    logger.info("Starting KneadData step...")
-    kneaddata_files = run_kneaddata(
-        input_files=input_files,
-        output_dir=kneaddata_output,
-        threads=threads,
-        reference_dbs=kneaddata_dbs, 
-        paired=paired,
-        additional_options=kneaddata_options,
-        logger=logger
-    )
+# Step 1: Run KneadData
+    logger.info(f"Starting KneadData step (paired={paired})...")
+    
+    # For paired reads, we need to group input files properly
+    if paired:
+        # Ensure we have an even number of files for paired-end mode
+        if len(input_files) % 2 != 0:
+            logger.error("Paired mode requires an even number of input files")
+            return None
+            
+        # Process files in pairs
+        kneaddata_files = []
+        for i in range(0, len(input_files), 2):
+            if i+1 < len(input_files):
+                # Run KneadData on this pair
+                pair_files = [input_files[i], input_files[i+1]]
+                sample_name = os.path.basename(pair_files[0]).split('_')[0]  # Get basename for logging
+                
+                logger.info(f"Processing paired files for sample {sample_name}")
+                
+                # Create sample-specific output directory
+                sample_output = os.path.join(kneaddata_output, sample_name)
+                os.makedirs(sample_output, exist_ok=True)
+                
+                pair_results = run_kneaddata(
+                    input_files=pair_files,
+                    output_dir=sample_output,
+                    threads=threads,
+                    reference_dbs=kneaddata_dbs,
+                    paired=True,  # Always True in this block
+                    additional_options=kneaddata_options,
+                    logger=logger
+                )
+                
+                if pair_results:
+                    kneaddata_files.extend(pair_results)
+                else:
+                    logger.warning(f"No KneadData output files for sample {sample_name}")
+    else:
+        # Single-end mode: process each file individually
+        kneaddata_files = []
+        for file in input_files:
+            sample_name = os.path.basename(file).split('_')[0]  # Get basename for logging
+            
+            logger.info(f"Processing single-end file for sample {sample_name}")
+            
+            # Create sample-specific output directory
+            sample_output = os.path.join(kneaddata_output, sample_name)
+            os.makedirs(sample_output, exist_ok=True)
+            
+            file_results = run_kneaddata(
+                input_files=[file],
+                output_dir=sample_output,
+                threads=threads,
+                reference_dbs=kneaddata_dbs,
+                paired=False,  # Always False in this block
+                additional_options=kneaddata_options,
+                logger=logger
+            )
+            
+            if file_results:
+                kneaddata_files.extend(file_results)
+            else:
+                logger.warning(f"No KneadData output files for sample {sample_name}")
+
     
     if not kneaddata_files:
         logger.error("KneadData step failed, stopping pipeline")
