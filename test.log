@@ -214,3 +214,274 @@ Select columns for grouping (optional). Press Enter to skip:
 2025-03-03 06:57:12,821 - INFO - Starting KneadData step...
 2025-03-03 06:57:12,821 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
 2025-03-03 06:57:12,821 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-03 08:23:40,809 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-03 08:23:40,811 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-03 08:23:40,811 - INFO - Auto-detected sample ID column: SampleName
+2025-03-03 08:23:40,812 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-03 08:23:40,812 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
+2025-03-03 08:23:40,812 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
+2025-03-03 08:23:40,812 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
+2025-03-03 08:23:40,812 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
+2025-03-03 08:23:40,812 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
+2025-03-03 08:23:40,813 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gzD19G_R1.fastq, found 0 files
+2025-03-03 08:23:40,813 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq.gz, found 0 files
+2025-03-03 08:23:40,814 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq, found 2 files
+2025-03-03 08:23:40,814 - DEBUG - Found 2 files for sample D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
+2025-03-03 08:23:40,814 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-03 08:23:40,814 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
+2025-03-03 08:23:40,814 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
+2025-03-03 08:23:40,814 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
+2025-03-03 08:23:40,814 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
+2025-03-03 08:23:40,815 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
+2025-03-03 08:23:40,815 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gzD33G_R1.fastq, found 0 files
+2025-03-03 08:23:40,815 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq.gz, found 0 files
+2025-03-03 08:23:40,816 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq, found 2 files
+2025-03-03 08:23:40,816 - DEBUG - Found 2 files for sample D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 08:23:40,816 - INFO - Found sequence files for 2 out of 2 samples
+2025-03-03 08:23:40,816 - DEBUG - Sample examples:
+2025-03-03 08:23:40,816 - DEBUG -   D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
+2025-03-03 08:23:40,816 - DEBUG -   D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 08:23:40,816 - INFO - Collected 6 sequence files from 2 samples
+2025-03-03 08:23:40,816 - INFO - Collected 12 sequence files from 2 samples
+2025-03-03 08:23:40,817 - INFO - 
+Available columns in sample key (2):
+2025-03-03 08:23:40,817 - INFO -   1. SampleName
+2025-03-03 08:23:40,817 - INFO -   2.  Group
+2025-03-03 08:23:40,817 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-03 08:23:40,817 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-03 08:23:40,817 - INFO -   1.  Group
+2025-03-03 08:23:40,817 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-03 08:23:43,500 - INFO - Using standard preprocessing pipeline
+2025-03-03 08:23:43,640 - INFO - Starting preprocessing pipeline with 12 input files
+2025-03-03 08:23:43,640 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-03 08:23:43,640 - INFO - HUMAnN3 version: humann v3.9
+2025-03-03 08:23:43,640 - INFO - Using KneadData output directory: /home/david/Data/TrimmedMSSFiles
+2025-03-03 08:23:43,641 - INFO - Using HUMAnN3 output directory: /home/david/Documents/Alignments/Humann3Alignments
+2025-03-03 08:23:43,641 - INFO - Starting KneadData step (paired=True)...
+2025-03-03 08:23:43,641 - INFO - Processing paired files for sample D19G
+2025-03-03 08:23:43,664 - INFO - Running KneadData in paired mode with files: /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq and /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq
+2025-03-03 08:23:43,664 - INFO - Running KneadData: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,664 - INFO - Running: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,726 - ERROR - ERROR: Command failed with exit code 2
+2025-03-03 08:23:43,726 - ERROR - Error message: usage: kneaddata [-h] [--version] [-v] [-i1 INPUT1] [-i2 INPUT2]
+                 [-un UNPAIRED] -o OUTPUT_DIR [-s SCRATCH_DIR]
+                 [-db REFERENCE_DB] [--bypass-trim]
+                 [--output-prefix OUTPUT_PREFIX] [-t <1>] [-p <1>]
+                 [-q {phred33,phred64}] [--run-bmtagger] [--bypass-trf]
+                 [--run-trf] [--run-fastqc-start] [--run-fastqc-end]
+                 [--store-temp-output] [--remove-intermediate-output]
+                 [--cat-final-output]
+                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--log LOG]
+                 [--trimmomatic TRIMMOMATIC_PATH] [--run-trim-repetitive]
+                 [--max-memory MAX_MEMORY]
+                 [--trimmomatic-options TRIMMOMATIC_OPTIONS]
+                 [--sequencer-source {NexteraPE,TruSeq2,TruSeq3,none}]
+                 [--bowtie2 BOWTIE2_PATH] [--bowtie2-options BOWTIE2_OPTIONS]
+                 [--decontaminate-pairs {strict,lenient,unpaired}] [--reorder]
+                 [--serial] [--bmtagger BMTAGGER_PATH] [--trf TRF_PATH]
+                 [--match MATCH] [--mismatch MISMATCH] [--delta DELTA]
+                 [--pm PM] [--pi PI] [--minscore MINSCORE]
+                 [--maxperiod MAXPERIOD] [--fastqc FASTQC_PATH]
+kneaddata: error: ambiguous option: --input could match --input1, --input2
+
+2025-03-03 08:23:43,726 - ERROR - Failed command: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,726 - ERROR - KneadData run failed
+2025-03-03 08:23:43,726 - WARNING - No KneadData output files for sample D19G
+2025-03-03 08:23:43,727 - INFO - Processing paired files for sample D19G
+2025-03-03 08:23:43,727 - INFO - Running KneadData in paired mode with files: /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq and /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq
+2025-03-03 08:23:43,727 - INFO - Running KneadData: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,727 - INFO - Running: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,794 - ERROR - ERROR: Command failed with exit code 2
+2025-03-03 08:23:43,794 - ERROR - Error message: usage: kneaddata [-h] [--version] [-v] [-i1 INPUT1] [-i2 INPUT2]
+                 [-un UNPAIRED] -o OUTPUT_DIR [-s SCRATCH_DIR]
+                 [-db REFERENCE_DB] [--bypass-trim]
+                 [--output-prefix OUTPUT_PREFIX] [-t <1>] [-p <1>]
+                 [-q {phred33,phred64}] [--run-bmtagger] [--bypass-trf]
+                 [--run-trf] [--run-fastqc-start] [--run-fastqc-end]
+                 [--store-temp-output] [--remove-intermediate-output]
+                 [--cat-final-output]
+                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--log LOG]
+                 [--trimmomatic TRIMMOMATIC_PATH] [--run-trim-repetitive]
+                 [--max-memory MAX_MEMORY]
+                 [--trimmomatic-options TRIMMOMATIC_OPTIONS]
+                 [--sequencer-source {NexteraPE,TruSeq2,TruSeq3,none}]
+                 [--bowtie2 BOWTIE2_PATH] [--bowtie2-options BOWTIE2_OPTIONS]
+                 [--decontaminate-pairs {strict,lenient,unpaired}] [--reorder]
+                 [--serial] [--bmtagger BMTAGGER_PATH] [--trf TRF_PATH]
+                 [--match MATCH] [--mismatch MISMATCH] [--delta DELTA]
+                 [--pm PM] [--pi PI] [--minscore MINSCORE]
+                 [--maxperiod MAXPERIOD] [--fastqc FASTQC_PATH]
+kneaddata: error: ambiguous option: --input could match --input1, --input2
+
+2025-03-03 08:23:43,794 - ERROR - Failed command: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,794 - ERROR - KneadData run failed
+2025-03-03 08:23:43,795 - WARNING - No KneadData output files for sample D19G
+2025-03-03 08:23:43,795 - INFO - Processing paired files for sample D33G
+2025-03-03 08:23:43,795 - INFO - Running KneadData in paired mode with files: /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq and /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq
+2025-03-03 08:23:43,795 - INFO - Running KneadData: kneaddata --input /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D33G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,796 - INFO - Running: kneaddata --input /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D33G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,858 - ERROR - ERROR: Command failed with exit code 2
+2025-03-03 08:23:43,858 - ERROR - Error message: usage: kneaddata [-h] [--version] [-v] [-i1 INPUT1] [-i2 INPUT2]
+                 [-un UNPAIRED] -o OUTPUT_DIR [-s SCRATCH_DIR]
+                 [-db REFERENCE_DB] [--bypass-trim]
+                 [--output-prefix OUTPUT_PREFIX] [-t <1>] [-p <1>]
+                 [-q {phred33,phred64}] [--run-bmtagger] [--bypass-trf]
+                 [--run-trf] [--run-fastqc-start] [--run-fastqc-end]
+                 [--store-temp-output] [--remove-intermediate-output]
+                 [--cat-final-output]
+                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--log LOG]
+                 [--trimmomatic TRIMMOMATIC_PATH] [--run-trim-repetitive]
+                 [--max-memory MAX_MEMORY]
+                 [--trimmomatic-options TRIMMOMATIC_OPTIONS]
+                 [--sequencer-source {NexteraPE,TruSeq2,TruSeq3,none}]
+                 [--bowtie2 BOWTIE2_PATH] [--bowtie2-options BOWTIE2_OPTIONS]
+                 [--decontaminate-pairs {strict,lenient,unpaired}] [--reorder]
+                 [--serial] [--bmtagger BMTAGGER_PATH] [--trf TRF_PATH]
+                 [--match MATCH] [--mismatch MISMATCH] [--delta DELTA]
+                 [--pm PM] [--pi PI] [--minscore MINSCORE]
+                 [--maxperiod MAXPERIOD] [--fastqc FASTQC_PATH]
+kneaddata: error: ambiguous option: --input could match --input1, --input2
+
+2025-03-03 08:23:43,858 - ERROR - Failed command: kneaddata --input /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D33G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,859 - ERROR - KneadData run failed
+2025-03-03 08:23:43,859 - WARNING - No KneadData output files for sample D33G
+2025-03-03 08:23:43,859 - INFO - Processing paired files for sample D33G
+2025-03-03 08:23:43,859 - INFO - Running KneadData in paired mode with files: /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq and /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq
+2025-03-03 08:23:43,859 - INFO - Running KneadData: kneaddata --input /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D33G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,860 - INFO - Running: kneaddata --input /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D33G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,925 - ERROR - ERROR: Command failed with exit code 2
+2025-03-03 08:23:43,925 - ERROR - Error message: usage: kneaddata [-h] [--version] [-v] [-i1 INPUT1] [-i2 INPUT2]
+                 [-un UNPAIRED] -o OUTPUT_DIR [-s SCRATCH_DIR]
+                 [-db REFERENCE_DB] [--bypass-trim]
+                 [--output-prefix OUTPUT_PREFIX] [-t <1>] [-p <1>]
+                 [-q {phred33,phred64}] [--run-bmtagger] [--bypass-trf]
+                 [--run-trf] [--run-fastqc-start] [--run-fastqc-end]
+                 [--store-temp-output] [--remove-intermediate-output]
+                 [--cat-final-output]
+                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--log LOG]
+                 [--trimmomatic TRIMMOMATIC_PATH] [--run-trim-repetitive]
+                 [--max-memory MAX_MEMORY]
+                 [--trimmomatic-options TRIMMOMATIC_OPTIONS]
+                 [--sequencer-source {NexteraPE,TruSeq2,TruSeq3,none}]
+                 [--bowtie2 BOWTIE2_PATH] [--bowtie2-options BOWTIE2_OPTIONS]
+                 [--decontaminate-pairs {strict,lenient,unpaired}] [--reorder]
+                 [--serial] [--bmtagger BMTAGGER_PATH] [--trf TRF_PATH]
+                 [--match MATCH] [--mismatch MISMATCH] [--delta DELTA]
+                 [--pm PM] [--pi PI] [--minscore MINSCORE]
+                 [--maxperiod MAXPERIOD] [--fastqc FASTQC_PATH]
+kneaddata: error: ambiguous option: --input could match --input1, --input2
+
+2025-03-03 08:23:43,926 - ERROR - Failed command: kneaddata --input /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D33G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,926 - ERROR - KneadData run failed
+2025-03-03 08:23:43,926 - WARNING - No KneadData output files for sample D33G
+2025-03-03 08:23:43,926 - INFO - Processing paired files for sample D19G
+2025-03-03 08:23:43,926 - INFO - Running KneadData in paired mode with files: /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq and /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq
+2025-03-03 08:23:43,927 - INFO - Running KneadData: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,927 - INFO - Running: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,990 - ERROR - ERROR: Command failed with exit code 2
+2025-03-03 08:23:43,990 - ERROR - Error message: usage: kneaddata [-h] [--version] [-v] [-i1 INPUT1] [-i2 INPUT2]
+                 [-un UNPAIRED] -o OUTPUT_DIR [-s SCRATCH_DIR]
+                 [-db REFERENCE_DB] [--bypass-trim]
+                 [--output-prefix OUTPUT_PREFIX] [-t <1>] [-p <1>]
+                 [-q {phred33,phred64}] [--run-bmtagger] [--bypass-trf]
+                 [--run-trf] [--run-fastqc-start] [--run-fastqc-end]
+                 [--store-temp-output] [--remove-intermediate-output]
+                 [--cat-final-output]
+                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--log LOG]
+                 [--trimmomatic TRIMMOMATIC_PATH] [--run-trim-repetitive]
+                 [--max-memory MAX_MEMORY]
+                 [--trimmomatic-options TRIMMOMATIC_OPTIONS]
+                 [--sequencer-source {NexteraPE,TruSeq2,TruSeq3,none}]
+                 [--bowtie2 BOWTIE2_PATH] [--bowtie2-options BOWTIE2_OPTIONS]
+                 [--decontaminate-pairs {strict,lenient,unpaired}] [--reorder]
+                 [--serial] [--bmtagger BMTAGGER_PATH] [--trf TRF_PATH]
+                 [--match MATCH] [--mismatch MISMATCH] [--delta DELTA]
+                 [--pm PM] [--pi PI] [--minscore MINSCORE]
+                 [--maxperiod MAXPERIOD] [--fastqc FASTQC_PATH]
+kneaddata: error: ambiguous option: --input could match --input1, --input2
+
+2025-03-03 08:23:43,990 - ERROR - Failed command: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,990 - ERROR - KneadData run failed
+2025-03-03 08:23:43,990 - WARNING - No KneadData output files for sample D19G
+2025-03-03 08:23:43,991 - INFO - Processing paired files for sample D33G
+2025-03-03 08:23:43,991 - INFO - Running KneadData in paired mode with files: /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq and /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq
+2025-03-03 08:23:43,991 - INFO - Running KneadData: kneaddata --input /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D33G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:43,991 - INFO - Running: kneaddata --input /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D33G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:44,057 - ERROR - ERROR: Command failed with exit code 2
+2025-03-03 08:23:44,057 - ERROR - Error message: usage: kneaddata [-h] [--version] [-v] [-i1 INPUT1] [-i2 INPUT2]
+                 [-un UNPAIRED] -o OUTPUT_DIR [-s SCRATCH_DIR]
+                 [-db REFERENCE_DB] [--bypass-trim]
+                 [--output-prefix OUTPUT_PREFIX] [-t <1>] [-p <1>]
+                 [-q {phred33,phred64}] [--run-bmtagger] [--bypass-trf]
+                 [--run-trf] [--run-fastqc-start] [--run-fastqc-end]
+                 [--store-temp-output] [--remove-intermediate-output]
+                 [--cat-final-output]
+                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--log LOG]
+                 [--trimmomatic TRIMMOMATIC_PATH] [--run-trim-repetitive]
+                 [--max-memory MAX_MEMORY]
+                 [--trimmomatic-options TRIMMOMATIC_OPTIONS]
+                 [--sequencer-source {NexteraPE,TruSeq2,TruSeq3,none}]
+                 [--bowtie2 BOWTIE2_PATH] [--bowtie2-options BOWTIE2_OPTIONS]
+                 [--decontaminate-pairs {strict,lenient,unpaired}] [--reorder]
+                 [--serial] [--bmtagger BMTAGGER_PATH] [--trf TRF_PATH]
+                 [--match MATCH] [--mismatch MISMATCH] [--delta DELTA]
+                 [--pm PM] [--pi PI] [--minscore MINSCORE]
+                 [--maxperiod MAXPERIOD] [--fastqc FASTQC_PATH]
+kneaddata: error: ambiguous option: --input could match --input1, --input2
+
+2025-03-03 08:23:44,057 - ERROR - Failed command: kneaddata --input /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --input /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --paired --output /home/david/Data/TrimmedMSSFiles/D33G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:23:44,058 - ERROR - KneadData run failed
+2025-03-03 08:23:44,058 - WARNING - No KneadData output files for sample D33G
+2025-03-03 08:23:44,058 - ERROR - KneadData step failed, stopping pipeline
+2025-03-03 08:30:29,586 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-03 08:30:29,588 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-03 08:30:29,588 - INFO - Auto-detected sample ID column: SampleName
+2025-03-03 08:30:29,588 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-03 08:30:29,588 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
+2025-03-03 08:30:29,588 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
+2025-03-03 08:30:29,588 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
+2025-03-03 08:30:29,588 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
+2025-03-03 08:30:29,589 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
+2025-03-03 08:30:29,590 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gzD19G_R1.fastq, found 0 files
+2025-03-03 08:30:29,590 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq.gz, found 0 files
+2025-03-03 08:30:29,591 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq, found 2 files
+2025-03-03 08:30:29,591 - DEBUG - Found 2 files for sample D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
+2025-03-03 08:30:29,591 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-03 08:30:29,591 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
+2025-03-03 08:30:29,591 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
+2025-03-03 08:30:29,591 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
+2025-03-03 08:30:29,591 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
+2025-03-03 08:30:29,592 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
+2025-03-03 08:30:29,592 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gzD33G_R1.fastq, found 0 files
+2025-03-03 08:30:29,592 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq.gz, found 0 files
+2025-03-03 08:30:29,593 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq, found 2 files
+2025-03-03 08:30:29,593 - DEBUG - Found 2 files for sample D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 08:30:29,593 - INFO - Found sequence files for 2 out of 2 samples
+2025-03-03 08:30:29,593 - DEBUG - Sample examples:
+2025-03-03 08:30:29,593 - DEBUG -   D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
+2025-03-03 08:30:29,593 - DEBUG -   D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 08:30:29,593 - INFO - Collected 6 sequence files from 2 samples
+2025-03-03 08:30:29,594 - INFO - Collected 12 sequence files from 2 samples
+2025-03-03 08:30:29,594 - INFO - 
+Available columns in sample key (2):
+2025-03-03 08:30:29,594 - INFO -   1. SampleName
+2025-03-03 08:30:29,594 - INFO -   2.  Group
+2025-03-03 08:30:29,594 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-03 08:30:29,594 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-03 08:30:29,594 - INFO -   1.  Group
+2025-03-03 08:30:29,594 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-03 08:30:31,198 - INFO - Using standard preprocessing pipeline
+2025-03-03 08:30:31,342 - INFO - Starting preprocessing pipeline with 12 input files
+2025-03-03 08:30:31,342 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-03 08:30:31,342 - INFO - HUMAnN3 version: humann v3.9
+2025-03-03 08:30:31,342 - INFO - Using KneadData output directory: /home/david/Data/TrimmedMSSFiles
+2025-03-03 08:30:31,343 - INFO - Using HUMAnN3 output directory: /home/david/Documents/Alignments/Humann3Alignments
+2025-03-03 08:30:31,343 - INFO - Starting KneadData step (paired=True)...
+2025-03-03 08:30:31,343 - INFO - Processing paired files for sample D19G
+2025-03-03 08:30:31,343 - INFO - Running KneadData in paired mode with files: /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq and /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq
+2025-03-03 08:30:31,343 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 08:30:31,344 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
