@@ -1,0 +1,22 @@
+2025-03-02 21:58:04,669 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 21:58:04,671 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-02 21:58:04,671 - INFO - Auto-detected sample ID column: SampleName
+2025-03-02 21:58:04,672 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-02 21:58:04,672 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
+2025-03-02 21:58:04,672 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
+2025-03-02 21:58:04,672 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
+2025-03-02 21:58:04,672 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
+2025-03-02 21:58:04,672 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
+2025-03-02 21:58:04,673 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gz, found 0 files
+2025-03-02 21:58:04,673 - WARNING - No sequence files found for sample D19G
+2025-03-02 21:58:04,673 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-02 21:58:04,673 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
+2025-03-02 21:58:04,673 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
+2025-03-02 21:58:04,674 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
+2025-03-02 21:58:04,674 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
+2025-03-02 21:58:04,674 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
+2025-03-02 21:58:04,675 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gz, found 0 files
+2025-03-02 21:58:04,675 - WARNING - No sequence files found for sample D33G
+2025-03-02 21:58:04,675 - INFO - Found sequence files for 0 out of 2 samples
+2025-03-02 21:58:04,675 - INFO - Collected 0 sequence files from 0 samples
+2025-03-02 21:58:04,675 - ERROR - ERROR: No input files specified. Use --input-fastq, --samples-file, or --use-metadata
