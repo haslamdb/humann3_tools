@@ -48,11 +48,11 @@ def find_sample_files(sample_id: str,
         logger.debug(f"Searching for R1: {r1_search}, found {len(r1_files)} files")
         logger.debug(f"Searching for R2: {r2_search}, found {len(r2_files)} files")
         
-        # Ensure we have matching pairs
-        if len(r1_files) == len(r2_files) and len(r1_files) > 0:
-            # Return interleaved list [r1_1, r2_1, r1_2, r2_2, ...]
-            for r1, r2 in zip(r1_files, r2_files):
-                files.extend([r1, r2])
+        # Ensure we have matching pairs and only take one pair
+        if len(r1_files) > 0 and len(r2_files) > 0:
+            # Only add one pair (the first pair found)
+            files = [r1_files[0], r2_files[0]]
+            logger.debug(f"Added paired files: {os.path.basename(r1_files[0])} and {os.path.basename(r2_files[0])}")
         else:
             logger.warning(f"Couldn't find matching paired files for sample {sample_id}")
     
@@ -65,7 +65,7 @@ def find_sample_files(sample_id: str,
             f"{sample_id}.fastq.gz", 
             f"{sample_id}.fq.gz",
             f"{sample_id}_*.fastq.gz",
-            f"{sample_id}*.fastq.gz"
+            f"{sample_id}*.fastq.gz",
             f"{sample_id}_R1.fastq",
             f"{sample_id}_R1.fastq.gz",
             f"{sample_id}_*.fastq"
@@ -76,14 +76,15 @@ def find_sample_files(sample_id: str,
             matches = glob.glob(search_pattern)
             logger.debug(f"Trying pattern {search_pattern}, found {len(matches)} files")
             if matches:
-                files.extend(matches)
+                # Only take the first file found
+                files = [matches[0]]
+                logger.debug(f"Selected file: {os.path.basename(matches[0])}")
                 break
     
     if files:
         logger.debug(f"Found {len(files)} files for sample {sample_id}: {[os.path.basename(f) for f in files]}")
     
     return files
-
 def collect_samples_from_metadata(metadata_file: str, 
                                  seq_dir: str, 
                                  sample_col: Optional[str] = None,

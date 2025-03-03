@@ -168,17 +168,6 @@ def main():
     start_time = time.time()
 
     # Handle metadata-driven workflow - collect input files
-    input_files = []
-    if args.run_preprocessing:
-        if args.samples_file:
-            # Read from samples file
-            from humann3_tools.utils.metadata_utils import read_samples_file
-            samples_dict = read_samples_file(args.samples_file)
-            for sample_id, files in samples_dict.items():
-                input_files.extend(files)
-            log_print(f"Loaded {len(input_files)} sequence files from samples file", level='info')
-        
-    # When using metadata-driven workflow with input files:
     if args.use_metadata and args.seq_dir:
         # Collect samples from metadata
         from humann3_tools.utils.metadata_utils import collect_samples_from_metadata
@@ -194,6 +183,9 @@ def main():
             paired=args.paired  # Use the consistent paired flag
         )
         
+        # Reset input_files to avoid duplication
+        input_files = []
+        
         # Update the loop that collects input files to respect paired/unpaired status
         for sample_id, files in samples_dict.items():
             if args.paired:
@@ -207,11 +199,8 @@ def main():
                 # For single-end reads, just add the first file
                 if files:
                     input_files.append(files[0])
-            
-            for sample_id, files in samples_dict.items():
-                input_files.extend(files)
-            
-            log_print(f"Collected {len(input_files)} sequence files from {len(samples_dict)} samples", level='info')
+        
+        log_print(f"Collected {len(input_files)} sequence files from {len(samples_dict)} samples", level='info')
         
         # If input files were collected, override args.input_fastq
         if input_files:
