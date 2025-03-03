@@ -56,7 +56,7 @@ It is **highly recommended** to use a Conda environment to manage the dependenci
     If the environment is not activated automatically, you can activate it manually:
 
     ```bash
-    conda activate humann3_env
+    conda activate humann3_tools
     ```
     
 4. **Verify the installation**
@@ -65,7 +65,7 @@ It is **highly recommended** to use a Conda environment to manage the dependenci
     humann3-tools --help
     ```
 
-**Note:** You only need to run `conda_setup.py` once. To use `humann3_tools` in the future, just activate the environment using `conda activate humann3_env`.
+**Note:** You only need to run `conda_setup.py` once. To use `humann3_tools` in the future, just activate the environment using `conda activate humann3_tools`.
 
 ### Standard Installation
 
@@ -129,6 +129,40 @@ humann3-tools --run-preprocessing --input-fastq reads_1.fastq reads_2.fastq --pa
     --threads 8
 ```
 
+### Required and Optional Parameters
+
+Below is a list of key parameters for the `humann3-tools` command, indicating which are required and which are optional:
+
+| Parameter | Required? | Description |
+|-----------|-----------|-------------|
+| `--sample-key` | Required | Path to CSV file with sample metadata |
+| `--output-dir` | Required | Directory where output files will be saved |
+| `--pathway-dir` | Required* | Directory containing HUMAnN3 pathway abundance files |
+| `--gene-dir` | Required* | Directory containing HUMAnN3 gene family files |
+| `--input-fastq` | Required** | Input FASTQ file(s) when running preprocessing |
+| `--run-preprocessing` | Optional | Flag to run KneadData and HUMAnN3 on raw sequence files |
+| `--kneaddata-dbs` | Required*** | Path(s) to KneadData reference database(s) |
+| `--humann3-nucleotide-db` | Optional | Path to HUMAnN3 nucleotide database (ChocoPhlAn) |
+| `--humann3-protein-db` | Optional | Path to HUMAnN3 protein database (UniRef) |
+| `--paired` | Optional | Flag indicating input files are paired-end reads |
+| `--threads` | Optional | Number of threads to use (default: 1) |
+| `--group-col` | Optional | Column name to use for grouping in stats (default: 'Group') |
+| `--skip-pathway` | Optional | Skip HUMAnN3 pathway processing |
+| `--skip-gene` | Optional | Skip HUMAnN3 gene family processing |
+| `--skip-downstream` | Optional | Skip downstream analysis |
+| `--run-diff-abundance` | Optional | Run differential abundance analysis |
+| `--diff-methods` | Optional | Comma-separated list of methods to use (default: aldex2,ancom,ancom-bc) |
+| `--exclude-unmapped` | Optional | Exclude unmapped features from differential abundance analysis |
+| `--use-parallel` | Optional | Use parallel processing for preprocessing steps |
+| `--threads-per-sample` | Optional | Number of threads to use per sample (with parallel processing) |
+| `--max-parallel` | Optional | Maximum number of samples to process in parallel |
+| `--log-file` | Optional | Path to combined log file |
+| `--log-level` | Optional | Logging level (default: INFO) |
+| `--no-interactive` | Optional | Non-interactive mode for sample key column selection |
+
+\* Required for processing existing HUMAnN3 output files  
+\*\* Required when `--run-preprocessing` is used  
+\*\*\* Required when `--run-preprocessing` is used  
 ### Analysis of Existing HUMAnN Output Files (pathway-abundance and gene-family files)
 
 ```bash
@@ -466,6 +500,77 @@ sample2,Treatment,Drug,Gut
 sample3,Control,Placebo,Skin
 ```
 
+## Input Methods
+
+HUMAnN3 Tools provides multiple ways to specify input files for processing. Choose the method that works best for your dataset and workflow:
+
+### Method 1: Direct FASTQ Specification
+
+Use the `--input-fastq` parameter to directly specify one or more FASTQ files to process:
+
+```bash
+humann3-tools --run-preprocessing --input-fastq sample1_R1.fastq.gz sample1_R2.fastq.gz sample2_R1.fastq.gz sample2_R2.fastq.gz --paired --output-dir results/
+```
+
+- **Pros**: Simple for small numbers of files
+- **Cons**: Becomes unwieldy with many samples
+- **Best for**: Small datasets or testing
+
+### Method 2: Sample File
+
+Use the `--samples-file` parameter to specify a tab-delimited file that maps sample IDs to their sequence files:
+
+```bash
+humann3-tools --run-preprocessing --samples-file samples.txt --paired --output-dir results/
+```
+
+The sample file format should be tab-delimited with each line containing a sample ID followed by its sequence file paths:
+
+```
+Sample1	/path/to/sample1_R1.fastq.gz /path/to/sample1_R2.fastq.gz
+Sample2	/path/to/sample2_R1.fastq.gz /path/to/sample2_R2.fastq.gz
+Sample3	/path/to/sample3_R1.fastq.gz /path/to/sample3_R2.fastq.gz
+```
+
+- **Pros**: Clean organization, works with large numbers of samples
+- **Cons**: Requires creating the sample file
+- **Best for**: Medium to large datasets, scripted pipelines
+
+### Method 3: Metadata-Driven
+
+Use the `--use-metadata` parameter along with `--sample-key` to automatically find sequence files based on sample IDs in your metadata:
+
+```bash
+humann3-tools --run-preprocessing --use-metadata --sample-key metadata.csv --seq-dir /path/to/sequence/files --r1-suffix "_R1.fastq.gz" --r2-suffix "_R2.fastq.gz" --paired --output-dir results/
+```
+
+The tool will:
+1. Extract sample IDs from your metadata file
+2. Search for files in `--seq-dir` following the pattern `{sample_id}{r1_suffix}` and `{sample_id}{r2_suffix}`
+
+Alternatively, if your metadata already contains file paths:
+
+```bash
+humann3-tools --run-preprocessing --use-metadata --sample-key metadata.csv --seq-dir /path/to/sequence/files --sample-col "SampleID" --r1-col "ForwardRead" --r2-col "ReverseRead" --paired --output-dir results/
+```
+
+- **Pros**: Most automated approach, integrates with existing metadata
+- **Cons**: Requires consistent file naming or explicit file paths in metadata
+- **Best for**: Large projects with well-organized metadata
+
+### Method 4: Custom File Pattern
+
+Combine `--use-metadata` with `--file-pattern` for more flexible file matching:
+
+```bash
+humann3-tools --run-preprocessing --use-metadata --sample-key metadata.csv --seq-dir /path/to/sequence/files --file-pattern "{sample}_S*_L001_R*_001.fastq.gz" --paired --output-dir results/
+```
+
+The `{sample}` placeholder will be replaced with the sample ID from your metadata.
+
+- **Pros**: Handles complex naming schemes with wildcards
+- **Cons**: Pattern must accurately capture all files
+- **Best for**: Projects with complex file naming conventions
 ### Resource Management
 
 Optimize memory and CPU usage:
@@ -758,6 +863,33 @@ humann3-tools --run-preprocessing \
     --run-diff-abundance \
     --group-col "Group"
 ```
+### Sample File Example
+
+Here's a complete example of using a sample file:
+
+1. Create a tab-delimited file `samples.txt`:
+
+```
+Sample1	/path/to/data/Sample1_R1.fastq.gz /path/to/data/Sample1_R2.fastq.gz
+Sample2	/path/to/data/Sample2_R1.fastq.gz /path/to/data/Sample2_R2.fastq.gz
+Sample3	/path/to/data/Sample3_R1.fastq.gz /path/to/data/Sample3_R2.fastq.gz
+```
+
+2. Run the pipeline:
+
+```bash
+humann3-tools --run-preprocessing \
+    --samples-file samples.txt \
+    --paired \
+    --kneaddata-dbs /path/to/human_db /path/to/contaminants_db \
+    --humann3-nucleotide-db /path/to/chocophlan \
+    --humann3-protein-db /path/to/uniref \
+    --sample-key metadata.csv \
+    --output-dir results/ \
+    --threads 8
+```
+
+The `--sample-key` is still required for metadata information even when using `--samples-file` for input file specification.
 
 ---
 
