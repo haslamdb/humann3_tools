@@ -3,10 +3,8 @@
 # TODO: Issues and Fixes for humann3_tools
 
 ## 🛠️ Bugs to Fix
-- [ ] --paired flag not working because kneaddata fails with paried
-- [ ] Move kneaddata output files and humann output files to new directories then get rid of intermediate files
-- [ ] Change --paired flag to --un (unpaired)
-- [ ] Add flag for --decontaminate-pairs strict
+- [ ] Duplicate files are being run in kneaddata because it's collecting 3 pairs per sample.	
+		Add a check that there are no duplicate input files after collecting.
 
 `
 
