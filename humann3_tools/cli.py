@@ -166,16 +166,14 @@ def main():
         if args.samples_file:
             # Read from samples file
             from humann3_tools.utils.metadata_utils import read_samples_file
-
             samples_dict = read_samples_file(args.samples_file)
             for sample_id, files in samples_dict.items():
                 input_files.extend(files)
-            log_print(f"Loaded {len(input_files)} sequence files from samples file", level="info")
-
+            log_print(f"Loaded {len(input_files)} sequence files from samples file", level='info')
+        
         elif args.use_metadata and args.seq_dir:
             # Collect samples from metadata
             from humann3_tools.utils.metadata_utils import collect_samples_from_metadata
-
             samples_dict = collect_samples_from_metadata(
                 metadata_file=args.sample_key,
                 seq_dir=args.seq_dir,
@@ -185,21 +183,21 @@ def main():
                 file_pattern=args.file_pattern,
                 r1_suffix=args.r1_suffix,
                 r2_suffix=args.r2_suffix,
-                paired=args.paired,
+                paired=args.paired
             )
-
+            
             for sample_id, files in samples_dict.items():
                 input_files.extend(files)
-
-            log_print(f"Collected {len(input_files)} sequence files from {len(samples_dict)} samples", level="info")
-
+            
+            log_print(f"Collected {len(input_files)} sequence files from {len(samples_dict)} samples", level='info')
+        
         # If input files were collected, override args.input_fastq
         if input_files:
             args.input_fastq = input_files
-
+            
         # Now proceed with the original input_fastq check
         if not args.input_fastq:
-            log_print("ERROR: No input files specified. Use --input-fastq, --samples-file, or --use-metadata", level="error")
+            log_print("ERROR: No input files specified. Use --input-fastq, --samples-file, or --use-metadata", level='error')
             sys.exit(1)
 
     # If only listing files, do that and exit
