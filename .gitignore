@@ -1,7 +1,9 @@
 /test.out/
 /test.out2/
+test.log
 __pycache__/
 *.pyc
 TestScript.sh
 test.log
 /preprocessing/__pycache__/
+.pyc
