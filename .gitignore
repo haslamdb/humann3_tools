@@ -1,2 +1,6 @@
 /test.out/
 /test.out2/
+
+# Ignore Python cache
+__pycache__/
+*.pyc
