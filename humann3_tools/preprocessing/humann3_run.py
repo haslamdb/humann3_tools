@@ -69,17 +69,31 @@ def process_single_sample_humann3(input_file, sample_id=None, output_dir=None,
         'metaphlan': None 
     }
 
+    # First check the main directory for standard HUMAnN3 outputs
     for file in os.listdir(output_dir):
         for output_type in output_files.keys():
             if output_type in file.lower() and file.endswith(".tsv"):
                 output_files[output_type] = os.path.join(output_dir, file)
         
-        # check for metaphlan
-        if "metaphlan_bugs_list" in file.lower() and file.endswith(".tsv"):
-            output_files['metaphlan'] = os.path.join(output_dir, file)
-    
-    logger.info(f"HUMAnN3 completed for sample {sample_id}")
-    return output_files
+        # Recursively search for metaphlan output in all subdirectories
+        for root, dirs, files in os.walk(output_dir):
+            for file in files:
+                if "metaphlan_bugs_list" in file.lower() and file.endswith(".tsv"):
+                    output_files['metaphlan'] = os.path.join(root, file)
+                    logger.info(f"Found MetaPhlAn output file: {os.path.join(root, file)}")
+                    break  # Stop once we find the first matching file
+                    
+        # Log which files were found and which are missing
+        found_files = [k for k, v in output_files.items() if v is not None]
+        missing_files = [k for k, v in output_files.items() if v is None]
+        
+        logger.info(f"Found output files: {', '.join(found_files)}")
+        if missing_files:
+            logger.warning(f"Missing output files: {', '.join(missing_files)}")
+        
+        logger.info(f"HUMAnN3 completed for sample {sample_id}")
+        return output_files
+
 
 # Add support for parallel processing
 @track_peak_memory
@@ -127,10 +141,19 @@ def run_humann3_parallel(input_files, output_dir, threads=1, max_parallel=None,
     results = run_parallel(sample_list, process_single_sample_humann3, 
                           max_workers=max_parallel, **kwargs)
     
+    # Post-process to ensure we found metaphlan files
+    for sample_id, sample_outputs in results.items():
+        # If we didn't find the metaphlan file in the main function, try to find it now
+        if isinstance(sample_outputs, dict) and sample_outputs.get('metaphlan') is None:
+            sample_dir = os.path.join(output_dir, sample_id)
+            if os.path.exists(sample_dir):
+                for root, dirs, files in os.walk(sample_dir):
+                    for file in files:
+                        if "metaphlan_bugs_list" in file.lower() and file.endswith(".tsv"):
+                            sample_outputs['metaphlan'] = os.path.join(root, file)
+                            logger.info(f"Post-process: Found MetaPhlAn output for {sample_id}: {file}")
+                            break
     return results
-
-
-
 def run_humann3(input_files, output_dir, threads=1, nucleotide_db=None, 
                protein_db=None, additional_options=None, logger=None):
     """
@@ -197,14 +220,32 @@ def run_humann3(input_files, output_dir, threads=1, nucleotide_db=None,
         sample_outputs = {
             'genefamilies': None,
             'pathabundance': None,
-            'pathcoverage': None
+            'pathcoverage': None,
+            'metaphlan': None
         }
         
+        # Check main directory first
         for file in os.listdir(sample_output_dir):
             for output_type in sample_outputs.keys():
-                if output_type in file and file.endswith(".tsv"):
+                if output_type in file.lower() and file.endswith(".tsv"):
                     sample_outputs[output_type] = os.path.join(sample_output_dir, file)
         
+        # Recursively search for metaphlan output in subdirectories
+        for root, dirs, files in os.walk(sample_output_dir):
+            for file in files:
+                if "metaphlan_bugs_list" in file.lower() and file.endswith(".tsv"):
+                    sample_outputs['metaphlan'] = os.path.join(root, file)
+                    logger.info(f"Found MetaPhlAn output for {sample_name}: {file}")
+                    break  # Stop after finding the first match
+        
+        # Log which files were found and which are missing
+        found_files = [k for k, v in sample_outputs.items() if v is not None]
+        missing_files = [k for k, v in sample_outputs.items() if v is None]
+        
+        logger.info(f"Sample {sample_name} output files found: {', '.join(found_files)}")
+        if missing_files:
+            logger.warning(f"Sample {sample_name} missing files: {', '.join(missing_files)}")
+            
         output_files[sample_name] = sample_outputs
     
     logger.info(f"HUMAnN3 completed for {len(output_files)} samples")
