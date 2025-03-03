@@ -66,6 +66,9 @@ def find_sample_files(sample_id: str,
             f"{sample_id}.fq.gz",
             f"{sample_id}_*.fastq.gz",
             f"{sample_id}*.fastq.gz"
+            f"{sample_id}_R1.fastq",
+            f"{sample_id}_R1.fastq.gz",
+            f"{sample_id}_*.fastq"
         ]
         
         for pattern in common_patterns:
