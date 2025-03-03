@@ -1,0 +1,332 @@
+2025-03-02 20:44:28,490 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 20:44:28,491 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-02 20:44:28,492 - INFO - Auto-detected sample ID column: SampleName
+2025-03-02 20:44:28,492 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-02 20:44:28,492 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
+2025-03-02 20:44:28,492 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
+2025-03-02 20:44:28,492 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
+2025-03-02 20:44:28,492 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
+2025-03-02 20:44:28,493 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
+2025-03-02 20:44:28,493 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gz, found 0 files
+2025-03-02 20:44:28,493 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq, found 1 files
+2025-03-02 20:44:28,493 - DEBUG - Found 1 files for sample D19G: ['D19G_R1.fastq']
+2025-03-02 20:44:28,494 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-02 20:44:28,494 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
+2025-03-02 20:44:28,494 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
+2025-03-02 20:44:28,494 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
+2025-03-02 20:44:28,494 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
+2025-03-02 20:44:28,494 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
+2025-03-02 20:44:28,495 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gz, found 0 files
+2025-03-02 20:44:28,495 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq, found 1 files
+2025-03-02 20:44:28,495 - DEBUG - Found 1 files for sample D33G: ['D33G_R1.fastq']
+2025-03-02 20:44:28,495 - INFO - Found sequence files for 2 out of 2 samples
+2025-03-02 20:44:28,495 - DEBUG - Sample examples:
+2025-03-02 20:44:28,495 - DEBUG -   D19G: ['D19G_R1.fastq']
+2025-03-02 20:44:28,495 - DEBUG -   D33G: ['D33G_R1.fastq']
+2025-03-02 20:44:28,495 - INFO - Collected 2 sequence files from 2 samples
+2025-03-02 20:44:28,496 - INFO - 
+Available columns in sample key (2):
+2025-03-02 20:44:28,496 - INFO -   1. SampleName
+2025-03-02 20:44:28,496 - INFO -   2.  Group
+2025-03-02 20:44:28,496 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-02 20:44:28,496 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-02 20:44:28,496 - INFO -   1.  Group
+2025-03-02 20:44:28,496 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-02 20:44:30,928 - INFO - Using standard preprocessing pipeline
+2025-03-02 20:44:31,058 - INFO - Starting preprocessing pipeline with 2 input files
+2025-03-02 20:44:31,059 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-02 20:44:31,059 - INFO - HUMAnN3 version: humann v3.9
+2025-03-02 20:44:31,059 - INFO - KneadData output dir: /home/david/Data/TrimmedMSSFiles
+2025-03-02 20:44:31,059 - INFO - HUMAnN3 output dir: /home/david/Documents/Alignments/Humann3Alignments
+2025-03-02 20:44:31,059 - INFO - Starting KneadData step...
+2025-03-02 20:44:31,060 - INFO - Running KneadData: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:44:31,060 - INFO - Running: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:44:31,120 - ERROR - ERROR: Command failed with exit code 2
+2025-03-02 20:44:31,120 - ERROR - Error message: usage: kneaddata [-h] [--version] [-v] [-i1 INPUT1] [-i2 INPUT2]
+                 [-un UNPAIRED] -o OUTPUT_DIR [-s SCRATCH_DIR]
+                 [-db REFERENCE_DB] [--bypass-trim]
+                 [--output-prefix OUTPUT_PREFIX] [-t <1>] [-p <1>]
+                 [-q {phred33,phred64}] [--run-bmtagger] [--bypass-trf]
+                 [--run-trf] [--run-fastqc-start] [--run-fastqc-end]
+                 [--store-temp-output] [--remove-intermediate-output]
+                 [--cat-final-output]
+                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--log LOG]
+                 [--trimmomatic TRIMMOMATIC_PATH] [--run-trim-repetitive]
+                 [--max-memory MAX_MEMORY]
+                 [--trimmomatic-options TRIMMOMATIC_OPTIONS]
+                 [--sequencer-source {NexteraPE,TruSeq2,TruSeq3,none}]
+                 [--bowtie2 BOWTIE2_PATH] [--bowtie2-options BOWTIE2_OPTIONS]
+                 [--decontaminate-pairs {strict,lenient,unpaired}] [--reorder]
+                 [--serial] [--bmtagger BMTAGGER_PATH] [--trf TRF_PATH]
+                 [--match MATCH] [--mismatch MISMATCH] [--delta DELTA]
+                 [--pm PM] [--pi PI] [--minscore MINSCORE]
+                 [--maxperiod MAXPERIOD] [--fastqc FASTQC_PATH]
+kneaddata: error: ambiguous option: --input could match --input1, --input2
+
+2025-03-02 20:44:31,120 - ERROR - Failed command: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:44:31,121 - ERROR - KneadData run failed
+2025-03-02 20:44:31,121 - ERROR - KneadData step failed, stopping pipeline
+2025-03-02 20:44:41,576 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 20:44:41,578 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-02 20:44:41,578 - INFO - Auto-detected sample ID column: SampleName
+2025-03-02 20:44:41,578 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-02 20:44:41,578 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
+2025-03-02 20:44:41,578 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
+2025-03-02 20:44:41,578 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
+2025-03-02 20:44:41,578 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
+2025-03-02 20:44:41,579 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
+2025-03-02 20:44:41,580 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gz, found 0 files
+2025-03-02 20:44:41,580 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq, found 1 files
+2025-03-02 20:44:41,580 - DEBUG - Found 1 files for sample D19G: ['D19G_R1.fastq']
+2025-03-02 20:44:41,580 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-02 20:44:41,580 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
+2025-03-02 20:44:41,580 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
+2025-03-02 20:44:41,580 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
+2025-03-02 20:44:41,580 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
+2025-03-02 20:44:41,581 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
+2025-03-02 20:44:41,581 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gz, found 0 files
+2025-03-02 20:44:41,581 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq, found 1 files
+2025-03-02 20:44:41,581 - DEBUG - Found 1 files for sample D33G: ['D33G_R1.fastq']
+2025-03-02 20:44:41,581 - INFO - Found sequence files for 2 out of 2 samples
+2025-03-02 20:44:41,582 - DEBUG - Sample examples:
+2025-03-02 20:44:41,582 - DEBUG -   D19G: ['D19G_R1.fastq']
+2025-03-02 20:44:41,582 - DEBUG -   D33G: ['D33G_R1.fastq']
+2025-03-02 20:44:41,582 - INFO - Collected 2 sequence files from 2 samples
+2025-03-02 20:44:41,582 - INFO - 
+Available columns in sample key (2):
+2025-03-02 20:44:41,582 - INFO -   1. SampleName
+2025-03-02 20:44:41,582 - INFO -   2.  Group
+2025-03-02 20:44:41,582 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-02 20:44:41,582 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-02 20:44:41,582 - INFO -   1.  Group
+2025-03-02 20:44:41,582 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-02 20:44:43,653 - INFO - Using standard preprocessing pipeline
+2025-03-02 20:44:43,791 - INFO - Starting preprocessing pipeline with 2 input files
+2025-03-02 20:44:43,791 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-02 20:44:43,792 - INFO - HUMAnN3 version: humann v3.9
+2025-03-02 20:44:43,792 - INFO - KneadData output dir: /home/david/Data/TrimmedMSSFiles
+2025-03-02 20:44:43,792 - INFO - HUMAnN3 output dir: /home/david/Documents/Alignments/Humann3Alignments
+2025-03-02 20:44:43,792 - INFO - Starting KneadData step...
+2025-03-02 20:44:43,792 - INFO - Running KneadData: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:44:43,793 - INFO - Running: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:44:43,854 - ERROR - ERROR: Command failed with exit code 2
+2025-03-02 20:44:43,854 - ERROR - Error message: usage: kneaddata [-h] [--version] [-v] [-i1 INPUT1] [-i2 INPUT2]
+                 [-un UNPAIRED] -o OUTPUT_DIR [-s SCRATCH_DIR]
+                 [-db REFERENCE_DB] [--bypass-trim]
+                 [--output-prefix OUTPUT_PREFIX] [-t <1>] [-p <1>]
+                 [-q {phred33,phred64}] [--run-bmtagger] [--bypass-trf]
+                 [--run-trf] [--run-fastqc-start] [--run-fastqc-end]
+                 [--store-temp-output] [--remove-intermediate-output]
+                 [--cat-final-output]
+                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--log LOG]
+                 [--trimmomatic TRIMMOMATIC_PATH] [--run-trim-repetitive]
+                 [--max-memory MAX_MEMORY]
+                 [--trimmomatic-options TRIMMOMATIC_OPTIONS]
+                 [--sequencer-source {NexteraPE,TruSeq2,TruSeq3,none}]
+                 [--bowtie2 BOWTIE2_PATH] [--bowtie2-options BOWTIE2_OPTIONS]
+                 [--decontaminate-pairs {strict,lenient,unpaired}] [--reorder]
+                 [--serial] [--bmtagger BMTAGGER_PATH] [--trf TRF_PATH]
+                 [--match MATCH] [--mismatch MISMATCH] [--delta DELTA]
+                 [--pm PM] [--pi PI] [--minscore MINSCORE]
+                 [--maxperiod MAXPERIOD] [--fastqc FASTQC_PATH]
+kneaddata: error: ambiguous option: --input could match --input1, --input2
+
+2025-03-02 20:44:43,855 - ERROR - Failed command: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:44:43,855 - ERROR - KneadData run failed
+2025-03-02 20:44:43,855 - ERROR - KneadData step failed, stopping pipeline
+2025-03-02 20:51:25,170 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 20:51:25,172 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-02 20:51:25,172 - INFO - Auto-detected sample ID column: SampleName
+2025-03-02 20:51:25,173 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-02 20:51:25,173 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
+2025-03-02 20:51:25,173 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
+2025-03-02 20:51:25,173 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
+2025-03-02 20:51:25,173 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
+2025-03-02 20:51:25,173 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
+2025-03-02 20:51:25,174 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gz, found 0 files
+2025-03-02 20:51:25,174 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq, found 1 files
+2025-03-02 20:51:25,174 - DEBUG - Found 1 files for sample D19G: ['D19G_R1.fastq']
+2025-03-02 20:51:25,174 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-02 20:51:25,174 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
+2025-03-02 20:51:25,174 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
+2025-03-02 20:51:25,175 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
+2025-03-02 20:51:25,175 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
+2025-03-02 20:51:25,175 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
+2025-03-02 20:51:25,176 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gz, found 0 files
+2025-03-02 20:51:25,176 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq, found 1 files
+2025-03-02 20:51:25,176 - DEBUG - Found 1 files for sample D33G: ['D33G_R1.fastq']
+2025-03-02 20:51:25,176 - INFO - Found sequence files for 2 out of 2 samples
+2025-03-02 20:51:25,176 - DEBUG - Sample examples:
+2025-03-02 20:51:25,176 - DEBUG -   D19G: ['D19G_R1.fastq']
+2025-03-02 20:51:25,176 - DEBUG -   D33G: ['D33G_R1.fastq']
+2025-03-02 20:51:25,176 - INFO - Collected 2 sequence files from 2 samples
+2025-03-02 20:51:25,176 - INFO - 
+Available columns in sample key (2):
+2025-03-02 20:51:25,177 - INFO -   1. SampleName
+2025-03-02 20:51:25,177 - INFO -   2.  Group
+2025-03-02 20:51:25,177 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-02 20:51:25,177 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-02 20:51:25,177 - INFO -   1.  Group
+2025-03-02 20:51:25,177 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-02 20:51:27,523 - INFO - Using standard preprocessing pipeline
+2025-03-02 20:51:27,671 - INFO - Starting preprocessing pipeline with 2 input files
+2025-03-02 20:51:27,671 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-02 20:51:27,671 - INFO - HUMAnN3 version: humann v3.9
+2025-03-02 20:51:27,671 - INFO - KneadData output dir: /home/david/Data/TrimmedMSSFiles
+2025-03-02 20:51:27,672 - INFO - HUMAnN3 output dir: /home/david/Documents/Alignments/Humann3Alignments
+2025-03-02 20:51:27,672 - INFO - Starting KneadData step...
+2025-03-02 20:51:27,672 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:51:27,672 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:51:27,735 - ERROR - ERROR: Command failed with exit code 1
+2025-03-02 20:51:27,735 - ERROR - Error message: Traceback (most recent call last):
+  File "/home/david/miniconda3/envs/biobakery3/bin/kneaddata", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/kneaddata/knead_data.py", line 454, in main
+    args = update_configuration(args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/kneaddata/knead_data.py", line 331, in update_configuration
+    utilities.is_file_readable(args.input[0],exit_on_error=True)
+                               ~~~~~~~~~~^^^
+IndexError: list index out of range
+
+2025-03-02 20:51:27,735 - ERROR - Failed command: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:51:27,736 - ERROR - KneadData run failed
+2025-03-02 20:51:27,736 - ERROR - KneadData step failed, stopping pipeline
+2025-03-02 20:54:32,733 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 20:54:32,735 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-02 20:54:32,735 - INFO - Auto-detected sample ID column: SampleName
+2025-03-02 20:54:32,735 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-02 20:54:32,735 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
+2025-03-02 20:54:32,735 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
+2025-03-02 20:54:32,735 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
+2025-03-02 20:54:32,736 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
+2025-03-02 20:54:32,736 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
+2025-03-02 20:54:32,737 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gz, found 0 files
+2025-03-02 20:54:32,737 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq, found 1 files
+2025-03-02 20:54:32,737 - DEBUG - Found 1 files for sample D19G: ['D19G_R1.fastq']
+2025-03-02 20:54:32,737 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-02 20:54:32,737 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
+2025-03-02 20:54:32,737 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
+2025-03-02 20:54:32,737 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
+2025-03-02 20:54:32,737 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
+2025-03-02 20:54:32,738 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
+2025-03-02 20:54:32,739 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gz, found 0 files
+2025-03-02 20:54:32,739 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq, found 1 files
+2025-03-02 20:54:32,739 - DEBUG - Found 1 files for sample D33G: ['D33G_R1.fastq']
+2025-03-02 20:54:32,739 - INFO - Found sequence files for 2 out of 2 samples
+2025-03-02 20:54:32,739 - DEBUG - Sample examples:
+2025-03-02 20:54:32,739 - DEBUG -   D19G: ['D19G_R1.fastq']
+2025-03-02 20:54:32,739 - DEBUG -   D33G: ['D33G_R1.fastq']
+2025-03-02 20:54:32,739 - INFO - Collected 2 sequence files from 2 samples
+2025-03-02 20:54:32,739 - INFO - 
+Available columns in sample key (2):
+2025-03-02 20:54:32,740 - INFO -   1. SampleName
+2025-03-02 20:54:32,740 - INFO -   2.  Group
+2025-03-02 20:54:32,740 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-02 20:54:32,740 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-02 20:54:32,740 - INFO -   1.  Group
+2025-03-02 20:54:32,740 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-02 20:54:35,272 - INFO - Using standard preprocessing pipeline
+2025-03-02 20:54:35,421 - INFO - Starting preprocessing pipeline with 2 input files
+2025-03-02 20:54:35,421 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-02 20:54:35,421 - INFO - HUMAnN3 version: humann v3.9
+2025-03-02 20:54:35,421 - INFO - KneadData output dir: /home/david/Data/TrimmedMSSFiles
+2025-03-02 20:54:35,421 - INFO - HUMAnN3 output dir: /home/david/Documents/Alignments/Humann3Alignments
+2025-03-02 20:54:35,422 - INFO - Starting KneadData step...
+2025-03-02 20:54:35,422 - INFO - Running KneadData: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:54:35,422 - INFO - Running: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:54:35,482 - ERROR - ERROR: Command failed with exit code 2
+2025-03-02 20:54:35,482 - ERROR - Error message: usage: kneaddata [-h] [--version] [-v] [-i1 INPUT1] [-i2 INPUT2]
+                 [-un UNPAIRED] -o OUTPUT_DIR [-s SCRATCH_DIR]
+                 [-db REFERENCE_DB] [--bypass-trim]
+                 [--output-prefix OUTPUT_PREFIX] [-t <1>] [-p <1>]
+                 [-q {phred33,phred64}] [--run-bmtagger] [--bypass-trf]
+                 [--run-trf] [--run-fastqc-start] [--run-fastqc-end]
+                 [--store-temp-output] [--remove-intermediate-output]
+                 [--cat-final-output]
+                 [--log-level {DEBUG,INFO,WARNING,ERROR,CRITICAL}] [--log LOG]
+                 [--trimmomatic TRIMMOMATIC_PATH] [--run-trim-repetitive]
+                 [--max-memory MAX_MEMORY]
+                 [--trimmomatic-options TRIMMOMATIC_OPTIONS]
+                 [--sequencer-source {NexteraPE,TruSeq2,TruSeq3,none}]
+                 [--bowtie2 BOWTIE2_PATH] [--bowtie2-options BOWTIE2_OPTIONS]
+                 [--decontaminate-pairs {strict,lenient,unpaired}] [--reorder]
+                 [--serial] [--bmtagger BMTAGGER_PATH] [--trf TRF_PATH]
+                 [--match MATCH] [--mismatch MISMATCH] [--delta DELTA]
+                 [--pm PM] [--pi PI] [--minscore MINSCORE]
+                 [--maxperiod MAXPERIOD] [--fastqc FASTQC_PATH]
+kneaddata: error: ambiguous option: --input could match --input1, --input2
+
+2025-03-02 20:54:35,482 - ERROR - Failed command: kneaddata --input /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:54:35,483 - ERROR - KneadData run failed
+2025-03-02 20:54:35,483 - ERROR - KneadData step failed, stopping pipeline
+2025-03-02 20:57:52,304 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-02 20:57:52,306 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-02 20:57:52,306 - INFO - Auto-detected sample ID column: SampleName
+2025-03-02 20:57:52,307 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-02 20:57:52,307 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
+2025-03-02 20:57:52,307 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
+2025-03-02 20:57:52,307 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
+2025-03-02 20:57:52,307 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
+2025-03-02 20:57:52,307 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
+2025-03-02 20:57:52,308 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gz, found 0 files
+2025-03-02 20:57:52,308 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq, found 1 files
+2025-03-02 20:57:52,308 - DEBUG - Found 1 files for sample D19G: ['D19G_R1.fastq']
+2025-03-02 20:57:52,308 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-02 20:57:52,308 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
+2025-03-02 20:57:52,308 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
+2025-03-02 20:57:52,309 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
+2025-03-02 20:57:52,309 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
+2025-03-02 20:57:52,309 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
+2025-03-02 20:57:52,310 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gz, found 0 files
+2025-03-02 20:57:52,310 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq, found 1 files
+2025-03-02 20:57:52,310 - DEBUG - Found 1 files for sample D33G: ['D33G_R1.fastq']
+2025-03-02 20:57:52,310 - INFO - Found sequence files for 2 out of 2 samples
+2025-03-02 20:57:52,310 - DEBUG - Sample examples:
+2025-03-02 20:57:52,310 - DEBUG -   D19G: ['D19G_R1.fastq']
+2025-03-02 20:57:52,310 - DEBUG -   D33G: ['D33G_R1.fastq']
+2025-03-02 20:57:52,310 - INFO - Collected 2 sequence files from 2 samples
+2025-03-02 20:57:52,310 - INFO - 
+Available columns in sample key (2):
+2025-03-02 20:57:52,311 - INFO -   1. SampleName
+2025-03-02 20:57:52,311 - INFO -   2.  Group
+2025-03-02 20:57:52,311 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-02 20:57:52,311 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-02 20:57:52,311 - INFO -   1.  Group
+2025-03-02 20:57:52,311 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-02 20:57:54,390 - INFO - Using standard preprocessing pipeline
+2025-03-02 20:57:54,548 - INFO - Starting preprocessing pipeline with 2 input files
+2025-03-02 20:57:54,549 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-02 20:57:54,549 - INFO - HUMAnN3 version: humann v3.9
+2025-03-02 20:57:54,549 - INFO - KneadData output dir: /home/david/Data/TrimmedMSSFiles
+2025-03-02 20:57:54,549 - INFO - HUMAnN3 output dir: /home/david/Documents/Alignments/Humann3Alignments
+2025-03-02 20:57:54,549 - INFO - Starting KneadData step...
+2025-03-02 20:57:54,550 - INFO - Running KneadData: kneaddata -i1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq -o /home/david/Data/TrimmedMSSFiles -t 24 -db /home/david/Databases/KneadDataDB -db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:57:54,550 - INFO - Running: kneaddata -i1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq -o /home/david/Data/TrimmedMSSFiles -t 24 -db /home/david/Databases/KneadDataDB -db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:57:54,610 - ERROR - ERROR: Command failed with exit code 1
+2025-03-02 20:57:54,610 - ERROR - Error message: Traceback (most recent call last):
+  File "/home/david/miniconda3/envs/biobakery3/bin/kneaddata", line 8, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/kneaddata/knead_data.py", line 454, in main
+    args = update_configuration(args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/kneaddata/knead_data.py", line 331, in update_configuration
+    utilities.is_file_readable(args.input[0],exit_on_error=True)
+                               ~~~~~~~~~~^^^
+IndexError: list index out of range
+
+2025-03-02 20:57:54,611 - ERROR - Failed command: kneaddata -i1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq -o /home/david/Data/TrimmedMSSFiles -t 24 -db /home/david/Databases/KneadDataDB -db /home/david/Databases/BT2ContaminantDB
+2025-03-02 20:57:54,611 - ERROR - KneadData run failed
+2025-03-02 20:57:54,611 - ERROR - KneadData step failed, stopping pipeline
