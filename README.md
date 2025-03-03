@@ -56,7 +56,7 @@ It is **highly recommended** to use a Conda environment to manage the dependenci
     If the environment is not activated automatically, you can activate it manually:
 
     ```bash
-    conda activate humann3_env
+    conda activate humann3_tools
     ```
     
 4. **Verify the installation**
@@ -65,7 +65,7 @@ It is **highly recommended** to use a Conda environment to manage the dependenci
     humann3-tools --help
     ```
 
-**Note:** You only need to run `conda_setup.py` once. To use `humann3_tools` in the future, just activate the environment using `conda activate humann3_env`.
+**Note:** You only need to run `conda_setup.py` once. To use `humann3_tools` in the future, just activate the environment using `conda activate humann3_tools`.
 
 ### Standard Installation
 
