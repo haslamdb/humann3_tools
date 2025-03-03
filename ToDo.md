@@ -3,18 +3,12 @@
 # TODO: Issues and Fixes for humann3_tools
 
 ## 🛠️ Bugs to Fix
-- [ ] --paired flag not working in from cli because kneaddata doesn't acccept paired flag
+- [ ] --paired flag not working because kneaddata fails with paried
 - [ ] Move kneaddata output files and humann output files to new directories then get rid of intermediate files
-- [ ] Specify that sample_file requires path to files, like this:
-		sample1   /path/to/file1_R1.fastq /path/to/file1_R2.fastq
-		sample2   /path/to/file2_R1.fastq /path/to/file2_R2.fastq
+
 `
 
 ## 🔧 Features to Improve
-- [ ] Modify README.md to indicate required inputs
-- [ ] Modify README.md to show examples of --samples-file
-- [ ] There are redundancies in the sample input. For example, below is a command
-        that contains several ways to get the input files, but I think it's just using the --input-fastq flag.
 - [ ] Check if intermediate files already exist before performing steps in the analysis
         e.g. if Kneaddata output files already exist, skip kneaddata
 
