@@ -5,6 +5,8 @@
 ## 🛠️ Bugs to Fix
 - [ ] --paired flag not working because kneaddata fails with paried
 - [ ] Move kneaddata output files and humann output files to new directories then get rid of intermediate files
+- [ ] Change --paired flag to --un (unpaired)
+- [ ] Add flag for --decontaminate-pairs strict
 
 `
 

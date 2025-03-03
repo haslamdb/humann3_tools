@@ -205,14 +205,16 @@ def run_kneaddata(input_files, output_dir, threads=1, reference_dbs=None,
             for db in reference_dbs:
                 cmd.extend(["--reference-db", db])
     
-    # Add any additional options
     if additional_options:
         for key, value in additional_options.items():
+            if key == 'paired':
+                continue
+                
             if value is True:
                 cmd.append(f"--{key}")
             elif value is not None:
                 cmd.extend([f"--{key}", str(value)])
-    
+
     # Run KneadData
     logger.info(f"Running KneadData: {' '.join(cmd)}")
     success = run_cmd(cmd, exit_on_error=False)

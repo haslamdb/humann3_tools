@@ -1,172 +1,61 @@
-2025-03-02 22:30:13,604 - INFO - Starting HUMAnN3 Tools Pipeline
-2025-03-02 22:30:13,606 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
-2025-03-02 22:30:13,606 - INFO - Auto-detected sample ID column: SampleName
-2025-03-02 22:30:13,606 - DEBUG - Looking for files for sample D19G using pattern/suffix
-2025-03-02 22:30:13,606 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
-2025-03-02 22:30:13,606 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
-2025-03-02 22:30:13,606 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
-2025-03-02 22:30:13,606 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
-2025-03-02 22:30:13,607 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
-2025-03-02 22:30:13,608 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gz, found 0 files
-2025-03-02 22:30:13,608 - WARNING - No sequence files found for sample D19G
-2025-03-02 22:30:13,608 - DEBUG - Looking for files for sample D33G using pattern/suffix
-2025-03-02 22:30:13,608 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
-2025-03-02 22:30:13,608 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
-2025-03-02 22:30:13,608 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
-2025-03-02 22:30:13,608 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
-2025-03-02 22:30:13,609 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
-2025-03-02 22:30:13,609 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gz, found 0 files
-2025-03-02 22:30:13,609 - WARNING - No sequence files found for sample D33G
-2025-03-02 22:30:13,609 - INFO - Found sequence files for 0 out of 2 samples
-2025-03-02 22:30:13,609 - INFO - Collected 0 sequence files from 0 samples
-2025-03-02 22:30:13,609 - ERROR - ERROR: No input files specified. Use --input-fastq, --samples-file, or --use-metadata
-2025-03-02 22:32:31,346 - INFO - Starting HUMAnN3 Tools Pipeline
-2025-03-02 22:32:31,348 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
-2025-03-02 22:32:31,348 - INFO - Auto-detected sample ID column: SampleName
-2025-03-02 22:32:31,348 - DEBUG - Looking for files for sample D19G using pattern/suffix
-2025-03-02 22:32:31,348 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
-2025-03-02 22:32:31,348 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
-2025-03-02 22:32:31,348 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
-2025-03-02 22:32:31,348 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
-2025-03-02 22:32:31,349 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
-2025-03-02 22:32:31,350 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gzD19G_R1.fastq, found 0 files
-2025-03-02 22:32:31,350 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq, found 1 files
-2025-03-02 22:32:31,350 - DEBUG - Found 1 files for sample D19G: ['D19G_R2.fastq']
-2025-03-02 22:32:31,350 - DEBUG - Looking for files for sample D33G using pattern/suffix
-2025-03-02 22:32:31,350 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
-2025-03-02 22:32:31,350 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
-2025-03-02 22:32:31,350 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
-2025-03-02 22:32:31,350 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
-2025-03-02 22:32:31,351 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
-2025-03-02 22:32:31,351 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gzD33G_R1.fastq, found 0 files
-2025-03-02 22:32:31,351 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq, found 1 files
-2025-03-02 22:32:31,351 - DEBUG - Found 1 files for sample D33G: ['D33G_R2.fastq']
-2025-03-02 22:32:31,352 - INFO - Found sequence files for 2 out of 2 samples
-2025-03-02 22:32:31,352 - DEBUG - Sample examples:
-2025-03-02 22:32:31,352 - DEBUG -   D19G: ['D19G_R2.fastq']
-2025-03-02 22:32:31,352 - DEBUG -   D33G: ['D33G_R2.fastq']
-2025-03-02 22:32:31,352 - INFO - Collected 2 sequence files from 2 samples
-2025-03-02 22:32:31,352 - INFO - 
+2025-03-03 06:17:32,252 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-03 06:17:32,254 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-03 06:17:32,254 - INFO - Auto-detected sample ID column: SampleName
+2025-03-03 06:17:32,255 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-03 06:17:32,255 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
+2025-03-03 06:17:32,255 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
+2025-03-03 06:17:32,255 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
+2025-03-03 06:17:32,255 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
+2025-03-03 06:17:32,256 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
+2025-03-03 06:17:32,256 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gzD19G_R1.fastq, found 0 files
+2025-03-03 06:17:32,256 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq.gz, found 0 files
+2025-03-03 06:17:32,257 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq, found 1 files
+2025-03-03 06:17:32,257 - DEBUG - Found 1 files for sample D19G: ['D19G_R1.fastq']
+2025-03-03 06:17:32,257 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-03 06:17:32,257 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
+2025-03-03 06:17:32,257 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
+2025-03-03 06:17:32,257 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
+2025-03-03 06:17:32,257 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
+2025-03-03 06:17:32,258 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
+2025-03-03 06:17:32,259 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gzD33G_R1.fastq, found 0 files
+2025-03-03 06:17:32,259 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq.gz, found 0 files
+2025-03-03 06:17:32,259 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq, found 2 files
+2025-03-03 06:17:32,259 - DEBUG - Found 2 files for sample D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 06:17:32,259 - INFO - Found sequence files for 2 out of 2 samples
+2025-03-03 06:17:32,259 - DEBUG - Sample examples:
+2025-03-03 06:17:32,259 - DEBUG -   D19G: ['D19G_R1.fastq']
+2025-03-03 06:17:32,259 - DEBUG -   D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 06:17:32,260 - INFO - Collected 3 sequence files from 2 samples
+2025-03-03 06:17:32,260 - INFO - 
 Available columns in sample key (2):
-2025-03-02 22:32:31,352 - INFO -   1. SampleName
-2025-03-02 22:32:31,352 - INFO -   2.  Group
-2025-03-02 22:32:31,352 - INFO - 
+2025-03-03 06:17:32,260 - INFO -   1. SampleName
+2025-03-03 06:17:32,260 - INFO -   2.  Group
+2025-03-03 06:17:32,260 - INFO - 
 Automatic selection: 'SampleName' as sample identifier
-2025-03-02 22:32:31,352 - INFO - 
+2025-03-03 06:17:32,260 - INFO - 
 Select columns for grouping (optional). Press Enter to skip:
-2025-03-02 22:32:31,352 - INFO -   1.  Group
-2025-03-02 22:32:31,353 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
-2025-03-02 22:32:33,693 - INFO - Using standard preprocessing pipeline
-2025-03-02 22:32:33,841 - INFO - Starting preprocessing pipeline with 2 input files
-2025-03-02 22:32:33,841 - INFO - KneadData version: kneaddata v0.12.2
-2025-03-02 22:32:33,841 - INFO - HUMAnN3 version: humann v3.9
-2025-03-02 22:32:33,842 - INFO - Starting KneadData step...
-2025-03-02 22:32:33,842 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --input2 /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --output test.out/processed_files/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
-2025-03-02 22:32:33,842 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --input2 /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --output test.out/processed_files/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
-2025-03-02 22:40:56,636 - INFO - Starting HUMAnN3 Tools Pipeline
-2025-03-02 22:40:56,639 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
-2025-03-02 22:40:56,640 - INFO - Auto-detected sample ID column: SampleName
-2025-03-02 22:40:56,640 - DEBUG - Looking for files for sample D19G using pattern/suffix
-2025-03-02 22:40:56,640 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
-2025-03-02 22:40:56,641 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
-2025-03-02 22:40:56,641 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
-2025-03-02 22:40:56,641 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
-2025-03-02 22:40:56,642 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gzD19G*.fastq, found 0 files
-2025-03-02 22:40:56,642 - WARNING - No sequence files found for sample D19G
-2025-03-02 22:40:56,643 - DEBUG - Looking for files for sample D33G using pattern/suffix
-2025-03-02 22:40:56,643 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
-2025-03-02 22:40:56,643 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
-2025-03-02 22:40:56,643 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
-2025-03-02 22:40:56,643 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
-2025-03-02 22:40:56,645 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gzD33G*.fastq, found 0 files
-2025-03-02 22:40:56,645 - WARNING - No sequence files found for sample D33G
-2025-03-02 22:40:56,645 - INFO - Found sequence files for 0 out of 2 samples
-2025-03-02 22:40:56,645 - INFO - Collected 0 sequence files from 0 samples
-2025-03-02 22:40:56,645 - ERROR - ERROR: No input files specified. Use --input-fastq, --samples-file, or --use-metadata
-2025-03-02 22:41:39,349 - INFO - Starting HUMAnN3 Tools Pipeline
-2025-03-02 22:41:39,354 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
-2025-03-02 22:41:39,354 - INFO - Auto-detected sample ID column: SampleName
-2025-03-02 22:41:39,355 - DEBUG - Looking for files for sample D19G using pattern/suffix
-2025-03-02 22:41:39,355 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
-2025-03-02 22:41:39,355 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
-2025-03-02 22:41:39,355 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
-2025-03-02 22:41:39,356 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
-2025-03-02 22:41:39,357 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
-2025-03-02 22:41:39,359 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gzD19G_R1.fastq, found 0 files
-2025-03-02 22:41:39,359 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq.gz, found 0 files
-2025-03-02 22:41:39,361 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
-2025-03-02 22:41:39,361 - WARNING - No sequence files found for sample D19G
-2025-03-02 22:41:39,361 - DEBUG - Looking for files for sample D33G using pattern/suffix
-2025-03-02 22:41:39,362 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
-2025-03-02 22:41:39,362 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
-2025-03-02 22:41:39,362 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
-2025-03-02 22:41:39,362 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
-2025-03-02 22:41:39,364 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
-2025-03-02 22:41:39,366 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gzD33G_R1.fastq, found 0 files
-2025-03-02 22:41:39,366 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq.gz, found 0 files
-2025-03-02 22:41:39,367 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
-2025-03-02 22:41:39,368 - WARNING - No sequence files found for sample D33G
-2025-03-02 22:41:39,368 - INFO - Found sequence files for 0 out of 2 samples
-2025-03-02 22:41:39,368 - INFO - Collected 0 sequence files from 0 samples
-2025-03-02 22:41:39,368 - ERROR - ERROR: No input files specified. Use --input-fastq, --samples-file, or --use-metadata
-2025-03-02 22:42:43,852 - INFO - Starting HUMAnN3 Tools Pipeline
-2025-03-02 22:42:43,854 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
-2025-03-02 22:42:43,854 - INFO - Auto-detected sample ID column: SampleName
-2025-03-02 22:42:43,854 - DEBUG - Looking for files for sample D19G using pattern/suffix
-2025-03-02 22:42:43,854 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
-2025-03-02 22:42:43,854 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
-2025-03-02 22:42:43,854 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
-2025-03-02 22:42:43,854 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
-2025-03-02 22:42:43,855 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
-2025-03-02 22:42:43,856 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gzD19G_R1.fastq, found 0 files
-2025-03-02 22:42:43,856 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq.gz, found 0 files
-2025-03-02 22:42:43,856 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq, found 2 files
-2025-03-02 22:42:43,856 - DEBUG - Found 2 files for sample D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
-2025-03-02 22:42:43,857 - DEBUG - Looking for files for sample D33G using pattern/suffix
-2025-03-02 22:42:43,857 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
-2025-03-02 22:42:43,857 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
-2025-03-02 22:42:43,857 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
-2025-03-02 22:42:43,857 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
-2025-03-02 22:42:43,858 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
-2025-03-02 22:42:43,858 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gzD33G_R1.fastq, found 0 files
-2025-03-02 22:42:43,858 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq.gz, found 0 files
-2025-03-02 22:42:43,859 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq, found 2 files
-2025-03-02 22:42:43,859 - DEBUG - Found 2 files for sample D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
-2025-03-02 22:42:43,859 - INFO - Found sequence files for 2 out of 2 samples
-2025-03-02 22:42:43,859 - DEBUG - Sample examples:
-2025-03-02 22:42:43,859 - DEBUG -   D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
-2025-03-02 22:42:43,859 - DEBUG -   D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
-2025-03-02 22:42:43,859 - INFO - Collected 4 sequence files from 2 samples
-2025-03-02 22:42:43,860 - INFO - 
-Available columns in sample key (2):
-2025-03-02 22:42:43,860 - INFO -   1. SampleName
-2025-03-02 22:42:43,860 - INFO -   2.  Group
-2025-03-02 22:42:43,860 - INFO - 
-Automatic selection: 'SampleName' as sample identifier
-2025-03-02 22:42:43,860 - INFO - 
-Select columns for grouping (optional). Press Enter to skip:
-2025-03-02 22:42:43,860 - INFO -   1.  Group
-2025-03-02 22:42:43,860 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
-2025-03-02 22:42:46,235 - INFO - Using standard preprocessing pipeline
-2025-03-02 22:42:46,404 - INFO - Starting preprocessing pipeline with 4 input files
-2025-03-02 22:42:46,404 - INFO - KneadData version: kneaddata v0.12.2
-2025-03-02 22:42:46,404 - INFO - HUMAnN3 version: humann v3.9
-2025-03-02 22:42:46,405 - INFO - Starting KneadData step...
-2025-03-02 22:42:46,405 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out2/processed_files/kneaddata_output --threads 12 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
-2025-03-02 22:42:46,405 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out2/processed_files/kneaddata_output --threads 12 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
-2025-03-02 22:45:55,515 - DEBUG - Command stdout: Reformatting file sequence identifiers ...
+2025-03-03 06:17:32,260 - INFO -   1.  Group
+2025-03-03 06:17:32,260 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-03 06:17:34,983 - INFO - Using standard preprocessing pipeline
+2025-03-03 06:17:35,138 - INFO - Starting preprocessing pipeline with 3 input files
+2025-03-03 06:17:35,138 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-03 06:17:35,138 - INFO - HUMAnN3 version: humann v3.9
+2025-03-03 06:17:35,138 - INFO - Starting KneadData step...
+2025-03-03 06:17:35,139 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --output test.out2/processed_files/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-03 06:17:35,139 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --output test.out2/processed_files/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-03 06:31:26,510 - DEBUG - Command stdout: Reformatting file sequence identifiers ...
 
 Reformatting file sequence identifiers ...
 
 Reordering read identifiers ...
 
-Initial number of reads ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/reordered__eutg4le_reformatted_identifiers6dlh6hn3_D19G_R2 ): 10644848.0
-Initial number of reads ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/reordered_se3ixz9b_reformatted_identifiersqj8rsykp_D33G_R2 ): 9444109.0
+Initial number of reads ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/reordered_r5eb16wg_reformatted_identifiersyz5u6rif_D19G_R1 ): 10644848.0
+Initial number of reads ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/reordered__uvvo9qe_reformatted_identifiersmbzrchj4_D33G_R1 ): 9444109.0
 Running Trimmomatic ... 
-Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata.trimmed.1.fastq ): 4544391.0
-Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata.trimmed.2.fastq ): 4544391.0
-Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata.trimmed.single.1.fastq ): 1909562.0
-Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata.trimmed.single.2.fastq ): 2092662.0
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata.trimmed.1.fastq ): 4846425.0
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata.trimmed.2.fastq ): 4846425.0
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata.trimmed.single.1.fastq ): 1684348.0
+Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata.trimmed.single.2.fastq ): 2151303.0
 Running trf ... 
 Running trf ... 
 Running trf ... 
@@ -174,66 +63,18 @@ Running trf ...
 Decontaminating ...
 Running bowtie2 ... 
 Running bowtie2 ... 
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_hg_39_bowtie2_paired_clean_1.fastq ): 0.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_hg_39_bowtie2_paired_clean_2.fastq ): 0.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_ContaminantIndex_bowtie2_paired_clean_1.fastq ): 0.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_ContaminantIndex_bowtie2_paired_clean_2.fastq ): 0.0
-Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_paired_1.fastq ): 0.0
-Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_paired_2.fastq ): 0.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_hg_39_bowtie2_unmatched_1_clean.fastq ): 274895.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_ContaminantIndex_bowtie2_unmatched_1_clean.fastq ): 272534.0
-Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_unmatched_1.fastq ): 272534.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_hg_39_bowtie2_unmatched_2_clean.fastq ): 3681295.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_ContaminantIndex_bowtie2_unmatched_2_clean.fastq ): 3667550.0
-Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_unmatched_2.fastq ): 3667550.0
-
-Final output files created: 
-/home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_paired_1.fastq
-/home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_paired_2.fastq
-/home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_unmatched_1.fastq
-/home/david/Documents/Code/humann3_analysis/test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_unmatched_2.fastq
-
-
-2025-03-02 22:45:55,516 - INFO - KneadData completed with 6 output files
-2025-03-02 22:45:55,516 - INFO - KneadData completed successfully with 6 output files
-2025-03-02 22:45:55,517 - INFO - After filtering, 2 files will be used for HUMAnN3
-2025-03-02 22:45:55,517 - INFO - Preparing KneadData outputs for HUMAnN3...
-2025-03-02 22:45:55,517 - INFO - Processing KneadData output file: D19G_R2_kneaddata_paired_2.fastq (Size: 0 bytes)
-2025-03-02 22:45:55,517 - WARNING - Skipping empty file: test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_paired_2.fastq
-2025-03-02 22:45:55,517 - INFO - Processing KneadData output file: D19G_R2_kneaddata_paired_1.fastq (Size: 0 bytes)
-2025-03-02 22:45:55,517 - WARNING - Skipping empty file: test.out/processed_files/kneaddata_output/D19G_R2_kneaddata_paired_1.fastq
-2025-03-02 22:45:55,518 - INFO - Prepared 0 input files for HUMAnN3
-2025-03-02 22:45:55,518 - ERROR - No valid input files prepared for HUMAnN3
-2025-03-02 23:00:47,352 - DEBUG - Command stdout: Reformatting file sequence identifiers ...
-
-Reformatting file sequence identifiers ...
-
-Initial number of reads ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/reformatted_identifiersxx4dn183_D19G_R1 ): 10644848.0
-Initial number of reads ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/reformatted_identifierslq3w_cuk_D19G_R2 ): 10644848.0
-Running Trimmomatic ... 
-Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata.trimmed.1.fastq ): 6961227.0
-Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata.trimmed.2.fastq ): 6961227.0
-Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata.trimmed.single.1.fastq ): 346202.0
-Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata.trimmed.single.2.fastq ): 264206.0
-Running trf ... 
-Running trf ... 
-Running trf ... 
-Running trf ... 
-Decontaminating ...
-Running bowtie2 ... 
-Running bowtie2 ... 
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_clean_1.fastq ): 298152.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_clean_2.fastq ): 298152.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_1.fastq ): 295360.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_2.fastq ): 295360.0
-Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq ): 295360.0
-Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_paired_2.fastq ): 295360.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_unmatched_1_clean.fastq ): 16735.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_1_clean.fastq ): 16566.0
-Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_unmatched_1.fastq ): 16566.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_unmatched_2_clean.fastq ): 9093.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_2_clean.fastq ): 9000.0
-Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_unmatched_2.fastq ): 9000.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_clean_1.fastq ): 0.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_clean_2.fastq ): 0.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_1.fastq ): 0.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_2.fastq ): 0.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq ): 0.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_paired_2.fastq ): 0.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_unmatched_1_clean.fastq ): 281950.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_1_clean.fastq ): 279529.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_unmatched_1.fastq ): 279529.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_unmatched_2_clean.fastq ): 3995539.0
+Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_2_clean.fastq ): 3980435.0
+Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_unmatched_2.fastq ): 3980435.0
 
 Final output files created: 
 /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq
@@ -242,209 +83,67 @@ Final output files created:
 /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_unmatched_2.fastq
 
 
-2025-03-02 23:00:47,352 - INFO - KneadData completed with 6 output files
-2025-03-02 23:00:47,352 - INFO - KneadData completed successfully with 6 output files
-2025-03-02 23:00:47,352 - INFO - After filtering, 2 files will be used for HUMAnN3
-2025-03-02 23:00:47,353 - INFO - Preparing KneadData outputs for HUMAnN3...
-2025-03-02 23:00:47,353 - INFO - Processing KneadData output file: D19G_R1_kneaddata_paired_1.fastq (Size: 92902901 bytes)
-2025-03-02 23:00:47,353 - INFO - Processing KneadData output file: D19G_R1_kneaddata_paired_2.fastq (Size: 92862623 bytes)
-2025-03-02 23:00:47,353 - INFO - Sample D19G_R1_kneaddata has 2 KneadData output files
-2025-03-02 23:00:47,353 - INFO - Using 2 file(s) directly for sample D19G_R1_kneaddata
-2025-03-02 23:00:47,353 - INFO - Prepared 2 input files for HUMAnN3
-2025-03-02 23:00:47,353 - INFO - Validated HUMAnN3 input file: D19G_R1_kneaddata_paired_1.fastq (Size: 92902901 bytes)
-2025-03-02 23:00:47,353 - INFO - Validated HUMAnN3 input file: D19G_R1_kneaddata_paired_2.fastq (Size: 92862623 bytes)
-2025-03-02 23:00:47,353 - INFO - Starting HUMAnN3 step...
-2025-03-02 23:00:47,353 - INFO - Running HUMAnN3 for sample D19G: humann --input test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq --output test.out2/processed_files/humann3_output/D19G --threads 12
-2025-03-02 23:00:47,353 - INFO - Running: humann --input test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq --output test.out2/processed_files/humann3_output/D19G --threads 12
-2025-03-02 23:03:41,718 - INFO - Starting HUMAnN3 Tools Pipeline
-2025-03-02 23:03:41,720 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
-2025-03-02 23:03:41,720 - INFO - Auto-detected sample ID column: SampleName
-2025-03-02 23:03:41,720 - DEBUG - Looking for files for sample D19G using pattern/suffix
-2025-03-02 23:03:41,720 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
-2025-03-02 23:03:41,721 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
-2025-03-02 23:03:41,721 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
-2025-03-02 23:03:41,721 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
-2025-03-02 23:03:41,721 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
-2025-03-02 23:03:41,722 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gzD19G_R1.fastq, found 0 files
-2025-03-02 23:03:41,722 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq.gz, found 0 files
-2025-03-02 23:03:41,723 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq, found 2 files
-2025-03-02 23:03:41,723 - DEBUG - Found 2 files for sample D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
-2025-03-02 23:03:41,723 - DEBUG - Looking for files for sample D33G using pattern/suffix
-2025-03-02 23:03:41,723 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
-2025-03-02 23:03:41,723 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
-2025-03-02 23:03:41,723 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
-2025-03-02 23:03:41,723 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
-2025-03-02 23:03:41,724 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
-2025-03-02 23:03:41,724 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gzD33G_R1.fastq, found 0 files
-2025-03-02 23:03:41,724 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq.gz, found 0 files
-2025-03-02 23:03:41,725 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq, found 2 files
-2025-03-02 23:03:41,725 - DEBUG - Found 2 files for sample D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
-2025-03-02 23:03:41,725 - INFO - Found sequence files for 2 out of 2 samples
-2025-03-02 23:03:41,725 - DEBUG - Sample examples:
-2025-03-02 23:03:41,725 - DEBUG -   D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
-2025-03-02 23:03:41,725 - DEBUG -   D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
-2025-03-02 23:03:41,725 - INFO - Collected 4 sequence files from 2 samples
-2025-03-02 23:03:41,726 - INFO - 
+2025-03-03 06:31:26,511 - INFO - KneadData completed with 6 output files
+2025-03-03 06:31:26,511 - INFO - KneadData completed successfully with 6 output files
+2025-03-03 06:31:26,512 - INFO - Preparing KneadData outputs for HUMAnN3...
+2025-03-03 06:31:26,512 - DEBUG - Added D19G_R1_kneaddata_paired_1.fastq to sample D19G_R1
+2025-03-03 06:31:26,512 - DEBUG - Added D19G_R1_kneaddata_paired_2.fastq to sample D19G_R1
+2025-03-03 06:31:26,512 - INFO - Processing sample D19G_R1 with 2 KneadData output files
+2025-03-03 06:31:26,512 - INFO - Concatenating paired files for sample D19G_R1 to D19G_R1_paired_concat.fastq
+2025-03-03 06:31:26,513 - DEBUG -   Adding file: D19G_R1_kneaddata_paired_1.fastq (Size: 0 bytes)
+2025-03-03 06:31:26,513 - DEBUG -   Adding file: D19G_R1_kneaddata_paired_2.fastq (Size: 0 bytes)
+2025-03-03 06:31:26,513 - ERROR - Failed to create valid concatenated file for D19G_R1.
+2025-03-03 06:31:26,513 - INFO - Prepared 0 input files for HUMAnN3
+2025-03-03 06:31:26,514 - ERROR - No valid input files prepared for HUMAnN3
+2025-03-03 06:49:28,291 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-03 06:49:28,292 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-03 06:49:28,293 - INFO - Auto-detected sample ID column: SampleName
+2025-03-03 06:49:28,293 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-03 06:49:28,293 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
+2025-03-03 06:49:28,293 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
+2025-03-03 06:49:28,293 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
+2025-03-03 06:49:28,293 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
+2025-03-03 06:49:28,294 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
+2025-03-03 06:49:28,294 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gzD19G_R1.fastq, found 0 files
+2025-03-03 06:49:28,294 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq.gz, found 0 files
+2025-03-03 06:49:28,295 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq, found 1 files
+2025-03-03 06:49:28,295 - DEBUG - Found 1 files for sample D19G: ['D19G_R1.fastq']
+2025-03-03 06:49:28,295 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-03 06:49:28,295 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
+2025-03-03 06:49:28,295 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
+2025-03-03 06:49:28,295 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
+2025-03-03 06:49:28,296 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
+2025-03-03 06:49:28,296 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
+2025-03-03 06:49:28,297 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gzD33G_R1.fastq, found 0 files
+2025-03-03 06:49:28,297 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq.gz, found 0 files
+2025-03-03 06:49:28,297 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq, found 2 files
+2025-03-03 06:49:28,297 - DEBUG - Found 2 files for sample D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 06:49:28,297 - INFO - Found sequence files for 2 out of 2 samples
+2025-03-03 06:49:28,297 - DEBUG - Sample examples:
+2025-03-03 06:49:28,297 - DEBUG -   D19G: ['D19G_R1.fastq']
+2025-03-03 06:49:28,297 - DEBUG -   D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 06:49:28,298 - INFO - Collected 3 sequence files from 2 samples
+2025-03-03 06:49:28,298 - INFO - 
 Available columns in sample key (2):
-2025-03-02 23:03:41,726 - INFO -   1. SampleName
-2025-03-02 23:03:41,726 - INFO -   2.  Group
-2025-03-02 23:03:41,726 - INFO - 
+2025-03-03 06:49:28,298 - INFO -   1. SampleName
+2025-03-03 06:49:28,298 - INFO -   2.  Group
+2025-03-03 06:49:28,298 - INFO - 
 Automatic selection: 'SampleName' as sample identifier
-2025-03-02 23:03:41,726 - INFO - 
+2025-03-03 06:49:28,298 - INFO - 
 Select columns for grouping (optional). Press Enter to skip:
-2025-03-02 23:03:41,726 - INFO -   1.  Group
-2025-03-02 23:03:41,726 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
-2025-03-02 23:03:44,657 - INFO - Using standard preprocessing pipeline
-2025-03-02 23:03:44,825 - INFO - Starting preprocessing pipeline with 4 input files
-2025-03-02 23:03:44,825 - INFO - KneadData version: kneaddata v0.12.2
-2025-03-02 23:03:44,825 - INFO - HUMAnN3 version: humann v3.9
-2025-03-02 23:03:44,826 - INFO - Starting KneadData step...
-2025-03-02 23:03:44,826 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out2/processed_files/kneaddata_output --threads 12 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
-2025-03-02 23:03:44,826 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out2/processed_files/kneaddata_output --threads 12 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
-2025-03-02 23:29:47,037 - INFO - Starting HUMAnN3 Tools Pipeline
-2025-03-02 23:29:47,039 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
-2025-03-02 23:29:47,039 - INFO - Auto-detected sample ID column: SampleName
-2025-03-02 23:29:47,040 - DEBUG - Looking for files for sample D19G using pattern/suffix
-2025-03-02 23:29:47,040 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
-2025-03-02 23:29:47,040 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
-2025-03-02 23:29:47,040 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
-2025-03-02 23:29:47,040 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
-2025-03-02 23:29:47,041 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
-2025-03-02 23:29:47,041 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gzD19G_R1.fastq, found 0 files
-2025-03-02 23:29:47,041 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq.gz, found 0 files
-2025-03-02 23:29:47,042 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq, found 2 files
-2025-03-02 23:29:47,042 - DEBUG - Found 2 files for sample D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
-2025-03-02 23:29:47,042 - DEBUG - Looking for files for sample D33G using pattern/suffix
-2025-03-02 23:29:47,042 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
-2025-03-02 23:29:47,042 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
-2025-03-02 23:29:47,042 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
-2025-03-02 23:29:47,043 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
-2025-03-02 23:29:47,043 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
-2025-03-02 23:29:47,044 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gzD33G_R1.fastq, found 0 files
-2025-03-02 23:29:47,044 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq.gz, found 0 files
-2025-03-02 23:29:47,044 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq, found 2 files
-2025-03-02 23:29:47,045 - DEBUG - Found 2 files for sample D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
-2025-03-02 23:29:47,045 - INFO - Found sequence files for 2 out of 2 samples
-2025-03-02 23:29:47,045 - DEBUG - Sample examples:
-2025-03-02 23:29:47,045 - DEBUG -   D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
-2025-03-02 23:29:47,045 - DEBUG -   D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
-2025-03-02 23:29:47,045 - INFO - Collected 4 sequence files from 2 samples
-2025-03-02 23:29:47,045 - INFO - 
-Available columns in sample key (2):
-2025-03-02 23:29:47,045 - INFO -   1. SampleName
-2025-03-02 23:29:47,046 - INFO -   2.  Group
-2025-03-02 23:29:47,046 - INFO - 
-Automatic selection: 'SampleName' as sample identifier
-2025-03-02 23:29:47,046 - INFO - 
-Select columns for grouping (optional). Press Enter to skip:
-2025-03-02 23:29:47,046 - INFO -   1.  Group
-2025-03-02 23:29:47,046 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
-2025-03-02 23:29:49,685 - INFO - Using standard preprocessing pipeline
-2025-03-02 23:29:49,838 - INFO - Starting preprocessing pipeline with 4 input files
-2025-03-02 23:29:49,839 - INFO - KneadData version: kneaddata v0.12.2
-2025-03-02 23:29:49,839 - INFO - HUMAnN3 version: humann v3.9
-2025-03-02 23:29:49,839 - INFO - Starting KneadData step...
-2025-03-02 23:29:49,840 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out2/processed_files/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
-2025-03-02 23:29:49,840 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out2/processed_files/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
-2025-03-02 23:41:50,496 - DEBUG - Command stdout: Reformatting file sequence identifiers ...
-
-Reformatting file sequence identifiers ...
-
-Initial number of reads ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/reformatted_identifiersl0jppwi__D19G_R1 ): 10644848.0
-Initial number of reads ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/reformatted_identifiers3woqi0jr_D19G_R2 ): 10644848.0
-Running Trimmomatic ... 
-Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata.trimmed.1.fastq ): 6961227.0
-Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata.trimmed.2.fastq ): 6961227.0
-Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata.trimmed.single.1.fastq ): 346202.0
-Total reads after trimming ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata.trimmed.single.2.fastq ): 264206.0
-Running trf ... 
-Running trf ... 
-Running trf ... 
-Running trf ... 
-Decontaminating ...
-Running bowtie2 ... 
-Running bowtie2 ... 
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_clean_1.fastq ): 298152.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_paired_clean_2.fastq ): 298152.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_1.fastq ): 295360.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_2.fastq ): 295360.0
-Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq ): 295360.0
-Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_paired_2.fastq ): 295360.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_unmatched_1_clean.fastq ): 16735.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_1_clean.fastq ): 16566.0
-Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_unmatched_1.fastq ): 16566.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_hg_39_bowtie2_unmatched_2_clean.fastq ): 9093.0
-Total reads after removing those found in reference database ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_2_clean.fastq ): 9000.0
-Total reads after merging results from multiple databases ( /home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_unmatched_2.fastq ): 9000.0
-
-Final output files created: 
-/home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq
-/home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_paired_2.fastq
-/home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_unmatched_1.fastq
-/home/david/Documents/Code/humann3_analysis/test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_unmatched_2.fastq
-
-
-2025-03-02 23:41:50,496 - INFO - KneadData completed with 6 output files
-2025-03-02 23:41:50,497 - INFO - KneadData completed successfully with 6 output files
-2025-03-02 23:41:50,497 - INFO - After filtering, 2 files will be used for HUMAnN3
-2025-03-02 23:41:50,497 - INFO - Preparing KneadData outputs for HUMAnN3...
-2025-03-02 23:41:50,497 - INFO - Processing KneadData output file: D19G_R1_kneaddata_paired_1.fastq (Size: 92902901 bytes)
-2025-03-02 23:41:50,497 - INFO - Processing KneadData output file: D19G_R1_kneaddata_paired_2.fastq (Size: 92862623 bytes)
-2025-03-02 23:41:50,497 - INFO - Sample D19G_R1_kneaddata has 2 KneadData output files
-2025-03-02 23:41:50,498 - INFO - Using 2 file(s) directly for sample D19G_R1_kneaddata
-2025-03-02 23:41:50,498 - INFO - Prepared 2 input files for HUMAnN3
-2025-03-02 23:41:50,498 - INFO - Validated HUMAnN3 input file: D19G_R1_kneaddata_paired_1.fastq (Size: 92902901 bytes)
-2025-03-02 23:41:50,498 - INFO - Validated HUMAnN3 input file: D19G_R1_kneaddata_paired_2.fastq (Size: 92862623 bytes)
-2025-03-02 23:41:50,498 - INFO - Starting HUMAnN3 step...
-2025-03-02 23:41:50,499 - INFO - Running HUMAnN3 for sample D19G: humann --input test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq --output test.out2/processed_files/humann3_output/D19G --threads 24
-2025-03-02 23:41:50,499 - INFO - Running: humann --input test.out2/processed_files/kneaddata_output/D19G_R1_kneaddata_paired_1.fastq --output test.out2/processed_files/humann3_output/D19G --threads 24
-2025-03-02 23:46:36,785 - INFO - Starting HUMAnN3 Tools Pipeline
-2025-03-02 23:46:36,787 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
-2025-03-02 23:46:36,787 - INFO - Auto-detected sample ID column: SampleName
-2025-03-02 23:46:36,787 - DEBUG - Looking for files for sample D19G using pattern/suffix
-2025-03-02 23:46:36,788 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
-2025-03-02 23:46:36,788 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
-2025-03-02 23:46:36,788 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
-2025-03-02 23:46:36,788 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
-2025-03-02 23:46:36,788 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
-2025-03-02 23:46:36,789 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gzD19G_R1.fastq, found 0 files
-2025-03-02 23:46:36,789 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq.gz, found 0 files
-2025-03-02 23:46:36,789 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq, found 2 files
-2025-03-02 23:46:36,790 - DEBUG - Found 2 files for sample D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
-2025-03-02 23:46:36,790 - DEBUG - Looking for files for sample D33G using pattern/suffix
-2025-03-02 23:46:36,790 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
-2025-03-02 23:46:36,790 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
-2025-03-02 23:46:36,790 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
-2025-03-02 23:46:36,790 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
-2025-03-02 23:46:36,791 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
-2025-03-02 23:46:36,791 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gzD33G_R1.fastq, found 0 files
-2025-03-02 23:46:36,791 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq.gz, found 0 files
-2025-03-02 23:46:36,792 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq, found 2 files
-2025-03-02 23:46:36,792 - DEBUG - Found 2 files for sample D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
-2025-03-02 23:46:36,792 - INFO - Found sequence files for 2 out of 2 samples
-2025-03-02 23:46:36,792 - DEBUG - Sample examples:
-2025-03-02 23:46:36,792 - DEBUG -   D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
-2025-03-02 23:46:36,792 - DEBUG -   D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
-2025-03-02 23:46:36,792 - INFO - Collected 4 sequence files from 2 samples
-2025-03-02 23:46:36,792 - INFO - 
-Available columns in sample key (2):
-2025-03-02 23:46:36,793 - INFO -   1. SampleName
-2025-03-02 23:46:36,793 - INFO -   2.  Group
-2025-03-02 23:46:36,793 - INFO - 
-Automatic selection: 'SampleName' as sample identifier
-2025-03-02 23:46:36,793 - INFO - 
-Select columns for grouping (optional). Press Enter to skip:
-2025-03-02 23:46:36,793 - INFO -   1.  Group
-2025-03-02 23:46:36,793 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
-2025-03-02 23:46:39,241 - INFO - Using standard preprocessing pipeline
-2025-03-02 23:46:39,370 - INFO - Starting preprocessing pipeline with 4 input files
-2025-03-02 23:46:39,370 - INFO - KneadData version: kneaddata v0.12.2
-2025-03-02 23:46:39,371 - INFO - HUMAnN3 version: humann v3.9
-2025-03-02 23:46:39,371 - INFO - Starting KneadData step...
-2025-03-02 23:46:39,371 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output test.out2/processed_files/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
-2025-03-02 23:46:39,371 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output test.out2/processed_files/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
-2025-03-02 23:46:39,427 - ERROR - ERROR: Command failed with exit code 2
-2025-03-02 23:46:39,427 - ERROR - Error message: usage: kneaddata [-h] [--version] [-v] [-i1 INPUT1] [-i2 INPUT2]
+2025-03-03 06:49:28,298 - INFO -   1.  Group
+2025-03-03 06:49:28,298 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-03 06:49:32,065 - INFO - Using standard preprocessing pipeline
+2025-03-03 06:49:32,199 - INFO - Starting preprocessing pipeline with 3 input files
+2025-03-03 06:49:32,199 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-03 06:49:32,199 - INFO - HUMAnN3 version: humann v3.9
+2025-03-03 06:49:32,200 - INFO - Using KneadData output directory: /home/david/Data/TrimmedMSSFiles
+2025-03-03 06:49:32,200 - INFO - Using HUMAnN3 output directory: /home/david/Documents/Alignments/Humann3Alignments
+2025-03-03 06:49:32,200 - INFO - Starting KneadData step...
+2025-03-03 06:49:32,200 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --paired --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-03 06:49:32,200 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --paired --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-03 06:49:32,266 - ERROR - ERROR: Command failed with exit code 2
+2025-03-03 06:49:32,267 - ERROR - Error message: usage: kneaddata [-h] [--version] [-v] [-i1 INPUT1] [-i2 INPUT2]
                  [-un UNPAIRED] -o OUTPUT_DIR [-s SCRATCH_DIR]
                  [-db REFERENCE_DB] [--bypass-trim]
                  [--output-prefix OUTPUT_PREFIX] [-t <1>] [-p <1>]
@@ -465,51 +164,53 @@ Select columns for grouping (optional). Press Enter to skip:
                  [--maxperiod MAXPERIOD] [--fastqc FASTQC_PATH]
 kneaddata: error: unrecognized arguments: --paired
 
-2025-03-02 23:46:39,427 - ERROR - Failed command: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --paired --output test.out2/processed_files/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
-2025-03-02 23:46:39,428 - ERROR - KneadData run failed
-2025-03-02 23:46:39,428 - ERROR - KneadData step failed, stopping pipeline
-2025-03-02 23:47:07,322 - INFO - Starting HUMAnN3 Tools Pipeline
-2025-03-02 23:47:07,324 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
-2025-03-02 23:47:07,324 - INFO - Auto-detected sample ID column: SampleName
-2025-03-02 23:47:07,324 - DEBUG - Looking for files for sample D19G using pattern/suffix
-2025-03-02 23:47:07,324 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
-2025-03-02 23:47:07,324 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
-2025-03-02 23:47:07,325 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
-2025-03-02 23:47:07,325 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
-2025-03-02 23:47:07,325 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
-2025-03-02 23:47:07,326 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gzD19G_R1.fastq, found 0 files
-2025-03-02 23:47:07,326 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq.gz, found 0 files
-2025-03-02 23:47:07,326 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq, found 2 files
-2025-03-02 23:47:07,326 - DEBUG - Found 2 files for sample D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
-2025-03-02 23:47:07,327 - DEBUG - Looking for files for sample D33G using pattern/suffix
-2025-03-02 23:47:07,327 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
-2025-03-02 23:47:07,327 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
-2025-03-02 23:47:07,327 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
-2025-03-02 23:47:07,327 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
-2025-03-02 23:47:07,327 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
-2025-03-02 23:47:07,328 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gzD33G_R1.fastq, found 0 files
-2025-03-02 23:47:07,328 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq.gz, found 0 files
-2025-03-02 23:47:07,329 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq, found 2 files
-2025-03-02 23:47:07,329 - DEBUG - Found 2 files for sample D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
-2025-03-02 23:47:07,329 - INFO - Found sequence files for 2 out of 2 samples
-2025-03-02 23:47:07,329 - DEBUG - Sample examples:
-2025-03-02 23:47:07,329 - DEBUG -   D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
-2025-03-02 23:47:07,329 - DEBUG -   D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
-2025-03-02 23:47:07,329 - INFO - Collected 4 sequence files from 2 samples
-2025-03-02 23:47:07,329 - INFO - 
+2025-03-03 06:49:32,267 - ERROR - Failed command: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --paired --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-03 06:49:32,267 - ERROR - KneadData run failed
+2025-03-03 06:49:32,267 - ERROR - KneadData step failed, stopping pipeline
+2025-03-03 06:57:10,361 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-03 06:57:10,363 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-03 06:57:10,363 - INFO - Auto-detected sample ID column: SampleName
+2025-03-03 06:57:10,363 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-03 06:57:10,363 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq, found 0 files
+2025-03-03 06:57:10,363 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq, found 0 files
+2025-03-03 06:57:10,363 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fastq.gz, found 0 files
+2025-03-03 06:57:10,364 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G.fq.gz, found 0 files
+2025-03-03 06:57:10,364 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq.gz, found 0 files
+2025-03-03 06:57:10,365 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G*.fastq.gzD19G_R1.fastq, found 0 files
+2025-03-03 06:57:10,365 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq.gz, found 0 files
+2025-03-03 06:57:10,365 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D19G_*.fastq, found 1 files
+2025-03-03 06:57:10,365 - DEBUG - Found 1 files for sample D19G: ['D19G_R1.fastq']
+2025-03-03 06:57:10,366 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-03 06:57:10,366 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq, found 0 files
+2025-03-03 06:57:10,366 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq, found 0 files
+2025-03-03 06:57:10,366 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fastq.gz, found 0 files
+2025-03-03 06:57:10,366 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G.fq.gz, found 0 files
+2025-03-03 06:57:10,366 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq.gz, found 0 files
+2025-03-03 06:57:10,367 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G*.fastq.gzD33G_R1.fastq, found 0 files
+2025-03-03 06:57:10,367 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq.gz, found 0 files
+2025-03-03 06:57:10,367 - DEBUG - Trying pattern /home/david/Data/TrimmedMSSFiles/D33G_*.fastq, found 2 files
+2025-03-03 06:57:10,367 - DEBUG - Found 2 files for sample D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 06:57:10,368 - INFO - Found sequence files for 2 out of 2 samples
+2025-03-03 06:57:10,368 - DEBUG - Sample examples:
+2025-03-03 06:57:10,368 - DEBUG -   D19G: ['D19G_R1.fastq']
+2025-03-03 06:57:10,368 - DEBUG -   D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-03 06:57:10,368 - INFO - Collected 3 sequence files from 2 samples
+2025-03-03 06:57:10,368 - INFO - 
 Available columns in sample key (2):
-2025-03-02 23:47:07,329 - INFO -   1. SampleName
-2025-03-02 23:47:07,329 - INFO -   2.  Group
-2025-03-02 23:47:07,330 - INFO - 
+2025-03-03 06:57:10,368 - INFO -   1. SampleName
+2025-03-03 06:57:10,368 - INFO -   2.  Group
+2025-03-03 06:57:10,368 - INFO - 
 Automatic selection: 'SampleName' as sample identifier
-2025-03-02 23:47:07,330 - INFO - 
+2025-03-03 06:57:10,368 - INFO - 
 Select columns for grouping (optional). Press Enter to skip:
-2025-03-02 23:47:07,330 - INFO -   1.  Group
-2025-03-02 23:47:07,330 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
-2025-03-02 23:47:08,767 - INFO - Using standard preprocessing pipeline
-2025-03-02 23:47:08,897 - INFO - Starting preprocessing pipeline with 4 input files
-2025-03-02 23:47:08,898 - INFO - KneadData version: kneaddata v0.12.2
-2025-03-02 23:47:08,898 - INFO - HUMAnN3 version: humann v3.9
-2025-03-02 23:47:08,898 - INFO - Starting KneadData step...
-2025-03-02 23:47:08,898 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out2/processed_files/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
-2025-03-02 23:47:08,899 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output test.out2/processed_files/kneaddata_output --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-03 06:57:10,368 - INFO -   1.  Group
+2025-03-03 06:57:10,369 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-03 06:57:12,674 - INFO - Using standard preprocessing pipeline
+2025-03-03 06:57:12,819 - INFO - Starting preprocessing pipeline with 3 input files
+2025-03-03 06:57:12,820 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-03 06:57:12,820 - INFO - HUMAnN3 version: humann v3.9
+2025-03-03 06:57:12,820 - INFO - Using KneadData output directory: /home/david/Data/TrimmedMSSFiles
+2025-03-03 06:57:12,820 - INFO - Using HUMAnN3 output directory: /home/david/Documents/Alignments/Humann3Alignments
+2025-03-03 06:57:12,821 - INFO - Starting KneadData step...
+2025-03-03 06:57:12,821 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB
+2025-03-03 06:57:12,821 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --output /home/david/Data/TrimmedMSSFiles --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB

@@ -51,10 +51,26 @@ def run_preprocessing_pipeline(input_files, output_dir, threads=1,
     logger.info(f"KneadData version: {kneaddata_version}")
     logger.info(f"HUMAnN3 version: {humann3_version}")
     
-    # Create output directories
-    kneaddata_output = os.path.join(output_dir, "kneaddata_output")
-    humann3_output = os.path.join(output_dir, "humann3_output")
+    # Create output directories - use provided paths if available, else use defaults
+    if kneaddata_output_dir is None:
+        kneaddata_output = os.path.join(output_dir, "kneaddata_output")
+    else:
+        kneaddata_output = kneaddata_output_dir
+        
+    if humann3_output_dir is None:
+        humann3_output = os.path.join(output_dir, "humann3_output")
+    else:
+        humann3_output = humann3_output_dir
+
+    # Ensure the base output directory exists
     os.makedirs(output_dir, exist_ok=True)
+    # Create the specific output directories
+    os.makedirs(kneaddata_output, exist_ok=True)
+    os.makedirs(humann3_output, exist_ok=True)
+
+    # Log the directories being used
+    logger.info(f"Using KneadData output directory: {kneaddata_output}")
+    logger.info(f"Using HUMAnN3 output directory: {humann3_output}")
     
     # Step 1: Run KneadData
     logger.info("Starting KneadData step...")
@@ -74,98 +90,86 @@ def run_preprocessing_pipeline(input_files, output_dir, threads=1,
     
     logger.info(f"KneadData completed successfully with {len(kneaddata_files)} output files")
     
-    # Filter out contaminant files
-    kneaddata_files = [f for f in kneaddata_files if "contam" not in os.path.basename(f).lower()]
-    logger.info(f"After filtering, {len(kneaddata_files)} files will be used for HUMAnN3")
+    # Filter out contaminant files # should no longer be necessary
+    # kneaddata_files = [f for f in kneaddata_files if "contam" not in os.path.basename(f).lower()]
+    # logger.info(f"After filtering, {len(kneaddata_files)} files will be used for HUMAnN3")
 
-        
-    # Concatenate paired files for HUMAnN3
+    # After KneadData has run and produced files:
     logger.info("Preparing KneadData outputs for HUMAnN3...")
-    paired_files = {}
+    sample_files = {}
+    humann3_input_files = []
 
     # First, check that we have valid files to work with
     if not kneaddata_files:
         logger.error("No valid KneadData output files to prepare for HUMAnN3")
         return None
 
+    # Organize files by sample
     for file in kneaddata_files:
-        # Log file information for debugging
-        file_size = os.path.getsize(file)
-        logger.info(f"Processing KneadData output file: {os.path.basename(file)} (Size: {file_size} bytes)")
-        
-        if file_size == 0:
-            logger.warning(f"Skipping empty file: {file}")
-            continue
-            
-        # Extract the base sample name - handle different KneadData output naming patterns
+        # Extract the base sample name - focus on our specific pattern
         filename = os.path.basename(file)
         
-        # Try to extract the sample name from different possible patterns
-        base_name = None
-        if "_paired_1.fastq" in filename:
-            base_name = filename.split("_paired_1.fastq")[0]
-        elif "_paired_2.fastq" in filename:
-            base_name = filename.split("_paired_2.fastq")[0]
-        elif "_clean.fastq" in filename:
-            base_name = filename.split("_clean.fastq")[0]
-        else:
-            # Just use the filename without extension as a fallback
-            base_name = os.path.splitext(filename)[0]
-        
-        # Group files by sample name
-        if base_name not in paired_files:
-            paired_files[base_name] = []
-        paired_files[base_name].append(file)
+        # Check if file matches our target pattern
+        if "_paired_1.fastq" in filename or "_paired_2.fastq" in filename:
+            # Extract sample name by removing the suffix
+            if "_paired_1.fastq" in filename:
+                sample_name = filename.replace("_paired_1.fastq", "")
+            else:
+                sample_name = filename.replace("_paired_2.fastq", "")
+                
+            # Further cleanup if needed (e.g., remove any kneaddata prefix)
+            if sample_name.endswith("_kneaddata"):
+                sample_name = sample_name[:-10]  # Remove "_kneaddata" suffix
+            
+            # Initialize list for this sample if not exists
+            if sample_name not in sample_files:
+                sample_files[sample_name] = []
+            
+            # Add file to sample's list
+            sample_files[sample_name].append(file)
+            logger.debug(f"Added {filename} to sample {sample_name}")
 
-    # Prepare files for HUMAnN3
-    humann3_input_files = []
-
-    # Process each sample's files
-    for sample, files in paired_files.items():
-        logger.info(f"Sample {sample} has {len(files)} KneadData output files")
+    # Process each sample's paired files
+    for sample, files in sample_files.items():
+        logger.info(f"Processing sample {sample} with {len(files)} KneadData output files")
         
-        # Check if we need to concatenate files
-        if len(files) > 1 and paired:
-            # Sort files to ensure consistent order (R1 before R2)
-            files.sort()
-            
-            # Create concatenated file in the same directory
-            concatenated_file = os.path.join(os.path.dirname(files[0]), f"{sample}_paired_concat.fastq")
-            
-            logger.info(f"Concatenating {len(files)} files for sample {sample} to {os.path.basename(concatenated_file)}")
-            
-            # Concatenate the files
+        # Skip if we don't have exactly 2 files (paired-end)
+        if len(files) != 2:
+            logger.warning(f"Sample {sample} has {len(files)} files instead of expected 2 paired files. Skipping.")
+            continue
+        
+        # Sort files to ensure R1 comes before R2
+        files.sort()  # This should put _paired_1 before _paired_2
+        
+        # Verify we have the correct paired files
+        file1 = os.path.basename(files[0])
+        file2 = os.path.basename(files[1])
+        
+        if not ("_paired_1.fastq" in file1 and "_paired_2.fastq" in file2):
+            logger.warning(f"Files for sample {sample} don't match expected pattern: {file1}, {file2}. Skipping.")
+            continue
+        
+        # Create concatenated file
+        concatenated_file = os.path.join(os.path.dirname(files[0]), f"{sample}_paired_concat.fastq")
+        logger.info(f"Concatenating paired files for sample {sample} to {os.path.basename(concatenated_file)}")
+        
+        try:
+            # Create concatenated file
             with open(concatenated_file, 'w') as outfile:
-                total_lines = 0
                 for file in files:
                     logger.debug(f"  Adding file: {os.path.basename(file)} (Size: {os.path.getsize(file)} bytes)")
-                    
-                    try:
-                        with open(file, 'r') as infile:
-                            file_content = infile.read()
-                            outfile.write(file_content)
-                            line_count = len(file_content.splitlines())
-                            total_lines += line_count
-                            logger.debug(f"  Added {line_count} lines from {os.path.basename(file)}")
-                    except Exception as e:
-                        logger.error(f"Error reading/writing file {file}: {str(e)}")
+                    with open(file, 'r') as infile:
+                        outfile.write(infile.read())
             
-            # Verify the concatenated file was created properly
+            # Verify the concatenated file
             if os.path.exists(concatenated_file) and os.path.getsize(concatenated_file) > 0:
                 logger.info(f"Successfully created concatenated file: {os.path.basename(concatenated_file)} "
-                        f"(Size: {os.path.getsize(concatenated_file)} bytes, Lines: {total_lines})")
+                        f"(Size: {os.path.getsize(concatenated_file)} bytes)")
                 humann3_input_files.append(concatenated_file)
             else:
-                logger.error(f"Failed to create valid concatenated file for {sample}. "
-                        f"File exists: {os.path.exists(concatenated_file)}, "
-                        f"Size: {os.path.getsize(concatenated_file) if os.path.exists(concatenated_file) else 'N/A'}")
-                # Fall back to using individual files
-                logger.info(f"Falling back to using individual files for sample {sample}")
-                humann3_input_files.extend(files)
-        else:
-            # For single files or non-paired mode, use them directly
-            logger.info(f"Using {len(files)} file(s) directly for sample {sample}")
-            humann3_input_files.extend(files)
+                logger.error(f"Failed to create valid concatenated file for {sample}.")
+        except Exception as e:
+            logger.error(f"Error concatenating files for sample {sample}: {str(e)}")
 
     logger.info(f"Prepared {len(humann3_input_files)} input files for HUMAnN3")
 
@@ -185,6 +189,7 @@ def run_preprocessing_pipeline(input_files, output_dir, threads=1,
             return None
         
         logger.info(f"Validated HUMAnN3 input file: {os.path.basename(file)} (Size: {os.path.getsize(file)} bytes)")
+
     
     # Step 2: Run HUMAnN3
     logger.info("Starting HUMAnN3 step...")
@@ -293,17 +298,96 @@ def run_preprocessing_pipeline_parallel(input_files, output_dir, threads_per_sam
     for sample_id, files in kneaddata_results.items():
         if isinstance(files, list):
             kneaddata_files.extend(files)
+
+    logger.info(f"KneadData completed with {len(kneaddata_files)} total output files")
+
+    # Prepare files for HUMAnN3
+    logger.info("Preparing KneadData outputs for HUMAnN3...")
+    sample_files = {}
+    humann3_input_files = []
+
+    # Organize files by sample
+    for file in kneaddata_files:
+        # Extract the base sample name - focus on our specific pattern
+        filename = os.path.basename(file)
+        
+        # Check if file matches our target pattern
+        if "_paired_1.fastq" in filename or "_paired_2.fastq" in filename:
+            # Extract sample name by removing the suffix
+            if "_paired_1.fastq" in filename:
+                sample_name = filename.replace("_paired_1.fastq", "")
+            else:
+                sample_name = filename.replace("_paired_2.fastq", "")
+                
+            # Further cleanup if needed (e.g., remove any kneaddata prefix)
+            if sample_name.endswith("_kneaddata"):
+                sample_name = sample_name[:-10]  # Remove "_kneaddata" suffix
             
-    # Filter out contaminant files
-    kneaddata_files = [f for f in kneaddata_files if "contam" not in os.path.basename(f).lower()]
-    logger.info(f"After filtering, {len(kneaddata_files)} files will be used for HUMAnN3")
-    
-    logger.info(f"KneadData completed with {len(kneaddata_files)} output files")
-    
+            # Initialize list for this sample if not exists
+            if sample_name not in sample_files:
+                sample_files[sample_name] = []
+            
+            # Add file to sample's list
+            sample_files[sample_name].append(file)
+            logger.debug(f"Added {filename} to sample {sample_name}")
+
+    # Process each sample's paired files
+    for sample, files in sample_files.items():
+        logger.info(f"Processing sample {sample} with {len(files)} KneadData output files")
+        
+        # Skip if we don't have exactly 2 files (paired-end)
+        if len(files) != 2:
+            logger.warning(f"Sample {sample} has {len(files)} files instead of expected 2 paired files. Skipping.")
+            continue
+        
+        # Sort files to ensure R1 comes before R2
+        files.sort()  # This should put _paired_1 before _paired_2
+        
+        # Verify we have the correct paired files
+        file1 = os.path.basename(files[0])
+        file2 = os.path.basename(files[1])
+        
+        if not ("_paired_1.fastq" in file1 and "_paired_2.fastq" in file2):
+            logger.warning(f"Files for sample {sample} don't match expected pattern: {file1}, {file2}. Skipping.")
+            continue
+        
+        # Create concatenated file
+        concatenated_file = os.path.join(os.path.dirname(files[0]), f"{sample}_paired_concat.fastq")
+        logger.info(f"Concatenating paired files for sample {sample} to {os.path.basename(concatenated_file)}")
+        
+        try:
+            # Create concatenated file
+            with open(concatenated_file, 'w') as outfile:
+                for file in files:
+                    logger.debug(f"  Adding file: {os.path.basename(file)} (Size: {os.path.getsize(file)} bytes)")
+                    with open(file, 'r') as infile:
+                        outfile.write(infile.read())
+            
+            # Verify the concatenated file
+            if os.path.exists(concatenated_file) and os.path.getsize(concatenated_file) > 0:
+                logger.info(f"Successfully created concatenated file: {os.path.basename(concatenated_file)} "
+                        f"(Size: {os.path.getsize(concatenated_file)} bytes)")
+                humann3_input_files.append(concatenated_file)
+            else:
+                logger.error(f"Failed to create valid concatenated file for {sample}.")
+        except Exception as e:
+            logger.error(f"Error concatenating files for sample {sample}: {str(e)}")
+
+    logger.info(f"Prepared {len(humann3_input_files)} input files for HUMAnN3")
+
+    # Now check that we have valid files to run HUMAnN3 on
+    if not humann3_input_files:
+        logger.error("No valid input files prepared for HUMAnN3")
+        return None
+
+    # Continue with HUMAnN3 execution...
+    # Replace the original kneaddata_files with our new concatenated files
+    kneaddata_files = humann3_input_files
+
     # Step 2: Run HUMAnN3 in parallel
     logger.info("Starting HUMAnN3 step in parallel...")
     humann3_results = run_humann3_parallel(
-        input_files=kneaddata_files,
+        input_files=humann3_input_files,
         output_dir=humann3_output,
         threads=threads_per_sample,
         max_parallel=max_parallel,

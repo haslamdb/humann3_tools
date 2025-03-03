@@ -67,7 +67,13 @@ def main():
         "--run-preprocessing", action="store_true", help="Run preprocessing (KneadData and HUMAnN3) on raw sequence files"
     )
     preprocessing_group.add_argument("--input-fastq", nargs="+", help="Input FASTQ file(s) for preprocessing")
-    preprocessing_group.add_argument("--paired", action="store_true", help="Input files are paired-end reads")
+    preprocessing_group.add_argument(
+        "--un", action="store_true", help="Input files are unpaired (single-end) reads"
+    )
+    preprocessing_group.add_argument(
+        "--decontaminate-pairs", default="strict", choices=["strict", "lenient", "unpaired"], 
+        help="Method for decontaminating paired-end reads (default: strict)"
+    )
     preprocessing_group.add_argument(
         "--kneaddata-dbs", nargs="+", help="Path(s) to KneadData reference database(s). Can specify multiple databases."
     )
@@ -263,21 +269,14 @@ def main():
         # Choose between regular or parallel processing
         if args.use_parallel:
             log_print("Using parallel preprocessing pipeline", level="info")
-            preprocessing_results = run_preprocessing_pipeline_parallel(
-                input_files=args.input_fastq,
-                output_dir=preproc_dir,
-                threads_per_sample=args.threads_per_sample,
-                max_parallel=args.max_parallel,
-                kneaddata_dbs=args.kneaddata_dbs,
-                nucleotide_db=args.humann3_nucleotide_db,
-                protein_db=args.humann3_protein_db,
-                paired=args.paired,
-                kneaddata_output_dir=kneaddata_output_dir,
-                humann3_output_dir=humann3_output_dir,
-                logger=logger,
-            )
-        else:
-            log_print("Using standard preprocessing pipeline", level="info")
+            # Determine if files are paired or unpaired
+            is_paired = not args.un
+
+            kneaddata_options = {}
+            if is_paired:
+                kneaddata_options["decontaminate-pairs"] = args.decontaminate_pairs
+
+            # Run the preprocessing pipeline with updated parameters
             preprocessing_results = run_preprocessing_pipeline(
                 input_files=args.input_fastq,
                 output_dir=preproc_dir,
@@ -285,11 +284,33 @@ def main():
                 kneaddata_dbs=args.kneaddata_dbs,
                 nucleotide_db=args.humann3_nucleotide_db,
                 protein_db=args.humann3_protein_db,
-                paired=args.paired,
+                paired=is_paired, 
+                kneaddata_options=kneaddata_options,  
                 kneaddata_output_dir=kneaddata_output_dir,
                 humann3_output_dir=humann3_output_dir,
                 logger=logger,
             )
+        else:
+            log_print("Using standard preprocessing pipeline", level="info")
+            # Determine if files are paired or unpaired
+            is_paired = not args.un
 
+            kneaddata_options = {}
+            if is_paired:
+                kneaddata_options["decontaminate-pairs"] = args.decontaminate_pairs
+
+            preprocessing_results = run_preprocessing_pipeline(
+                input_files=args.input_fastq,
+                output_dir=preproc_dir,
+                threads=args.threads,
+                kneaddata_dbs=args.kneaddata_dbs,
+                nucleotide_db=args.humann3_nucleotide_db,
+                protein_db=args.humann3_protein_db,
+                paired=is_paired,  
+                kneaddata_options=kneaddata_options,  
+                kneaddata_output_dir=kneaddata_output_dir,
+                humann3_output_dir=humann3_output_dir,
+                logger=logger,
+            )
 
 
