@@ -17,21 +17,24 @@
 
 ```bash
 
-# no paired flag - as it interferes with kneaddata
+
 	
 humann3-tools --log-file test.log \
 	--log-level DEBUG \
-	--output-dir test.out \
+	--output-dir test.out2 \
 	--output-prefix test- \
 	--run-preprocessing \
 	--kneaddata-dbs  /home/david/Databases/KneadDataDB /home/david/Databases/BT2ContaminantDB \
 	--threads 24 \
-	--seq-dir /home/david/Data/TrimmedMSSFiles/ \
-	--input-fastq /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq \
 	--sample-key TestKey.csv \
-	--samples-file ExampleFileList.txt \
 	--use-metadata \
-	--pathway-dir test.out \
-	--gene-dir test.out \
-	--annotations-dir annotations \
-	--skip-downstream
+	--seq-dir /home/david/Data/TrimmedMSSFiles/ \
+  	--kneaddata-output-dir ~/Data/TrimmedMSSFiles \
+  	--humann3-output-dir ~/Documents/Alignments/Humann3Alignments \
+	--pathway-dir test.out2 \
+	--gene-dir test.out2 \
+	--group-col "Group" \
+	--paired \
+	--decontaminate-pairs strict \
+	--annotations-dir annotations 
+	
