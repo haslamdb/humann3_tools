@@ -1,0 +1,22 @@
+2025-03-03 15:45:00,862 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-03 15:45:00,863 - INFO - 
+Available columns in sample key (2):
+2025-03-03 15:45:00,863 - INFO -   1. SampleName
+2025-03-03 15:45:00,863 - INFO -   2.  Group
+2025-03-03 15:45:00,863 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-03 15:45:00,863 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-03 15:45:00,863 - INFO -   1.  Group
+2025-03-03 15:45:00,863 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-03 15:54:04,492 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-03 15:54:04,493 - INFO - 
+Available columns in sample key (2):
+2025-03-03 15:54:04,493 - INFO -   1. SampleName
+2025-03-03 15:54:04,493 - INFO -   2.  Group
+2025-03-03 15:54:04,493 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-03 15:54:04,493 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-03 15:54:04,493 - INFO -   1.  Group
+2025-03-03 15:54:04,493 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'

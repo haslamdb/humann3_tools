@@ -185,7 +185,6 @@ def main():
         # Reset input_files to avoid duplication
         input_files = []
         
-        # Log what we found for each sample
         log_print(f"Found {len(samples_dict)} samples with the following files:", level='info')
         for sample_id, files in samples_dict.items():
             file_info = ", ".join([os.path.basename(f) for f in files])
@@ -322,11 +321,122 @@ def main():
                 kneaddata_dbs=args.kneaddata_dbs,
                 nucleotide_db=args.humann3_nucleotide_db,
                 protein_db=args.humann3_protein_db,
-                paired=is_paired,  # Consistently use this value
+                paired=is_paired,  
                 kneaddata_options=kneaddata_options,  
                 kneaddata_output_dir=kneaddata_output_dir,
                 humann3_output_dir=humann3_output_dir,
                 logger=logger,
             )
 
+
+    if args.run_preprocessing and preprocessing_results:
+        log_print("Preprocessing completed successfully. Continuing to HUMAnN3 file processing...", level='info')
+        
+        # Extract path information from preprocessing results
+        humann3_results = preprocessing_results.get('humann3_results', {})
+        
+        if not humann3_results:
+            log_print("ERROR: No HUMAnN3 results found after preprocessing", level='error')
+            sys.exit(1)
+        
+        # Convert HUMAnN3 results to the format expected by the processing functions
+        valid_path_samples = []
+        valid_gene_samples = []
+        
+        for sample_id, files in humann3_results.items():
+            if files.get('pathabundance'):
+                path_file = files['pathabundance']
+                valid_path_samples.append((sample_id, path_file))
+                log_print(f"Found pathway file for {sample_id}: {os.path.basename(path_file)}", level='debug')
+                
+            if files.get('genefamilies'):
+                gene_file = files['genefamilies']
+                valid_gene_samples.append((sample_id, gene_file))
+                log_print(f"Found gene file for {sample_id}: {os.path.basename(gene_file)}", level='debug')
+        
+        log_print(f"Found {len(valid_path_samples)} pathway files and {len(valid_gene_samples)} gene family files", level='info')
+        
+        # Now we can run the processing steps using these files
+        
+        # Process pathways
+        pathway_unstrat_file = None
+        if not args.skip_pathway and valid_path_samples:
+            from humann3_tools.humann3.pathway_processing import process_pathway_abundance
+            pathway_unstrat_file = process_pathway_abundance(
+                valid_path_samples,
+                args.humann3_output_dir,  # Use the HUMAnN3 output directory as source
+                args.output_dir,
+                args.output_prefix,
+                selected_columns=selected_columns
+            )
+        else:
+            if args.skip_pathway:
+                log_print("Skipping HUMAnN3 pathway processing", level="info")
+            else:
+                log_print("No valid pathway files; skipping pathway stage", level="warning")
+
+        # Process gene families
+        gene_unstrat_file = None
+        if not args.skip_gene and valid_gene_samples:
+            from humann3_tools.humann3.gene_processing import process_gene_families
+            gene_unstrat_file = process_gene_families(
+                valid_gene_samples,
+                args.humann3_output_dir,  # Use the HUMAnN3 output directory as source
+                args.output_dir,
+                args.output_prefix,
+                selected_columns=selected_columns
+            )
+        else:
+            if args.skip_gene:
+                log_print("Skipping HUMAnN3 gene processing", level="info")
+            else:
+                log_print("No valid gene files; skipping gene stage", level="warning")
+        
+        # Continue with downstream analysis if not skipped
+        if args.skip_downstream:
+            log_print("Skipping downstream analysis stage", level="info")
+        else:
+            if not pathway_unstrat_file and not gene_unstrat_file:
+                log_print("No unstratified HUMAnN3 outputs found; cannot run downstream analysis", level="warning")
+            else:
+                try:
+                    # Create analysis output directory
+                    downstream_out = os.path.join(args.output_dir, "DownstreamAnalysis")
+                    os.makedirs(downstream_out, exist_ok=True)
+                    logger.info(f"Downstream analysis output will be in: {downstream_out}")
+
+                    # Read sample metadata
+                    from humann3_tools.analysis.metadata import read_and_process_metadata
+                    from humann3_tools.utils.file_utils import check_file_exists_with_logger
+                    
+                    if not check_file_exists_with_logger(args.sample_key, "Sample key", logger):
+                        log_print("Cannot proceed with downstream analysis; missing sample key", level="error")
+                    else:
+                        sample_key_df = read_and_process_metadata(args.sample_key, logger)
+
+                        # Process gene families if available
+                        from humann3_tools.analysis.visualizations import read_and_process_gene_families
+                        if gene_unstrat_file and check_file_exists_with_logger(gene_unstrat_file, "Gene families", logger):
+                            read_and_process_gene_families(gene_unstrat_file, sample_key_df, downstream_out, logger)
+
+                        # Process pathways if available
+                        from humann3_tools.analysis.visualizations import read_and_process_pathways
+                        from humann3_tools.analysis.statistical import run_statistical_tests
+                        
+                        if pathway_unstrat_file and check_file_exists_with_logger(pathway_unstrat_file, "Pathways", logger):
+                            pathways_merged = read_and_process_pathways(
+                                pathway_unstrat_file,
+                                sample_key_df,
+                                downstream_out,
+                                logger
+                            )
+                            # Run statistical tests
+                            run_statistical_tests(pathways_merged, downstream_out, logger, group_col=args.group_col)
+                except Exception as e:
+                    logger.error(f"Downstream analysis failed: {e}")
+                    logger.error(traceback.format_exc())
+        
+        # Skip the normal processing path since we've already done it
+        log_print("Full pipeline completed successfully", level='info')
+        sys.exit(0)
 
