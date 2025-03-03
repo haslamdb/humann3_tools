@@ -32,14 +32,14 @@ def run_preprocessing_pipeline(input_files, output_dir, threads=1,
         humann3_output_dir: Custom directory for HUMAnN3 outputs
         logger: Logger instance
     """
-    # Use specified output directories or create defaults
+    # Create output directories
     if kneaddata_output_dir is None:
-        kneaddata_output = os.path.join(output_dir, "kneaddata_output")
+        kneaddata_output = os.path.join(output_dir, "PreprocessedData", "kneaddata_output")
     else:
         kneaddata_output = kneaddata_output_dir
         
     if humann3_output_dir is None:
-        humann3_output = os.path.join(output_dir, "humann3_output")
+        humann3_output = os.path.join(output_dir, "PreprocessedData", "humann3_output")
     else:
         humann3_output = humann3_output_dir
         
@@ -63,8 +63,11 @@ def run_preprocessing_pipeline(input_files, output_dir, threads=1,
     logger.info(f"Starting preprocessing pipeline with {len(input_files)} input files")
     logger.info(f"KneadData version: {kneaddata_version}")
     logger.info(f"HUMAnN3 version: {humann3_version}")
-    logger.info(f"KneadData output dir: {kneaddata_output}")
-    logger.info(f"HUMAnN3 output dir: {humann3_output}")
+    
+    # Create output directories
+    kneaddata_output = os.path.join(output_dir, "kneaddata_output")
+    humann3_output = os.path.join(output_dir, "humann3_output")
+    os.makedirs(output_dir, exist_ok=True)
     
     # Step 1: Run KneadData
     logger.info("Starting KneadData step...")
