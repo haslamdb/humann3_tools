@@ -11,6 +11,8 @@
 `
 
 ## 🔧 Features to Improve
+- [ ] Modify README.md to indicate required inputs
+- [ ] Modify README.md to show examples of --samples-file
 - [ ] There are redundancies in the sample input. For example, below is a command
         that contains several ways to get the input files, but I think it's just using the --input-fastq flag.
 - [ ] Check if intermediate files already exist before performing steps in the analysis

@@ -253,13 +253,14 @@ def main():
         preproc_dir = os.path.join(args.output_dir, "processed_files")
         os.makedirs(preproc_dir, exist_ok=True)
 
+        # Use specified output dirs or create defaults
         kneaddata_output_dir = args.kneaddata_output_dir
         if kneaddata_output_dir is None:
-          kneaddata_output_dir = os.path.join(preproc_dir,"kneaddata_output")
+            kneaddata_output_dir = os.path.join(preproc_dir, "kneaddata_output")
 
         humann3_output_dir = args.humann3_output_dir
         if humann3_output_dir is None:
-          humann3_output_dir = os.path.join(preproc_dir,"humann3_output")
+            humann3_output_dir = os.path.join(preproc_dir, "humann3_output")
 
         # Choose between regular or parallel processing
         if args.use_parallel:
@@ -285,5 +286,12 @@ def main():
                 threads=args.threads,
                 kneaddata_dbs=args.kneaddata_dbs,
                 nucleotide_db=args.humann3_nucleotide_db,
-                protein_db=args
+                protein_db=args.humann3_protein_db,
+                paired=args.paired,
+                kneaddata_output_dir=kneaddata_output_dir,
+                humann3_output_dir=humann3_output_dir,
+                logger=logger,
             )
+
+
+
