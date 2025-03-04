@@ -2104,3 +2104,276 @@ Select columns for grouping (optional). Press Enter to skip:
 2025-03-04 10:40:18,076 - INFO - Running KneadData for sample D33G
 2025-03-04 10:40:18,076 - DEBUG - Command: kneaddata -i1 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq -i2 /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --output /home/david/Data/TrimmedMSSFiles --threads 4 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
 2025-03-04 10:40:18,077 - INFO - Running: kneaddata -i1 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq -i2 /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --output /home/david/Data/TrimmedMSSFiles --threads 4 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-04 10:44:10,083 - DEBUG - Command stdout: Reformatting file sequence identifiers ...
+
+Reformatting file sequence identifiers ...
+
+Initial number of reads ( /home/david/Data/TrimmedMSSFiles/D33G/reformatted_identifiersudsx5_kr_D33G_R1 ): 9444109.0
+Initial number of reads ( /home/david/Data/TrimmedMSSFiles/D33G/reformatted_identifiersn511ns7r_D33G_R2 ): 9444109.0
+Running Trimmomatic ... 
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata.trimmed.1.fastq ): 7342259.0
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata.trimmed.2.fastq ): 7342259.0
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata.trimmed.single.1.fastq ): 592279.0
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata.trimmed.single.2.fastq ): 233687.0
+Running trf ... 
+Running trf ... 
+Running trf ... 
+Running trf ... 
+Decontaminating ...
+Running bowtie2 ... 
+Running bowtie2 ... 
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_hg_39_bowtie2_paired_clean_1.fastq ): 4056312.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_hg_39_bowtie2_paired_clean_2.fastq ): 4056312.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_1.fastq ): 4037878.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_2.fastq ): 4037878.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_paired_1.fastq ): 4037878.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_paired_2.fastq ): 4037878.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_hg_39_bowtie2_unmatched_1_clean.fastq ): 433191.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_1_clean.fastq ): 431230.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_unmatched_1.fastq ): 431230.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_hg_39_bowtie2_unmatched_2_clean.fastq ): 112786.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_2_clean.fastq ): 112158.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_unmatched_2.fastq ): 112158.0
+
+Final output files created: 
+/home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_paired_1.fastq
+/home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_paired_2.fastq
+/home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_unmatched_1.fastq
+/home/david/Data/TrimmedMSSFiles/D33G/D33G_R1_kneaddata_unmatched_2.fastq
+
+
+2025-03-04 10:44:10,083 - INFO - KneadData completed with 2 output files
+2025-03-04 10:44:10,084 - INFO - KneadData completed with 4 total output files
+2025-03-04 10:44:10,084 - INFO - Preparing KneadData outputs for HUMAnN3...
+2025-03-04 10:44:10,084 - INFO - Sample D19G_R1 has 2 candidate files
+2025-03-04 10:44:10,084 - INFO - Concatenating R1 and R2 for sample D19G_R1 -> single HUMAnN3 input
+2025-03-04 10:44:10,105 - DEBUG -   Adding D19G_R1_kneaddata_paired_1.fastq (92902901 bytes)
+2025-03-04 10:44:10,402 - DEBUG -   Adding D19G_R1_kneaddata_paired_2.fastq (92862623 bytes)
+2025-03-04 10:44:10,906 - INFO - Created D19G_R1_paired_concat.fastq for D19G_R1
+2025-03-04 10:44:10,906 - INFO - Sample D33G_R1 has 2 candidate files
+2025-03-04 10:44:10,906 - INFO - Concatenating R1 and R2 for sample D33G_R1 -> single HUMAnN3 input
+2025-03-04 10:44:11,009 - DEBUG -   Adding D33G_R1_kneaddata_paired_1.fastq (1225507756 bytes)
+2025-03-04 10:44:14,878 - DEBUG -   Adding D33G_R1_kneaddata_paired_2.fastq (1219191398 bytes)
+2025-03-04 10:44:23,896 - INFO - Created D33G_R1_paired_concat.fastq for D33G_R1
+2025-03-04 10:44:23,897 - INFO - Prepared 2 input files for HUMAnN3
+2025-03-04 10:44:23,897 - INFO - Starting HUMAnN3...
+2025-03-04 10:44:23,898 - INFO - Running HUMAnN3 for sample D19G: humann --input /home/david/Data/TrimmedMSSFiles/D19G/D19G_R1_paired_concat.fastq --output /home/david/Documents/Alignments/Humann3Alignments/D19G --threads 24
+2025-03-04 10:44:23,898 - INFO - Running: humann --input /home/david/Data/TrimmedMSSFiles/D19G/D19G_R1_paired_concat.fastq --output /home/david/Documents/Alignments/Humann3Alignments/D19G --threads 24
+2025-03-04 11:02:15,965 - DEBUG - Command stdout: Output files will be written to: /home/david/Documents/Alignments/Humann3Alignments/D19G
+
+Running metaphlan ........
+
+Found t__SGB8185 : 57.85% of mapped reads ( s__Streptococcus_mitis,g__Streptococcus.s__Streptococcus_oralis,g__Streptococcus.s__Streptococcus_sp_IMAU_99125 )
+Found t__SGB8047_group : 13.82% of mapped reads ( s__Streptococcus_salivarius,g__Streptococcus.s__Streptococcus_cristatus,g__Streptococcus.s__Streptococcus_sp_CCH8_C6 )
+Found t__SGB8168 : 7.08% of mapped reads ( s__Streptococcus_mitis,g__Streptococcus.s__Streptococcus_sp_HMSC073F11,g__Bacteria_unclassified.s__bacterium )
+Found t__SGB7292 : 6.10% of mapped reads ( s__Gemella_haemolysans )
+Found t__SGB9450_group : 3.75% of mapped reads ( s__Neisseria_flavescens,g__Neisseria.s__Neisseria_mucosa,g__Neisseria.s__Neisseria_sp_HMSC058F07,g__Neisseria.s__Neisseria_sp_HMSC072B12,g__Neisseria.s__Neisseria_sp_HMSC063B05,g__Neisseria.s__Neisseria_sp_HMSC071A01,g__Neisseria.s__Neisseria_perflava )
+Found t__SGB9652_group : 3.72% of mapped reads ( s__Haemophilus_haemolyticus,g__Haemophilus.s__Haemophilus_sp_C1,g__Haemophilus.s__Haemophilus_sp_oral_taxon_851 )
+Found g__GGB1088.s__GGB1088_SGB1395 : 3.62% of mapped reads (  )
+Found g__GGB1144.s__GGB1144_SGB1469 : 2.06% of mapped reads (  )
+Found g__Prevotella.s__Prevotella_nanceiensis : 0.60% of mapped reads (  )
+Found t__SGB2492 : 0.60% of mapped reads ( s__Capnocytophaga_leadbetteri,g__Capnocytophaga.s__Capnocytophaga_sp_oral_taxon_329,g__Capnocytophaga.s__Capnocytophaga_sp_FDAARGOS_737 )
+Found t__SGB7285_group : 0.34% of mapped reads ( s__Gemella_haemolysans )
+Found g__Porphyromonas.s__Porphyromonas_bobii : 0.21% of mapped reads ( g__Porphyromonas.s__Porphyromonas_sp_oral_taxon_279,g__Porphyromonadaceae_unclassified.s__Porphyromonadaceae_bacterium_KA00676,g__Porphyromonas.s__Porphyromonas_sp_KLE_1280,g__Porphyromonas.s__Porphyromonas_pasteri )
+Found t__SGB1552 : 0.15% of mapped reads ( s__Prevotella_melaninogenica,g__Prevotella.s__Prevotella_sp_ICM33 )
+Found t__SGB5989_group : 0.06% of mapped reads ( s__Fusobacterium_periodonticum,g__Fusobacterium.s__Fusobacterium_pseudoperiodonticum )
+Found t__SGB8094 : 0.04% of mapped reads ( s__Streptococcus_infantis )
+
+Total species selected from prescreen: 48
+
+Selected species explain 100.00% of predicted community composition
+
+
+Creating custom ChocoPhlAn database ........
+
+
+Running bowtie2-build ........
+
+
+Running bowtie2 ........
+
+Total bugs from nucleotide alignment: 16
+g__Streptococcus.s__Streptococcus_oralis: 42741 hits
+g__Streptococcus.s__Streptococcus_mitis: 134557 hits
+g__Gemella.s__Gemella_haemolysans: 17010 hits
+g__Streptococcus.s__Streptococcus_salivarius: 25663 hits
+g__Streptococcus.s__Streptococcus_sanguinis: 39487 hits
+g__Streptococcus.s__Streptococcus_infantis: 23518 hits
+g__Haemophilus.s__Haemophilus_haemolyticus: 8630 hits
+g__Streptococcus.s__Streptococcus_cristatus: 3966 hits
+g__Haemophilus.s__Haemophilus_sp_C1: 4417 hits
+g__Neisseria.s__Neisseria_flavescens: 3338 hits
+g__Fusobacterium.s__Fusobacterium_periodonticum: 342 hits
+g__Neisseria.s__Neisseria_subflava: 3150 hits
+g__Neisseria.s__Neisseria_mucosa: 2365 hits
+g__Neisseria.s__Neisseria_perflava: 3062 hits
+g__Capnocytophaga.s__Capnocytophaga_leadbetteri: 141 hits
+g__Prevotella.s__Prevotella_melaninogenica: 146 hits
+
+Total gene families from nucleotide alignment: 10392
+
+Unaligned reads after nucleotide alignment: 47.0928697183 %
+
+
+Running diamond ........
+
+
+Aligning to reference database: uniref90_201901b_full.dmnd
+
+Total bugs after translated alignment: 17
+g__Streptococcus.s__Streptococcus_oralis: 42741 hits
+g__Streptococcus.s__Streptococcus_mitis: 134557 hits
+g__Gemella.s__Gemella_haemolysans: 17010 hits
+g__Streptococcus.s__Streptococcus_salivarius: 25663 hits
+g__Streptococcus.s__Streptococcus_sanguinis: 39487 hits
+g__Streptococcus.s__Streptococcus_infantis: 23518 hits
+g__Haemophilus.s__Haemophilus_haemolyticus: 8630 hits
+g__Streptococcus.s__Streptococcus_cristatus: 3966 hits
+g__Haemophilus.s__Haemophilus_sp_C1: 4417 hits
+g__Neisseria.s__Neisseria_flavescens: 3338 hits
+g__Fusobacterium.s__Fusobacterium_periodonticum: 342 hits
+g__Neisseria.s__Neisseria_subflava: 3150 hits
+g__Neisseria.s__Neisseria_mucosa: 2365 hits
+g__Neisseria.s__Neisseria_perflava: 3062 hits
+g__Capnocytophaga.s__Capnocytophaga_leadbetteri: 141 hits
+g__Prevotella.s__Prevotella_melaninogenica: 146 hits
+unclassified: 102391 hits
+
+Total gene families after translated alignment: 16730
+
+Unaligned reads after translated alignment: 35.0812567714 %
+
+
+Computing gene families ...
+
+Computing pathways abundance and coverage ...
+
+Output files created: 
+/home/david/Documents/Alignments/Humann3Alignments/D19G/D19G_R1_paired_concat_genefamilies.tsv
+/home/david/Documents/Alignments/Humann3Alignments/D19G/D19G_R1_paired_concat_pathabundance.tsv
+/home/david/Documents/Alignments/Humann3Alignments/D19G/D19G_R1_paired_concat_pathcoverage.tsv
+
+
+2025-03-04 11:02:15,966 - DEBUG - Command stderr: /home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+/home/david/miniconda3/envs/biobakery3/lib/python3.12/site-packages/humann/quantify/MinPath12hmp.py:804: SyntaxWarning: invalid escape sequence '\d'
+  m = re.match('^[^\d]+(?P<id>\d+)', aline)
+
+2025-03-04 11:19:39,650 - DEBUG - Command stdout: Reformatting file sequence identifiers ...
+
+Reformatting file sequence identifiers ...
+
+Initial number of reads ( /home/david/Data/TrimmedMSSFiles/reformatted_identifiers768uaet0_D33G_R1 ): 9444109.0
+Initial number of reads ( /home/david/Data/TrimmedMSSFiles/reformatted_identifiers3jlkilze_D33G_R2 ): 9444109.0
+Running Trimmomatic ... 
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata.trimmed.1.fastq ): 7342259.0
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata.trimmed.2.fastq ): 7342259.0
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata.trimmed.single.1.fastq ): 592279.0
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata.trimmed.single.2.fastq ): 233687.0
+Running trf ... 
+Running trf ... 
+Running trf ... 
+Running trf ... 
+Decontaminating ...
+Running bowtie2 ... 
+Running bowtie2 ... 
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_hg_39_bowtie2_paired_clean_1.fastq ): 4056312.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_hg_39_bowtie2_paired_clean_2.fastq ): 4056312.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_1.fastq ): 4037878.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_2.fastq ): 4037878.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_paired_1.fastq ): 4037878.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_paired_2.fastq ): 4037878.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_hg_39_bowtie2_unmatched_1_clean.fastq ): 433191.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_1_clean.fastq ): 431230.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_unmatched_1.fastq ): 431230.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_hg_39_bowtie2_unmatched_2_clean.fastq ): 112786.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_2_clean.fastq ): 112158.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_unmatched_2.fastq ): 112158.0
+
+Final output files created: 
+/home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_paired_1.fastq
+/home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_paired_2.fastq
+/home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_unmatched_1.fastq
+/home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_unmatched_2.fastq
+
+
+2025-03-04 11:19:39,651 - INFO - KneadData completed for sample D33G with 4 output files
+2025-03-04 11:19:39,652 - INFO - Finished processing sample D33G in 2361.58 seconds
+2025-03-04 11:19:39,654 - INFO - Successfully processed sample D33G
+2025-03-04 11:21:05,971 - INFO - Starting HUMAnN3 Tools Pipeline
+2025-03-04 11:21:05,972 - INFO - Read metadata file with 2 rows and columns: ['SampleName', ' Group']
+2025-03-04 11:21:05,973 - INFO - Auto-detected sample ID column: SampleName
+2025-03-04 11:21:05,973 - DEBUG - Looking for files for sample D19G using pattern/suffix
+2025-03-04 11:21:05,973 - DEBUG - Trying R1 pattern /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq, found 1 files
+2025-03-04 11:21:05,973 - DEBUG - Trying R2 pattern /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq, found 1 files
+2025-03-04 11:21:05,973 - DEBUG - Found paired files: D19G_R1.fastq and D19G_R2.fastq
+2025-03-04 11:21:05,973 - DEBUG - Found 2 files for sample D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
+2025-03-04 11:21:05,973 - DEBUG - Looking for files for sample D33G using pattern/suffix
+2025-03-04 11:21:05,973 - DEBUG - Trying R1 pattern /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq, found 1 files
+2025-03-04 11:21:05,973 - DEBUG - Trying R2 pattern /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq, found 1 files
+2025-03-04 11:21:05,973 - DEBUG - Found paired files: D33G_R1.fastq and D33G_R2.fastq
+2025-03-04 11:21:05,974 - DEBUG - Found 2 files for sample D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-04 11:21:05,974 - INFO - Found sequence files for 2 out of 2 samples
+2025-03-04 11:21:05,974 - DEBUG - Sample examples:
+2025-03-04 11:21:05,974 - DEBUG -   D19G: ['D19G_R1.fastq', 'D19G_R2.fastq']
+2025-03-04 11:21:05,974 - DEBUG -   D33G: ['D33G_R1.fastq', 'D33G_R2.fastq']
+2025-03-04 11:21:05,974 - INFO - Found 2 samples with the following files:
+2025-03-04 11:21:05,974 - DEBUG -   Sample D19G: D19G_R1.fastq, D19G_R2.fastq
+2025-03-04 11:21:05,974 - DEBUG -   Sample D33G: D33G_R1.fastq, D33G_R2.fastq
+2025-03-04 11:21:05,974 - DEBUG - Added paired files for sample D19G
+2025-03-04 11:21:05,974 - DEBUG - Added paired files for sample D33G
+2025-03-04 11:21:05,974 - INFO - Collected 4 sequence files from 2 samples
+2025-03-04 11:21:05,974 - DEBUG - Input files for processing:
+2025-03-04 11:21:05,974 - DEBUG -   1: D19G_R1.fastq
+2025-03-04 11:21:05,974 - DEBUG -   2: D19G_R2.fastq
+2025-03-04 11:21:05,974 - DEBUG -   3: D33G_R1.fastq
+2025-03-04 11:21:05,974 - DEBUG -   4: D33G_R2.fastq
+2025-03-04 11:21:05,975 - INFO - 
+Available columns in sample key (2):
+2025-03-04 11:21:05,975 - INFO -   1. SampleName
+2025-03-04 11:21:05,975 - INFO -   2.  Group
+2025-03-04 11:21:05,975 - INFO - 
+Automatic selection: 'SampleName' as sample identifier
+2025-03-04 11:21:05,975 - INFO - 
+Select columns for grouping (optional). Press Enter to skip:
+2025-03-04 11:21:05,975 - INFO -   1.  Group
+2025-03-04 11:21:05,975 - INFO - Example: '1,3,5' or 'Group,Treatment,Site'
+2025-03-04 11:21:08,709 - INFO - Using standard preprocessing pipeline
+2025-03-04 11:21:08,872 - INFO - Starting preprocessing pipeline with 4 input files
+2025-03-04 11:21:08,872 - INFO - KneadData version: kneaddata v0.12.2
+2025-03-04 11:21:08,872 - INFO - HUMAnN3 version: humann v3.9
+2025-03-04 11:21:08,873 - INFO - Using KneadData output directory: /home/david/Data/TrimmedMSSFiles
+2025-03-04 11:21:08,873 - INFO - Using HUMAnN3 output directory: /home/david/Documents/Alignments/Humann3Alignments
+2025-03-04 11:21:08,873 - INFO - Starting KneadData step (paired=True)...
+2025-03-04 11:21:08,873 - INFO - KneadData on paired files for sample D19G
+2025-03-04 11:21:08,873 - INFO - Running KneadData in paired mode with files: /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq and /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq
+2025-03-04 11:21:08,874 - INFO - Running KneadData: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-04 11:21:08,874 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict

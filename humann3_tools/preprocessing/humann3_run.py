@@ -250,14 +250,14 @@ def run_humann3(input_files, output_dir, threads=1, nucleotide_db=None,
                     output_files["metaphlan"] = full_path
         
         # Log which files were found and which are missing
-        found_files = [k for k, v in sample_outputs.items() if v is not None]
-        missing_files = [k for k, v in sample_outputs.items() if v is None]
+        found_files = [k for k, v in output_files.items() if v is not None]
+        missing_files = [k for k, v in output_files.items() if v is None]
         
         logger.info(f"Sample {sample_name} output files found: {', '.join(found_files)}")
         if missing_files:
             logger.warning(f"Sample {sample_name} missing files: {', '.join(missing_files)}")
             
-        output_files[sample_name] = sample_outputs
+        output_files[sample_name] = output_files
     
     logger.info(f"HUMAnN3 completed for {len(output_files)} samples")
     return output_files
