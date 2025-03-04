@@ -19,7 +19,8 @@
 
 
 	
-humann3-tools 	--run-preprocessing \
+# not parallel	
+	humann3-tools --run-preprocessing \
 	--log-file test.log \
 	--log-level DEBUG \
 	--output-dir test.out2 \
@@ -37,4 +38,26 @@ humann3-tools 	--run-preprocessing \
 	--paired \
 	--decontaminate-pairs strict \
 	--annotations-dir annotations 
-	
+
+
+# parallel
+humann3-tools 	--run-preprocessing \
+	--log-file test.log \
+	--log-level DEBUG \
+	--output-dir test.out2 \
+	--output-prefix test- \
+	--kneaddata-dbs  /home/david/Databases/KneadDataDB /home/david/Databases/BT2ContaminantDB \
+	--threads 24 \
+	--sample-key TestKey.csv \
+	--use-metadata \
+	--seq-dir /home/david/Data/TrimmedMSSFiles/ \
+  	--kneaddata-output-dir ~/Data/TrimmedMSSFiles \
+  	--humann3-output-dir ~/Documents/Alignments/Humann3Alignments \
+	--pathway-dir test.out2 \
+	--gene-dir test.out2 \
+	--group-col "Group" \
+	--paired \
+	--use-parallel \
+	--threads-per-sample 4 \
+	--decontaminate-pairs strict \
+	--annotations-dir annotations 
