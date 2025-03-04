@@ -38,39 +38,74 @@ def parse_args():
     
     return parser.parse_args()
 
-def join_unstratify_humann_output():
+def process_join_unstratify(
+    sample_key, 
+    pathway_dir=None, 
+    gene_dir=None, 
+    output_dir="./HUMAnN3_Processed", 
+    output_prefix="ProcessedFiles", 
+    units="cpm", 
+    no_interactive=False, 
+    log_file=None, 
+    log_level="INFO"
+):
     """
-    Main function to join and unstratify HUMAnN3 gene family and pathway files.
+    Function to join and unstratify HUMAnN3 gene family and pathway files.
     This function only processes the HUMAnN3 output files without running 
     preprocessing or downstream analysis.
-    """
-    args = parse_args()
     
+    Args:
+        sample_key: Path to sample metadata CSV file
+        pathway_dir: Directory containing pathway files (None to skip)
+        gene_dir: Directory containing gene family files (None to skip)
+        output_dir: Directory for output files
+        output_prefix: Prefix for output files
+        units: Units for normalization ("cpm" or "relab")
+        no_interactive: Disable interactive prompts
+        log_file: Path to log file
+        log_level: Logging level
+        
+    Returns:
+        Boolean success flag
+    """
     # Setup logging
-    logger = setup_logger(log_file=args.log_file, log_level=getattr(logging, args.log_level))
+    logger = setup_logger(log_file=log_file, log_level=getattr(logging, log_level.upper()))
     log_print("Starting HUMAnN3 Join and Unstratify Pipeline", level="info")
     start_time = time.time()
     
+    # Check if at least one directory is provided
+    if not pathway_dir and not gene_dir:
+        log_print("ERROR: At least one of pathway_dir or gene_dir must be provided", level="error")
+        return False
+    
     # Process sample metadata
-    samples, selected_columns = validate_sample_key(args.sample_key, no_interactive=args.no_interactive)
+    samples, selected_columns = validate_sample_key(sample_key, no_interactive=no_interactive)
     
     # Check input files
-    valid_path_samples, valid_gene_samples = check_input_files_exist(samples, args.pathway_dir, args.gene_dir)
+    valid_path_samples, valid_gene_samples = [], []
+    
+    if pathway_dir:
+        valid_path_samples, _ = check_input_files_exist(samples, pathway_dir, gene_dir if gene_dir else pathway_dir)
+    
+    if gene_dir:
+        _, valid_gene_samples = check_input_files_exist(samples, pathway_dir if pathway_dir else gene_dir, gene_dir)
     
     # Create output directory
-    os.makedirs(args.output_dir, exist_ok=True)
+    os.makedirs(output_dir, exist_ok=True)
     
     # Process pathway files
     pathway_unstrat_file = None
-    if not args.skip_pathway and valid_path_samples:
-        log_print("Processing pathway abundance files...", level="info")
+    skip_pathway = pathway_dir is None
+    
+    if not skip_pathway and valid_path_samples:
+        log_print(f"Processing pathway abundance files with units: {units}...", level="info")
         pathway_unstrat_file = process_pathway_abundance(
             valid_path_samples,
-            args.pathway_dir,
-            args.output_dir,
-            args.output_prefix,
+            pathway_dir,
+            output_dir,
+            output_prefix,
             selected_columns=selected_columns,
-            units=args.units
+            units=units
         )
         
         if pathway_unstrat_file:
@@ -78,22 +113,24 @@ def join_unstratify_humann_output():
         else:
             log_print("Pathway processing failed to produce an unstratified file", level="warning")
     else:
-        if args.skip_pathway:
-            log_print("Skipping pathway processing as requested", level="info")
+        if skip_pathway:
+            log_print("Skipping pathway processing as no pathway_dir provided", level="info")
         else:
             log_print("No valid pathway files found; skipping pathway processing", level="warning")
     
     # Process gene family files
     gene_unstrat_file = None
-    if not args.skip_gene and valid_gene_samples:
-        log_print("Processing gene family files...", level="info")
+    skip_gene = gene_dir is None
+    
+    if not skip_gene and valid_gene_samples:
+        log_print(f"Processing gene family files with units: {units}...", level="info")
         gene_unstrat_file = process_gene_families(
             valid_gene_samples,
-            args.gene_dir,
-            args.output_dir,
-            args.output_prefix,
+            gene_dir,
+            output_dir,
+            output_prefix,
             selected_columns=selected_columns,
-            units=args.units
+            units=units
         )
         
         if gene_unstrat_file:
@@ -101,8 +138,8 @@ def join_unstratify_humann_output():
         else:
             log_print("Gene family processing failed to produce an unstratified file", level="warning")
     else:
-        if args.skip_gene:
-            log_print("Skipping gene family processing as requested", level="info")
+        if skip_gene:
+            log_print("Skipping gene family processing as no gene_dir provided", level="info")
         else:
             log_print("No valid gene family files found; skipping gene family processing", level="warning")
     
@@ -118,11 +155,34 @@ def join_unstratify_humann_output():
     if gene_unstrat_file:
         log_print(f"  - Gene family unstratified file: {gene_unstrat_file}", level="info")
     
-    if not pathway_unstrat_file and not gene_unstrat_file:
+    success = pathway_unstrat_file is not None or gene_unstrat_file is not None
+    if not success:
         log_print("  - No output files were generated", level="warning")
-        return 1
     
-    return 0
+    return success
+
+def join_unstratify_humann_output():
+    """
+    Main function to join and unstratify HUMAnN3 gene family and pathway files.
+    This function only processes the HUMAnN3 output files without running 
+    preprocessing or downstream analysis.
+    """
+    args = parse_args()
+    
+    # Use the process function instead of duplicating code
+    success = process_join_unstratify(
+        sample_key=args.sample_key,
+        pathway_dir=None if args.skip_pathway else args.pathway_dir,
+        gene_dir=None if args.skip_gene else args.gene_dir,
+        output_dir=args.output_dir,
+        output_prefix=args.output_prefix,
+        units=args.units,
+        no_interactive=args.no_interactive,
+        log_file=args.log_file,
+        log_level=args.log_level
+    )
+    
+    return 0 if success else 1
 
 if __name__ == "__main__":
     sys.exit(join_unstratify_humann_output())

@@ -61,3 +61,12 @@ humann3-tools 	--run-preprocessing \
 	--threads-per-sample 4 \
 	--decontaminate-pairs strict \
 	--annotations-dir annotations 
+
+# join, normalize, split stratify only
+humann3-tools --join-only \
+  --sample-key TestKey.csv \
+  --pathway-dir /path/to/pathways \
+  --gene-dir /path/to/genes \
+  --output-dir joined_output \
+  --units cpm \
+  --no-interactive

@@ -24,6 +24,8 @@ from humann3_tools.utils.resource_utils import limit_memory_usage
 from humann3_tools.utils.metadata_utils import collect_samples_from_metadata, find_sample_files
 
 
+
+
 def main():
     """Main entry point for the humann3_tools CLI."""
     parser = argparse.ArgumentParser(description="HUMAnN3 Tools: Process and analyze HUMAnN3 output")
@@ -59,6 +61,17 @@ def main():
         "--output-prefix",
         default="ProcessedFiles",
         help="Prefix for intermediate HUMAnN3 output directories/files",
+    )
+
+    # --- New Join/Unstratify Mode ---
+    join_group = parser.add_argument_group("Join & Unstratify Options")
+    join_group.add_argument(
+        "--join-only", action="store_true", 
+        help="Run only join and unstratify operations (no preprocessing or downstream analysis)"
+    )
+    join_group.add_argument(
+        "--units", default="cpm", choices=["cpm", "relab"], 
+        help="Units for normalization (default: cpm)"
     )
 
     # --- 3. Preprocessing (KneadData/HUMAnN3) Options ---
@@ -112,10 +125,6 @@ def main():
         help="Directory for metaphlan bugs list files (default: {output-dir}/MetaphlanFiles)",
     )
 
-
-
-
-
     # --- 3.1 Metadata driven workflow ---
     metadata_group = parser.add_argument_group("Metadata-driven workflow options")
     metadata_group.add_argument("--use-metadata", action="store_true", help="Read samples and file paths from metadata")
@@ -139,9 +148,9 @@ def main():
     # --- 4. HUMAnN3 Processing Options ---
     humann3_group = parser.add_argument_group("HUMAnN3 Processing Options")
     humann3_group.add_argument(
-        "--pathway-dir", required=True, help="Directory containing raw pathway abundance files"
+        "--pathway-dir", help="Directory containing raw pathway abundance files"
     )
-    humann3_group.add_argument("--gene-dir", required=True, help="Directory containing raw gene family files")
+    humann3_group.add_argument("--gene-dir", help="Directory containing raw gene family files")
     humann3_group.add_argument("--skip-pathway", action="store_true", help="Skip HUMAnN3 pathway processing")
     humann3_group.add_argument("--skip-gene", action="store_true", help="Skip HUMAnN3 gene family processing")
     humann3_group.add_argument(
@@ -190,6 +199,40 @@ def main():
     log_print("Starting HUMAnN3 Tools Pipeline", level="info")
 
     start_time = time.time()
+
+    # Make sure pathway-dir and gene-dir are required only when they're needed
+    if not args.run_preprocessing and not args.join_only and not args.list_files:
+        if not args.pathway_dir or not args.gene_dir:
+            log_print("ERROR: --pathway-dir and --gene-dir are required unless using --run-preprocessing, --join-only, or --list-files", level="error")
+            sys.exit(1)
+
+    # Check for join-only mode
+    if args.join_only:
+        if not args.pathway_dir and not args.gene_dir:
+            log_print("ERROR: At least one of --pathway-dir or --gene-dir must be specified with --join-only", level="error")
+            sys.exit(1)
+        
+        log_print(f"Running in join-only mode with units: {args.units}", level="info")
+        
+        # Import function from join_unstratify
+        from humann3_tools.join_unstratify import process_join_unstratify
+        
+        result = process_join_unstratify(
+            sample_key=args.sample_key,
+            pathway_dir=args.pathway_dir if args.pathway_dir and not args.skip_pathway else None,
+            gene_dir=args.gene_dir if args.gene_dir and not args.skip_gene else None,
+            output_dir=args.output_dir,
+            output_prefix=args.output_prefix,
+            units=args.units,
+            no_interactive=args.no_interactive,
+            log_file=args.log_file,
+            log_level=args.log_level
+        )
+        
+        elapsed = time.time() - start_time
+        mm, ss = divmod(elapsed, 60)
+        log_print(f"Join & unstratify processing completed in {int(mm)}m {int(ss)}s", level="info")
+        sys.exit(0 if result else 1)
 
     if args.use_metadata and args.seq_dir:  
         # Collect samples from metadata
@@ -247,19 +290,21 @@ def main():
 
     # If only listing files, do that and exit
     if args.list_files:
-        log_print(f"Files in pathway dir: {args.pathway_dir}", level="info")
-        if os.path.isdir(args.pathway_dir):
-            for f in sorted(os.listdir(args.pathway_dir)):
-                log_print("  " + f, level="info")
-        else:
-            log_print("  Pathway dir not found.", level="warning")
+        if args.pathway_dir:
+            log_print(f"Files in pathway dir: {args.pathway_dir}", level="info")
+            if os.path.isdir(args.pathway_dir):
+                for f in sorted(os.listdir(args.pathway_dir)):
+                    log_print("  " + f, level="info")
+            else:
+                log_print("  Pathway dir not found.", level="warning")
 
-        log_print(f"Files in gene dir: {args.gene_dir}", level="info")
-        if os.path.isdir(args.gene_dir):
-            for f in sorted(os.listdir(args.gene_dir)):
-                log_print("  " + f, level="info")
-        else:
-            log_print("  Gene dir not found.", level="warning")
+        if args.gene_dir:
+            log_print(f"Files in gene dir: {args.gene_dir}", level="info")
+            if os.path.isdir(args.gene_dir):
+                for f in sorted(os.listdir(args.gene_dir)):
+                    log_print("  " + f, level="info")
+            else:
+                log_print("  Gene dir not found.", level="warning")
 
         sys.exit(0)
 
@@ -269,6 +314,7 @@ def main():
     ## Preprocessing and HUMAnN3 alignment ###
     preprocessing_results = None
     if args.run_preprocessing:
+        # Rest of the code remains the same...
         # If memory limit is specified, try to apply it
         if args.max_memory:
             success = limit_memory_usage(args.max_memory)
