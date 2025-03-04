@@ -52,9 +52,9 @@ def run_preprocessing_pipeline(
     if logger is None:
         logger = logging.getLogger("humann3_analysis")
 
-    # ----------------------------------------------------------------------
+
     # 1. Check installations
-    # ----------------------------------------------------------------------
+
     kneaddata_ok, kneaddata_version = check_kneaddata_installation()
     if not kneaddata_ok:
         logger.error(f"KneadData not properly installed: {kneaddata_version}")
@@ -69,9 +69,9 @@ def run_preprocessing_pipeline(
     logger.info(f"KneadData version: {kneaddata_version}")
     logger.info(f"HUMAnN3 version: {humann3_version}")
 
-    # ----------------------------------------------------------------------
+
     # 2. Create output directories
-    # ----------------------------------------------------------------------
+
     if kneaddata_output_dir is None:
         kneaddata_output_dir = os.path.join(output_dir, "kneaddata_output")
     if humann3_output_dir is None:
@@ -84,9 +84,9 @@ def run_preprocessing_pipeline(
     logger.info(f"Using KneadData output directory: {kneaddata_output_dir}")
     logger.info(f"Using HUMAnN3 output directory: {humann3_output_dir}")
 
-    # ----------------------------------------------------------------------
+
     # 3. Run KneadData
-    # ----------------------------------------------------------------------
+
     logger.info(f"Starting KneadData step (paired={paired})...")
 
     kneaddata_files = []
@@ -146,9 +146,9 @@ def run_preprocessing_pipeline(
 
     logger.info(f"KneadData completed with {len(kneaddata_files)} total output files")
 
-    # ----------------------------------------------------------------------
+
     # 4. Organize KneadData outputs by sample
-    # ----------------------------------------------------------------------
+
     logger.info("Preparing KneadData outputs for HUMAnN3...")
     sample_files = {}
 
@@ -176,10 +176,10 @@ def run_preprocessing_pipeline(
             sample_files[sname] = set()
         sample_files[sname].add(f)
 
-    # ----------------------------------------------------------------------
+
     # 5. For each sample, find exactly one _paired_1.fastq and one _paired_2.fastq,
     #    then concatenate them for HUMAnN3.
-    # ----------------------------------------------------------------------
+
     humann3_input_files = []
 
     for sample_name, file_set in sample_files.items():
@@ -223,9 +223,8 @@ def run_preprocessing_pipeline(
         logger.error("No valid input files after KneadData; cannot run HUMAnN3.")
         return None
 
-    # ----------------------------------------------------------------------
+
     # 6. Run HUMAnN3
-    # ----------------------------------------------------------------------
     logger.info("Starting HUMAnN3...")
     humann3_results = run_humann3(
         input_files=humann3_input_files,

@@ -2,6 +2,7 @@
 import os
 import subprocess
 import logging
+import shutil
 from humann3_tools.utils.cmd_utils import run_cmd
 from humann3_tools.logger import log_print
 from humann3_tools.utils.resource_utils import track_peak_memory
@@ -20,16 +21,30 @@ def check_humann3_installation():
 
 def process_single_sample_humann3(input_file, sample_id=None, output_dir=None, 
                                  threads=1, nucleotide_db=None, protein_db=None, 
-                                 additional_options=None, logger=None):
+                                 additional_options=None, logger=None, pathabdirectory=None,
+                                 genedirectory=None, pathcovdirectory=None, metadirectory=None):
     """Process a single sample with HUMAnN3."""
     if logger is None:
         logger = logging.getLogger('humann3_analysis')
     
     if sample_id is None:
         sample_id = os.path.basename(input_file).split('.')[0]
-    
+
     if output_dir is None:
         output_dir = os.path.join(os.getcwd(), "humann3_output", sample_id)
+
+    if pathabdirectory is None:
+        pathabdirectory = os.path.join(output_dir, "Pathabundance")
+
+    if genedirectory is None:
+        genedirectory = os.path.join(output_dir, "GeneFamilies")
+
+    if pathcovdirectory is None:
+        pathcovdirectory = os.path.join(output_dir, "PathCoverage")
+
+    if metadirectory is None:
+        metadirectory = os.path.join(output_dir, "MetaphlanFiles")
+
     
     os.makedirs(output_dir, exist_ok=True)
     
@@ -97,7 +112,45 @@ def process_single_sample_humann3(input_file, sample_id=None, output_dir=None,
             logger.warning(f"Missing output files: {', '.join(missing_files)}")
         
         logger.info(f"HUMAnN3 completed for sample {sample_id}")
-        return output_files
+
+        # Send to respective directories
+        pathabundance_dir = pathabdirectory
+        genefamilies_dir = genedirectory
+        pathcoverage_dir = pathcovdirectory
+        metaphlan_dir = metadirectory
+
+        # Create target directories if they do not exist
+        os.makedirs(pathabundance_dir, exist_ok=True)
+        os.makedirs(genefamilies_dir, exist_ok=True)
+
+        for sample_id, file_paths in output_files.items():
+
+            path_file = file_paths.get("pathabundance")
+            if path_file and os.path.isfile(path_file):
+                new_location = os.path.join(pathabundance_dir, os.path.basename(path_file))
+                shutil.copy(path_file, new_location)
+                print(f"Copied pathabundance for {sample_id} to {new_location}")
+
+    
+            gene_file = file_paths.get("genefamilies")
+            if gene_file and os.path.isfile(gene_file):
+                new_location = os.path.join(genefamilies_dir, os.path.basename(gene_file))
+                shutil.copy(gene_file, new_location)
+                print(f"Copied genefamilies for {sample_id} to {new_location}")
+
+            path_coverage_file = file_paths.get("pathcoverage")
+            if path_coverage_file and os.path.isfile(path_coverage_file):
+                new_location = os.path.join(pathcoverage_dir, os.path.basename(path_coverage_file))
+                shutil.copy(path_coverage_file, new_location)
+                print(f"Copied pathcoverage for {sample_id} to {new_location}")
+
+            metaphlan_file = file_paths.get("metaphlan")
+            if metaphlan_file and os.path.isfile(metaphlan_file):
+                new_location = os.path.join(metaphlan_dir, os.path.basename(metaphlan_file))
+                shutil.copy(metaphlan_file, new_location)
+                print(f"Copied metaphlan for {sample_id} to {new_location}")
+
+    return output_files
 
 
 # Add support for parallel processing
@@ -127,6 +180,7 @@ def run_humann3_parallel(input_files, output_dir, threads=1, max_parallel=None,
         logger = logging.getLogger('humann3_analysis')
     
     # Create sample list
+    #TODO This could fail if the sample name is not the first part of the file name
     sample_list = []
     for file in input_files:
         sample_name = os.path.basename(file).split('_')[0]
@@ -161,7 +215,8 @@ def run_humann3_parallel(input_files, output_dir, threads=1, max_parallel=None,
     return results
 
 def run_humann3(input_files, output_dir, threads=1, nucleotide_db=None, 
-               protein_db=None, additional_options=None, logger=None):
+               protein_db=None, additional_options=None, logger=None,  pathabdirectory=None,
+                genedirectory=None, pathcovdirectory=None, metadirectory=None):
     """
     Run HUMAnN3 on input sequence files.
     
@@ -223,41 +278,89 @@ def run_humann3(input_files, output_dir, threads=1, nucleotide_db=None,
             continue
         
     # Now collect output file paths in one pass over the entire output_dir
-        output_files = {
+        sample_outputs = {
             'genefamilies': None,
             'pathabundance': None,
             'pathcoverage': None,
             'metaphlan': None
         }
         
-        # SINGLE PASS using os.walk
+        # Use os.walk to find the output files
         for root, dirs, files in os.walk(output_dir):
             for f in files:
                 f_lower = f.lower()
-                # Must be a .tsv
                 if not f_lower.endswith(".tsv"):
                     continue
                 full_path = os.path.join(root, f)
                 
-                # Match known HUMAnN3 output files
                 if "genefamilies" in f_lower:
-                    output_files["genefamilies"] = full_path
+                    sample_outputs["genefamilies"] = full_path
                 elif "pathabundance" in f_lower:
-                    output_files["pathabundance"] = full_path
+                    sample_outputs["pathabundance"] = full_path
                 elif "pathcoverage" in f_lower:
-                    output_files["pathcoverage"] = full_path
+                    sample_outputs["pathcoverage"] = full_path
                 elif "metaphlan_bugs_list" in f_lower:
-                    output_files["metaphlan"] = full_path
+                    sample_outputs["metaphlan"] = full_path
         
         # Log which files were found and which are missing
-        found_files = [k for k, v in output_files.items() if v is not None]
-        missing_files = [k for k, v in output_files.items() if v is None]
+        found_files = [k for k, v in sample_outputs.items() if v is not None]
+        missing_files = [k for k, v in sample_outputs.items() if v is None]
         
         logger.info(f"Sample {sample_name} output files found: {', '.join(found_files)}")
         if missing_files:
             logger.warning(f"Sample {sample_name} missing files: {', '.join(missing_files)}")
             
-        output_files[sample_name] = output_files
+        output_files[sample_name] = sample_outputs
+
+    # Send to respective directories
+        athabundance_dir = pathabdirectory
+        genefamilies_dir = genedirectory
+        pathcoverage_dir = pathcovdirectory
+        metaphlan_dir = metadirectory
     
+        # Create target directories if they do not exist
+        os.makedirs(pathabundance_dir, exist_ok=True)
+        os.makedirs(genefamilies_dir, exist_ok=True)
+
+        for sample_id, file_paths in sample_outputs.items():
+
+
+            if pathabdirectory is None:
+                pathabdirectory = os.path.join(output_dir, "PathwayAbundance")
+
+            if genedirectory is None:
+                genedirectory = os.path.join(output_dir, "GeneFamilies")
+
+            if pathcovdirectory is None:
+                pathcovdirectory = os.path.join(output_dir, "PathwayCoverage")
+
+            if metadirectory is None:
+                metadirectory = os.path.join(output_dir, "MetaphlanFiles")
+
+            path_file = file_paths.get("pathabundance")
+            if path_file and os.path.isfile(path_file):
+                new_location = os.path.join(pathabundance_dir, os.path.basename(path_file))
+                shutil.copy(path_file, new_location)
+                print(f"Copied pathabundance for {sample_id} to {new_location}")
+
+    
+            gene_file = file_paths.get("genefamilies")
+            if gene_file and os.path.isfile(gene_file):
+                new_location = os.path.join(genefamilies_dir, os.path.basename(gene_file))
+                shutil.copy(gene_file, new_location)
+                print(f"Copied genefamilies for {sample_id} to {new_location}")
+
+            path_coverage_file = file_paths.get("pathcoverage")
+            if path_coverage_file and os.path.isfile(path_coverage_file):
+                new_location = os.path.join(pathcoverage_dir, os.path.basename(path_coverage_file))
+                shutil.copy(path_coverage_file, new_location)
+                print(f"Copied pathcoverage for {sample_id} to {new_location}")
+
+            metaphlan_file = file_paths.get("metaphlan")
+            if metaphlan_file and os.path.isfile(metaphlan_file):
+                new_location = os.path.join(metaphlan_dir, os.path.basename(metaphlan_file))
+                shutil.copy(metaphlan_file, new_location)
+                print(f"Copied metaphlan for {sample_id} to {new_location}")
+        
     logger.info(f"HUMAnN3 completed for {len(output_files)} samples")
     return output_files
