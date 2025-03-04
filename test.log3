@@ -1114,3 +1114,103 @@ Select columns for grouping (optional). Press Enter to skip:
 2025-03-03 20:56:31,911 - INFO - Running KneadData for sample D33G
 2025-03-03 20:56:31,911 - DEBUG - Command: kneaddata -i1 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq -i2 /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --output /home/david/Data/TrimmedMSSFiles --threads 8 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
 2025-03-03 20:56:31,911 - INFO - Running: kneaddata -i1 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq -i2 /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --output /home/david/Data/TrimmedMSSFiles --threads 8 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-03 21:19:42,094 - DEBUG - Command stdout: Reformatting file sequence identifiers ...
+
+Reformatting file sequence identifiers ...
+
+Initial number of reads ( /home/david/Data/TrimmedMSSFiles/reformatted_identifiersmn52bzr__D33G_R1 ): 9444109.0
+Initial number of reads ( /home/david/Data/TrimmedMSSFiles/reformatted_identifiers7ok6i4kh_D33G_R2 ): 9444109.0
+Running Trimmomatic ... 
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata.trimmed.1.fastq ): 7342259.0
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata.trimmed.2.fastq ): 7342259.0
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata.trimmed.single.1.fastq ): 592279.0
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata.trimmed.single.2.fastq ): 233687.0
+Running trf ... 
+Running trf ... 
+Running trf ... 
+Running trf ... 
+Decontaminating ...
+Running bowtie2 ... 
+Running bowtie2 ... 
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_hg_39_bowtie2_paired_clean_1.fastq ): 4056312.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_hg_39_bowtie2_paired_clean_2.fastq ): 4056312.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_1.fastq ): 4037878.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_2.fastq ): 4037878.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_paired_1.fastq ): 4037878.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_paired_2.fastq ): 4037878.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_hg_39_bowtie2_unmatched_1_clean.fastq ): 433191.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_1_clean.fastq ): 431230.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_unmatched_1.fastq ): 431230.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_hg_39_bowtie2_unmatched_2_clean.fastq ): 112786.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_2_clean.fastq ): 112158.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_unmatched_2.fastq ): 112158.0
+
+Final output files created: 
+/home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_paired_1.fastq
+/home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_paired_2.fastq
+/home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_unmatched_1.fastq
+/home/david/Data/TrimmedMSSFiles/D33G_R1_kneaddata_unmatched_2.fastq
+
+
+2025-03-03 21:19:42,094 - INFO - KneadData completed for sample D33G with 4 output files
+2025-03-03 21:19:42,094 - INFO - Finished processing sample D33G in 1390.18 seconds
+2025-03-03 21:19:42,096 - INFO - Successfully processed sample D33G
+2025-03-03 21:24:09,389 - DEBUG - Command stdout: Reformatting file sequence identifiers ...
+
+Reformatting file sequence identifiers ...
+
+Initial number of reads ( /home/david/Data/TrimmedMSSFiles/reformatted_identifierscpnevwk5_D19G_R1 ): 10644848.0
+Initial number of reads ( /home/david/Data/TrimmedMSSFiles/reformatted_identifiersk8hxjchn_D19G_R2 ): 10644848.0
+Running Trimmomatic ... 
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata.trimmed.1.fastq ): 6961227.0
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata.trimmed.2.fastq ): 6961227.0
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata.trimmed.single.1.fastq ): 346202.0
+Total reads after trimming ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata.trimmed.single.2.fastq ): 264206.0
+Running trf ... 
+Running trf ... 
+Running trf ... 
+Running trf ... 
+Decontaminating ...
+Running bowtie2 ... 
+Running bowtie2 ... 
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_hg_39_bowtie2_paired_clean_1.fastq ): 298152.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_hg_39_bowtie2_paired_clean_2.fastq ): 298152.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_1.fastq ): 295360.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_ContaminantIndex_bowtie2_paired_clean_2.fastq ): 295360.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_paired_1.fastq ): 295360.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_paired_2.fastq ): 295360.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_hg_39_bowtie2_unmatched_1_clean.fastq ): 16735.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_1_clean.fastq ): 16566.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_unmatched_1.fastq ): 16566.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_hg_39_bowtie2_unmatched_2_clean.fastq ): 9093.0
+Total reads after removing those found in reference database ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_ContaminantIndex_bowtie2_unmatched_2_clean.fastq ): 9000.0
+Total reads after merging results from multiple databases ( /home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_unmatched_2.fastq ): 9000.0
+
+Final output files created: 
+/home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_paired_1.fastq
+/home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_paired_2.fastq
+/home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_unmatched_1.fastq
+/home/david/Data/TrimmedMSSFiles/D19G_R1_kneaddata_unmatched_2.fastq
+
+
+2025-03-03 21:24:09,391 - INFO - KneadData completed for sample D19G with 4 output files
+2025-03-03 21:24:09,391 - INFO - Finished processing sample D19G in 1657.48 seconds
+2025-03-03 21:24:09,393 - INFO - Successfully processed sample D19G
+2025-03-03 21:24:09,448 - INFO - Completed parallel processing. Successfully processed 2 of 2 samples
+2025-03-03 21:24:10,208 - INFO - Memory usage: start=204.00 MB, peak=204.00 MB, end=203.25 MB
+2025-03-03 21:24:10,208 - INFO - KneadData completed with 8 total output files
+2025-03-03 21:24:10,208 - INFO - Preparing KneadData outputs for HUMAnN3...
+2025-03-03 21:24:10,209 - DEBUG - Added D33G_R1_kneaddata_paired_1.fastq to sample D33G_R1
+2025-03-03 21:24:10,209 - DEBUG - Added D19G_R1_kneaddata_paired_1.fastq to sample D19G_R1
+2025-03-03 21:24:10,209 - DEBUG - Added D33G_R1_kneaddata_paired_2.fastq to sample D33G_R1
+2025-03-03 21:24:10,209 - DEBUG - Added D19G_R1_kneaddata_paired_2.fastq to sample D19G_R1
+2025-03-03 21:24:10,209 - DEBUG - Added D33G_R1_kneaddata_paired_1.fastq to sample D33G_R1
+2025-03-03 21:24:10,210 - DEBUG - Added D19G_R1_kneaddata_paired_1.fastq to sample D19G_R1
+2025-03-03 21:24:10,210 - DEBUG - Added D33G_R1_kneaddata_paired_2.fastq to sample D33G_R1
+2025-03-03 21:24:10,210 - DEBUG - Added D19G_R1_kneaddata_paired_2.fastq to sample D19G_R1
+2025-03-03 21:24:10,210 - INFO - Processing sample D33G_R1 with 4 KneadData output files
+2025-03-03 21:24:10,210 - WARNING - Sample D33G_R1 has 4 files instead of expected 2 paired files. Skipping.
+2025-03-03 21:24:10,210 - INFO - Processing sample D19G_R1 with 4 KneadData output files
+2025-03-03 21:24:10,211 - WARNING - Sample D19G_R1 has 4 files instead of expected 2 paired files. Skipping.
+2025-03-03 21:24:10,211 - INFO - Prepared 0 input files for HUMAnN3
+2025-03-03 21:24:10,211 - ERROR - No valid input files prepared for HUMAnN3
