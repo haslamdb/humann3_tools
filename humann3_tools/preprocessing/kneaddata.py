@@ -34,8 +34,7 @@ def process_single_sample_kneaddata(input_file, sample_id=None, output_dir=None,
     
     # Build command 
     if paired_file:
-        # For paired-end reads, use -i1 and -i2 (don't include --paired flag)
-        cmd = ["kneaddata", "-i1", input_file, "-i2", paired_file, "--output", output_dir]
+        cmd = ["kneaddata", "-input1", input_file, "-input2", paired_file, "--output", output_dir]
         logger.debug(f"Running KneadData in paired mode with files: {os.path.basename(input_file)} and {os.path.basename(paired_file)}")
     else:
         # For single-end reads, use --input
@@ -58,7 +57,6 @@ def process_single_sample_kneaddata(input_file, sample_id=None, output_dir=None,
     if additional_options:
         for key, value in additional_options.items():
             if key == 'paired':
-                # Skip the paired flag as it's handled by using -i1 and -i2
                 continue
             
             if value is True:
