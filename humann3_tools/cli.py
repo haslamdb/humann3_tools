@@ -92,6 +92,30 @@ def main():
         help="Directory for HUMAnN3 output files (default: {output-dir}/PreprocessedData/humann3_output)",
     )
 
+    preprocessing_group.add_argument(
+        "--pathabundance_dir",
+        help="Directory for pathway abundance files (default: {output-dir}/PathwayAbundance)",
+    )
+
+    preprocessing_group.add_argument(
+        "--pathcovdirectory",
+        help="Directory for pathway coverage files (default: {output-dir}/PathwayCoverage)",
+    )
+
+    preprocessing_group.add_argument(
+        "--genedirectory",
+        help="Directory for genefamilies files (default: {output-dir}/GeneFamilies)",
+    )   
+
+    preprocessing_group.add_argument(
+        "--metadirectory",
+        help="Directory for metaphlan bugs list files (default: {output-dir}/MetaphlanFiles)",
+    )
+
+
+
+
+
     # --- 3.1 Metadata driven workflow ---
     metadata_group = parser.add_argument_group("Metadata-driven workflow options")
     metadata_group.add_argument("--use-metadata", action="store_true", help="Read samples and file paths from metadata")

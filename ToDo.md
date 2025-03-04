@@ -3,15 +3,16 @@
 # TODO: Issues and Fixes for humann3_tools
 
 ## 🛠️ Bugs to Fix
-- [ ] It doesn't seem downstream pipeline is running after humann anymore
 - [ ] move kneaddata and humann3 output files to a different directory then delete the temp directory
 - [ ] in cli.py , if args.use_metadata is True but no --seq-dir is provided, the current code does not execute metadata-based file collection.
-- [ ] incorporate into the README.md new join_unstratify_humann_output command
+
 `
 
 ## 🔧 Features to Improve
 - [ ] Check if intermediate files already exist before performing steps in the analysis
         e.g. if Kneaddata output files already exist, skip kneaddata
+- [ ] Add genedirectory, pathwaydirectory, etc flags to options section in README.md
+- [ ] incorporate into the README.md new join_unstratify_humann_output command
 
 
 ```bash
