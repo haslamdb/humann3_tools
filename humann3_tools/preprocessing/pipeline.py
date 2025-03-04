@@ -12,13 +12,15 @@ from humann3_tools.utils.resource_utils import (
 
 import os
 import logging
-from humann3_tools.preprocessing.kneaddata import ( 
-    run_kneaddata, check_kneaddata_installation
+
+from humann3_tools.preprocessing.kneaddata import (
+    run_kneaddata,
+    check_kneaddata_installation
 )
 from humann3_tools.preprocessing.humann3_run import (
-    run_humann3, check_humann3_installation
+    run_humann3,
+    check_humann3_installation
 )
-from humann3_tools.logger import log_print
 
 
 def run_preprocessing_pipeline(
@@ -37,11 +39,15 @@ def run_preprocessing_pipeline(
 ):
     """
     Run the full preprocessing pipeline: KneadData → HUMAnN3.
-    
+
     This version simplifies:
       1) Avoiding duplicates,
       2) Finding correct paired files, and
       3) Logging only the essentials.
+
+    Returns a dictionary with:
+      'kneaddata_files': list of all final kneaddata files
+      'humann3_results': dict of HUMAnN3 outputs per sample
     """
     if logger is None:
         logger = logging.getLogger("humann3_analysis")
@@ -53,16 +59,16 @@ def run_preprocessing_pipeline(
     if not kneaddata_ok:
         logger.error(f"KneadData not properly installed: {kneaddata_version}")
         return None
-    
+
     humann3_ok, humann3_version = check_humann3_installation()
     if not humann3_ok:
         logger.error(f"HUMAnN3 not properly installed: {humann3_version}")
         return None
-    
+
     logger.info(f"Starting preprocessing pipeline with {len(input_files)} input files")
     logger.info(f"KneadData version: {kneaddata_version}")
     logger.info(f"HUMAnN3 version: {humann3_version}")
-    
+
     # ----------------------------------------------------------------------
     # 2. Create output directories
     # ----------------------------------------------------------------------
@@ -85,17 +91,18 @@ def run_preprocessing_pipeline(
 
     kneaddata_files = []
     if paired:
+        # Ensure an even number of input files for paired reads
         if len(input_files) % 2 != 0:
             logger.error("Paired mode requires an even number of input files")
             return None
 
+        # Process input files in pairs
         for i in range(0, len(input_files), 2):
-            pair = [input_files[i], input_files[i+1]]
+            pair = [input_files[i], input_files[i + 1]]
             sample_name = os.path.basename(pair[0]).split("_")[0]
-            
             sample_outdir = os.path.join(kneaddata_output_dir, sample_name)
             os.makedirs(sample_outdir, exist_ok=True)
-            
+
             logger.info(f"KneadData on paired files for sample {sample_name}")
             results = run_kneaddata(
                 input_files=pair,
@@ -104,14 +111,15 @@ def run_preprocessing_pipeline(
                 reference_dbs=kneaddata_dbs,
                 paired=True,
                 additional_options=kneaddata_options,
-                logger=logger
+                logger=logger,
             )
             if results:
                 kneaddata_files.extend(results)
             else:
                 logger.warning(f"No KneadData output for sample {sample_name}")
+
     else:
-        # Single-end
+        # Single-end mode
         for f in input_files:
             sample_name = os.path.basename(f).split("_")[0]
             sample_outdir = os.path.join(kneaddata_output_dir, sample_name)
@@ -125,7 +133,7 @@ def run_preprocessing_pipeline(
                 reference_dbs=kneaddata_dbs,
                 paired=False,
                 additional_options=kneaddata_options,
-                logger=logger
+                logger=logger,
             )
             if results:
                 kneaddata_files.extend(results)
@@ -143,57 +151,50 @@ def run_preprocessing_pipeline(
     # ----------------------------------------------------------------------
     logger.info("Preparing KneadData outputs for HUMAnN3...")
     sample_files = {}
-    
+
     for f in kneaddata_files:
         fname = os.path.basename(f)
-        # Keep only fastq that contain "_paired_1" or "_paired_2"
+        # Only process .fastq files
         if not fname.endswith(".fastq"):
-            # Could skip other files like .log, .txt, etc.
             continue
-        
-        # Extract the sample name from the file by removing _paired_1.fastq or _paired_2.fastq
-        # Example: 'SampleA_kneaddata_paired_1.fastq' -> 'SampleA'
+
+        # Identify if file is R1 or R2 based on naming
         if "_paired_1.fastq" in fname:
             sname = fname.replace("_paired_1.fastq", "")
         elif "_paired_2.fastq" in fname:
             sname = fname.replace("_paired_2.fastq", "")
         else:
-            # Not R1 or R2
             logger.debug(f"Skipping non-paired file: {fname}")
             continue
 
-        # Also remove any trailing "_kneaddata" if it remains
+        # Remove trailing "_kneaddata" if it exists
         if sname.endswith("_kneaddata"):
             sname = sname[: -len("_kneaddata")]
 
-        # Add to dictionary, checking duplicates
+        # Use a set to avoid duplicates
         if sname not in sample_files:
             sample_files[sname] = set()
-        sample_files[sname].add(f)  # Use a set to avoid duplicates
+        sample_files[sname].add(f)
 
     # ----------------------------------------------------------------------
-    # 5. For each sample, find exactly one _paired_1 and one _paired_2
-    #    If found, concatenate them into one file for HUMAnN3
+    # 5. For each sample, find exactly one _paired_1.fastq and one _paired_2.fastq,
+    #    then concatenate them for HUMAnN3.
     # ----------------------------------------------------------------------
     humann3_input_files = []
+
     for sample_name, file_set in sample_files.items():
-        # Convert set -> list
         flist = sorted(list(file_set))
         logger.info(f"Sample {sample_name} has {len(flist)} candidate files")
 
-        # Identify the single R1 and single R2
         r1_list = [x for x in flist if "_paired_1.fastq" in os.path.basename(x)]
         r2_list = [x for x in flist if "_paired_2.fastq" in os.path.basename(x)]
 
-        # Take exactly one from each if possible
         if len(r1_list) == 1 and len(r2_list) == 1:
             r1, r2 = r1_list[0], r2_list[0]
             logger.info(
                 f"Concatenating R1 and R2 for sample {sample_name} -> single HUMAnN3 input"
             )
-            
-            # Make the file name e.g. 'SampleA_paired_concat.fastq'
-            out_dir = os.path.dirname(r1)  # e.g., kneaddata_output/SampleA
+            out_dir = os.path.dirname(r1)
             concat_file = os.path.join(out_dir, f"{sample_name}_paired_concat.fastq")
 
             try:
@@ -211,22 +212,20 @@ def run_preprocessing_pipeline(
                     logger.error(f"Concat file was empty for {sample_name}")
             except Exception as e:
                 logger.error(f"Concat error for {sample_name}: {str(e)}")
-
         else:
-            # We cannot proceed if we don't get exactly one R1 and one R2
             logger.warning(
                 f"Sample {sample_name}: found {len(r1_list)} R1 files and {len(r2_list)} R2 files. Skipping."
             )
 
-    # ----------------------------------------------------------------------
-    # 6. Run HUMAnN3
-    # ----------------------------------------------------------------------
     logger.info(f"Prepared {len(humann3_input_files)} input files for HUMAnN3")
+
     if not humann3_input_files:
         logger.error("No valid input files after KneadData; cannot run HUMAnN3.")
         return None
 
-    # Now run HUMAnN3 on these concatenated files
+    # ----------------------------------------------------------------------
+    # 6. Run HUMAnN3
+    # ----------------------------------------------------------------------
     logger.info("Starting HUMAnN3...")
     humann3_results = run_humann3(
         input_files=humann3_input_files,
@@ -240,7 +239,7 @@ def run_preprocessing_pipeline(
     if not humann3_results:
         logger.error("HUMAnN3 step failed.")
         return None
-    
+
     logger.info(f"HUMAnN3 completed for {len(humann3_results)} samples.")
 
     # Return combined results
@@ -249,47 +248,6 @@ def run_preprocessing_pipeline(
         "humann3_results": humann3_results,
     }
 
-
-    # Now check that we have valid files to run HUMAnN3 on
-    if not humann3_input_files:
-        logger.error("No valid input files prepared for HUMAnN3")
-        return None
-
-    # Verify all input files exist and have content
-    for file in humann3_input_files:
-        if not os.path.exists(file):
-            logger.error(f"HUMAnN3 input file does not exist: {file}")
-            return None
-        
-        if os.path.getsize(file) == 0:
-            logger.error(f"HUMAnN3 input file is empty: {file}")
-            return None
-        
-        logger.info(f"Validated HUMAnN3 input file: {os.path.basename(file)} (Size: {os.path.getsize(file)} bytes)")
-
-    
-    # Step 2: Run HUMAnN3
-    logger.info("Starting HUMAnN3 step...")
-    humann3_results = run_humann3(
-        input_files=humann3_input_files, 
-        output_dir=humann3_output,
-        threads=threads,
-        nucleotide_db=nucleotide_db,
-        protein_db=protein_db,
-        additional_options=humann3_options,
-        logger=logger
-    )
-    if not humann3_results:
-        logger.error("HUMAnN3 step failed")
-        return None
-    
-    logger.info(f"HUMAnN3 completed successfully for {len(humann3_results)} samples")
-    
-    # Return combined results
-    return {
-        'kneaddata_files': kneaddata_files,
-        'humann3_results': humann3_results
-    }
 
 def run_preprocessing_pipeline_parallel(input_files, output_dir, threads_per_sample=1, 
                                        max_parallel=None, kneaddata_dbs=None, 
