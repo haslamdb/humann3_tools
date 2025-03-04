@@ -313,7 +313,7 @@ def run_humann3(input_files, output_dir, threads=1, nucleotide_db=None,
         output_files[sample_name] = sample_outputs
 
     # Send to respective directories
-        athabundance_dir = pathabdirectory
+        pathabundance_dir = pathabdirectory
         genefamilies_dir = genedirectory
         pathcoverage_dir = pathcovdirectory
         metaphlan_dir = metadirectory
