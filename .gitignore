@@ -17,3 +17,6 @@ humann3_tools/preprocessing/__pycache__/pipeline.cpython-312.pyc
 test.log*
 humann3_tools/__pycache__/cli.cpython-312.pyc
 test.log
+humann3_tools/preprocessing/__pycache__/humann3_run.cpython-312.pyc
+humann3_tools/preprocessing/__pycache__/pipeline.cpython-312.pyc
+humann3_tools/__pycache__/cli.cpython-312.pyc
