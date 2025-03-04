@@ -316,6 +316,28 @@ def main():
             humann3_output_dir=humann3_output_dir,
             logger=logger,
         )
+    else:
+        log_print("Using standard preprocessing pipeline", level="info")
+        # Determine if files are paired or unpaired
+        is_paired = args.paired
+
+        kneaddata_options = {}
+        if is_paired:
+            kneaddata_options["decontaminate-pairs"] = args.decontaminate_pairs
+
+        preprocessing_results = run_preprocessing_pipeline(
+            input_files=args.input_fastq,
+            output_dir=preproc_dir,
+            threads=args.threads,
+            kneaddata_dbs=args.kneaddata_dbs,
+            nucleotide_db=args.humann3_nucleotide_db,
+            protein_db=args.humann3_protein_db,
+            paired=is_paired,  
+            kneaddata_options=kneaddata_options,  
+            kneaddata_output_dir=kneaddata_output_dir,
+            humann3_output_dir=humann3_output_dir,
+            logger=logger,
+        )
 
     if args.run_preprocessing and preprocessing_results:
         log_print("Preprocessing completed successfully. Continuing to HUMAnN3 file processing...", level='info')

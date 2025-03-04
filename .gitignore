@@ -10,3 +10,8 @@ test.log
  humann3_tools/humann3/__pycache__/gene_processing.cpython-312.pyc
  humann3_tools/humann3/__pycache__/pathway_processing.cpython-312.pyc
  humann3_tools/preprocessing/__pycache__/pipeline.cpython-312.pyc
+humann3_tools/preprocessing/__pycache__/pipeline.cpython-312.pyc
+humann3_tools/humann3/__pycache__/gene_processing.cpython-312.pyc
+humann3_tools/humann3/__pycache__/pathway_processing.cpython-312.pyc
+humann3_tools/preprocessing/__pycache__/pipeline.cpython-312.pyc
+test.log*
