@@ -52,6 +52,7 @@ humann = [
 
 [project.scripts]
 humann3-tools = "humann3_tools.cli:main"
+join_unstratify_humann_output = "humann3_tools.join_unstratify:join_unstratify_humann_output"
 
 [tool.setuptools]
 packages = ["humann3_tools"]

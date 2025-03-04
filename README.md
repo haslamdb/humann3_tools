@@ -955,3 +955,99 @@ If you use HUMAnN3 Tools in your research, please cite:
 - The original HUMAnN3 paper: Franzosa EA, et al. (2018). Species-level functional profiling of metagenomes and metatranscriptomes. Nature Methods, 15(11), 962-968.
 - KneadData: The Huttenhower Lab (https://github.com/biobakery/kneaddata)
 - This tool: Haslam, D. (2025). HUMAnN3 Tools: A comprehensive framework for metagenomic analysis.
+
+
+# HUMAnN3 Tools: Installation and Usage Guide - revised for join_unstratify_humann_output
+
+## Installation
+
+To install the HUMAnN3 Tools package with the new `join_unstratify_humann_output` command:
+
+```bash
+# Clone the repository
+git clone https://github.com/your-username/humann3-tools.git
+cd humann3-tools
+
+# Install the package
+pip install -e .
+```
+
+## Using the join_unstratify_humann_output Command
+
+The new `join_unstratify_humann_output` command focuses specifically on processing HUMAnN3 output files (joining, normalizing, and unstratifying) without running any upstream (KneadData/HUMAnN3) or downstream analysis steps.
+
+### Basic Usage
+
+```bash
+join_unstratify_humann_output \
+  --sample-key metadata.csv \
+  --pathway-dir path/to/pathabundance/files \
+  --gene-dir path/to/genefamilies/files \
+  --output-dir processed_output
+```
+
+### Command Line Options
+
+| Option | Description |
+|--------|-------------|
+| `--sample-key` | CSV file with sample metadata (required) |
+| `--pathway-dir` | Directory containing raw pathway abundance files (required) |
+| `--gene-dir` | Directory containing raw gene family files (required) |
+| `--output-dir` | Directory for output files (default: ./HUMAnN3_Processed) |
+| `--output-prefix` | Prefix for output filenames (default: ProcessedFiles) |
+| `--skip-pathway` | Skip pathway processing |
+| `--skip-gene` | Skip gene family processing |
+| `--units` | Units for normalization (cpm or relab, default: cpm) |
+| `--no-interactive` | Non-interactive mode for sample key column selection |
+| `--log-file` | Path to log file |
+| `--log-level` | Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL, default: INFO) |
+
+### Examples
+
+#### Process both pathway and gene files with CPM normalization
+
+```bash
+join_unstratify_humann_output \
+  --sample-key metadata.csv \
+  --pathway-dir humann3_output \
+  --gene-dir humann3_output \
+  --output-dir processed_files \
+  --units cpm
+```
+
+#### Process only pathway files with relative abundance normalization
+
+```bash
+join_unstratify_humann_output \
+  --sample-key metadata.csv \
+  --pathway-dir humann3_output \
+  --gene-dir humann3_output \
+  --skip-gene \
+  --output-dir processed_files \
+  --units relab
+```
+
+#### Non-interactive processing with custom log file
+
+```bash
+join_unstratify_humann_output \
+  --sample-key metadata.csv \
+  --pathway-dir humann3_output \
+  --gene-dir humann3_output \
+  --output-dir processed_files \
+  --no-interactive \
+  --log-file join_unstratify.log \
+  --log-level DEBUG
+```
+
+## Output Files
+
+The command produces two main types of output files:
+
+1. **Unstratified pathway abundance file**: Contains pathway abundances without stratification by contributing organisms
+   - Located at: `<output-dir>/pathways/<output-prefix>/pathway_abundance-<units>_unstratified.tsv`
+
+2. **Unstratified gene family file**: Contains gene family abundances without stratification by contributing organisms
+   - Located at: `<output-dir>/genes/<output-prefix>/gene_families-<units>_unstratified.tsv`
+
+These files are suitable for downstream analysis with other tools or using other HUMAnN3 Tools commands.

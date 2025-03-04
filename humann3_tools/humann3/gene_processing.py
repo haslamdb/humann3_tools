@@ -5,7 +5,7 @@ import logging
 from humann3_tools.logger import log_print
 from humann3_tools.utils.cmd_utils import run_cmd
 
-def process_gene_families(valid_samples, gene_dir, output_dir, output_prefix, selected_columns=None):
+def process_gene_families(valid_samples, gene_dir, output_dir, output_prefix, selected_columns=None, units="cpm"):
     """
     Process gene families: copy, normalize, join, and split.
     Returns path to unstratified gene family file.
@@ -16,11 +16,12 @@ def process_gene_families(valid_samples, gene_dir, output_dir, output_prefix, se
         output_dir: Directory where processed files will be stored
         output_prefix: Prefix for output filenames
         selected_columns: Optional dict with sample key column selections
+        units: Units for normalization (default: cpm, can be "relab")
         
     Returns:
         Path to unstratified gene family file, or None if processing failed
     """
-    log_print("PROCESSING GENE FAMILY FILES", level='info')
+    log_print(f"PROCESSING GENE FAMILY FILES (using {units} units)", level='info')
     gene_families_out = os.path.join(output_dir, "genes", output_prefix)
     gene_families_norm = os.path.join(gene_families_out, "Normalized")
     os.makedirs(gene_families_out, exist_ok=True)
@@ -41,33 +42,36 @@ def process_gene_families(valid_samples, gene_dir, output_dir, output_prefix, se
         except Exception as e:
             log_print(f"Warning: Could not save column selection info: {e}", level='warning')
     
+    # Build the suffix based on the units
+    units_suffix = f"-{units}"
+    
     processed_count = 0
     for (sample, src_path) in valid_samples:
         dst = os.path.join(gene_families_out, f"{sample}_genefamilies.tsv")
         if not run_cmd(["cp", src_path, dst], exit_on_error=False):
             continue
         
-        out_cpm = os.path.join(gene_families_out, f"{sample}_genefamilies-cpm.tsv")
+        out_norm = os.path.join(gene_families_out, f"{sample}_genefamilies{units_suffix}.tsv")
         if run_cmd([
             "humann_renorm_table",
             "--input", dst,
-            "--output", out_cpm,
-            "--units", "cpm",
+            "--output", out_norm,
+            "--units", units,
             "--update-snames"
         ], exit_on_error=False):
-            if run_cmd(["mv", out_cpm, gene_families_norm], exit_on_error=False):
+            if run_cmd(["mv", out_norm, gene_families_norm], exit_on_error=False):
                 processed_count += 1
     
     if processed_count == 0:
         log_print("WARNING: No gene family files processed successfully", level='warning')
         return None
     
-    norm_files = [f for f in os.listdir(gene_families_norm) if f.endswith("-cpm.tsv")]
+    norm_files = [f for f in os.listdir(gene_families_norm) if f.endswith(f"{units_suffix}.tsv")]
     if not norm_files:
-        log_print("WARNING: No normalized gene family files to join", level='warning')
+        log_print(f"WARNING: No normalized gene family files to join (with {units_suffix} suffix)", level='warning')
         return None
     
-    joined_output = os.path.join(gene_families_out, f"{output_prefix}_genefamilies-cpm.tsv")
+    joined_output = os.path.join(gene_families_out, f"{output_prefix}_genefamilies{units_suffix}.tsv")
     run_cmd([
         "humann_join_tables",
         "-i", gene_families_norm,
@@ -89,8 +93,8 @@ def process_gene_families(valid_samples, gene_dir, output_dir, output_prefix, se
     base_name = os.path.basename(joined_output).replace('.tsv', '')
     possible_patterns = [
         f"{base_name}_unstratified.tsv",
-        f"{base_name}_unstratified.tsv",
-        f"{base_name}-cpm_unstratified.tsv"
+        f"{output_prefix}_genefamilies{units_suffix}_unstratified.tsv",
+        f"{output_prefix}_genefamilies-{units}_unstratified.tsv"
     ]
     
     for pattern in possible_patterns:
@@ -111,5 +115,14 @@ def process_gene_families(valid_samples, gene_dir, output_dir, output_prefix, se
     if not unstrat_file:
         log_print("WARNING: Could not locate unstratified gene families file", level='warning')
         return None
+    
+    # Rename final unstratified file
+    final_name = os.path.join(gene_families_out, f"gene_families{units_suffix}_unstratified.tsv")
+    try:
+        os.rename(unstrat_file, final_name)
+        unstrat_file = final_name
+        log_print(f"Renamed unstratified file to: {unstrat_file}", level='info')
+    except Exception as e:
+        log_print(f"WARNING: Could not rename file: {e}", level='warning')
     
     return unstrat_file

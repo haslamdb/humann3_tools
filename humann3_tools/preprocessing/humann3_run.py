@@ -61,28 +61,33 @@ def process_single_sample_humann3(input_file, sample_id=None, output_dir=None,
         logger.error(f"HUMAnN3 run failed for sample {sample_id}")
         return None
     
-    # Find output files
+# Now collect output file paths in one pass over the entire output_dir
     output_files = {
         'genefamilies': None,
         'pathabundance': None,
         'pathcoverage': None,
-        'metaphlan': None 
+        'metaphlan': None
     }
-
-    # First check the main directory for standard HUMAnN3 outputs
-    for file in os.listdir(output_dir):
-        for output_type in output_files.keys():
-            if output_type in file.lower() and file.endswith(".tsv"):
-                output_files[output_type] = os.path.join(output_dir, file)
-        
-        # Recursively search for metaphlan output in all subdirectories
-        for root, dirs, files in os.walk(output_dir):
-            for file in files:
-                if "metaphlan_bugs_list" in file.lower() and file.endswith(".tsv"):
-                    output_files['metaphlan'] = os.path.join(root, file)
-                    logger.info(f"Found MetaPhlAn output file: {os.path.join(root, file)}")
-                    break  # Stop once we find the first matching file
-                    
+    
+    # Find the output files
+    for root, dirs, files in os.walk(output_dir):
+        for f in files:
+            f_lower = f.lower()
+            # Must be a .tsv
+            if not f_lower.endswith(".tsv"):
+                continue
+            full_path = os.path.join(root, f)
+            
+            # Match known HUMAnN3 output files
+            if "genefamilies" in f_lower:
+                output_files["genefamilies"] = full_path
+            elif "pathabundance" in f_lower:
+                output_files["pathabundance"] = full_path
+            elif "pathcoverage" in f_lower:
+                output_files["pathcoverage"] = full_path
+            elif "metaphlan_bugs_list" in f_lower:
+                output_files["metaphlan"] = full_path
+    
         # Log which files were found and which are missing
         found_files = [k for k, v in output_files.items() if v is not None]
         missing_files = [k for k, v in output_files.items() if v is None]
@@ -217,27 +222,32 @@ def run_humann3(input_files, output_dir, threads=1, nucleotide_db=None,
             logger.error(f"HUMAnN3 run failed for sample {sample_name}")
             continue
         
-        # Find output files for this sample
-        sample_outputs = {
+    # Now collect output file paths in one pass over the entire output_dir
+        output_files = {
             'genefamilies': None,
             'pathabundance': None,
             'pathcoverage': None,
             'metaphlan': None
         }
         
-        # Check main directory first
-        for file in os.listdir(sample_output_dir):
-            for output_type in sample_outputs.keys():
-                if output_type in file.lower() and file.endswith(".tsv"):
-                    sample_outputs[output_type] = os.path.join(sample_output_dir, file)
-        
-        # Recursively search for metaphlan output in subdirectories
-        for root, dirs, files in os.walk(sample_output_dir):
-            for file in files:
-                if "metaphlan_bugs_list" in file.lower() and file.endswith(".tsv"):
-                    sample_outputs['metaphlan'] = os.path.join(root, file)
-                    logger.info(f"Found MetaPhlAn output for {sample_name}: {file}")
-                    break  # Stop after finding the first match
+        # SINGLE PASS using os.walk
+        for root, dirs, files in os.walk(output_dir):
+            for f in files:
+                f_lower = f.lower()
+                # Must be a .tsv
+                if not f_lower.endswith(".tsv"):
+                    continue
+                full_path = os.path.join(root, f)
+                
+                # Match known HUMAnN3 output files
+                if "genefamilies" in f_lower:
+                    output_files["genefamilies"] = full_path
+                elif "pathabundance" in f_lower:
+                    output_files["pathabundance"] = full_path
+                elif "pathcoverage" in f_lower:
+                    output_files["pathcoverage"] = full_path
+                elif "metaphlan_bugs_list" in f_lower:
+                    output_files["metaphlan"] = full_path
         
         # Log which files were found and which are missing
         found_files = [k for k, v in sample_outputs.items() if v is not None]
