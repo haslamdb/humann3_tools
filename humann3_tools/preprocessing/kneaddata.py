@@ -79,7 +79,7 @@ def process_single_sample_kneaddata(input_file, sample_id=None, output_dir=None,
     # Find output files
     output_files = []
     for file in os.listdir(output_dir):
-        if file.endswith(".fastq") and "paired" in file:
+        if file.endswith(".fastq") and "kneaddata_paired" in file:
             output_files.append(os.path.join(output_dir, file))
     
     logger.info(f"KneadData completed for sample {sample_id} with {len(output_files)} output files")
@@ -258,7 +258,7 @@ def run_kneaddata(input_files, output_dir, threads=1, reference_dbs=None,
     # Find output files
     output_files = []
     for file in os.listdir(output_dir):
-        if file.endswith(".fastq") and "paired" in file:
+        if file.endswith(".fastq") and "kneaddata_paired" in file:
             output_files.append(os.path.join(output_dir, file))
     
     logger.info(f"KneadData completed with {len(output_files)} output files")
