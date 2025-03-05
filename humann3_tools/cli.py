@@ -225,7 +225,6 @@ def main():
         log_print(f"Running in join-only mode with units: {args.units}", level="info")
         
         # Import function from join_unstratify
-        from humann3_tools.join_unstratify import process_join_unstratify
         
         result = process_join_unstratify(
             sample_key=args.sample_key,
@@ -408,8 +407,7 @@ def main():
         if is_paired:
             kneaddata_options["decontaminate-pairs"] = args.decontaminate_pairs
 
-        # Add the skip_kneaddata parameter to the non-parallel pipeline too
-        # Note: You'll need to add this parameter in the run_preprocessing_pipeline function definition
+        # For parallel processing, we use threads_per_sample instead of threads
         preprocessing_results = run_preprocessing_pipeline(
             input_files=args.input_fastq,
             output_dir=preproc_dir,
