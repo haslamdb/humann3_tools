@@ -9,19 +9,7 @@ from humann3_tools.utils.resource_utils import (
     monitor_memory_usage, 
     stop_memory_monitoring
 )
-
-import os
-import logging
-
-from humann3_tools.preprocessing.kneaddata import (
-    run_kneaddata,
-    check_kneaddata_installation
-)
-from humann3_tools.preprocessing.humann3_run import (
-    run_humann3,
-    check_humann3_installation
-)
-
+from humann3_tools.humann3.join_unstratify import process_join_unstratify, join_unstratify_humann_output
 
 def run_preprocessing_pipeline(
     input_files,
