@@ -5,6 +5,8 @@
 ## 🛠️ Bugs to Fix
 - [ ] move kneaddata and humann3 output files to a different directory then delete the temp directory
 - [ ] in cli.py , if args.use_metadata is True but no --seq-dir is provided, the current code does not execute metadata-based file collection.
+- [ ] add the flags and examples for skiip kneaddata	
+- [ ] the logic for selecting kneaddata files isn't working. pulls in all samples
 
 `
 
@@ -70,3 +72,17 @@ humann3-tools --join-only \
   --output-dir joined_output \
   --units cpm \
   --no-interactive
+
+  # skip kneaddata
+
+  # Basic usage with skip-kneaddata and automatic file detection
+humann3-tools --run-preprocessing --skip-kneaddata --input-fastq sample1.fastq sample2.fastq
+
+# Using specific KneadData output files
+humann3-tools --run-preprocessing --skip-kneaddata --kneaddata-output-files /path/to/sample1_paired_1.fastq /path/to/sample1_paired_2.fastq 
+
+# Using a pattern to find KneadData output files
+humann3-tools --run-preprocessing --skip-kneaddata --kneaddata-output-pattern "/path/to/kneaddata_output/*/*paired*.fastq"
+
+# Using a pattern with sample names
+humann3-tools --run-preprocessing --skip-kneaddata --kneaddata-output-pattern "/path/to/kneaddata_output/{sample}*paired*.fastq"

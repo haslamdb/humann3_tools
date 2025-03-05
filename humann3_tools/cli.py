@@ -22,6 +22,8 @@ from humann3_tools.preprocessing.kneaddata import check_kneaddata_installation
 from humann3_tools.preprocessing.humann3_run import check_humann3_installation
 from humann3_tools.utils.resource_utils import limit_memory_usage
 from humann3_tools.utils.metadata_utils import collect_samples_from_metadata, find_sample_files
+from humann3_tools.humann3.join_unstratify import process_join_unstratify, join_unstratify_humann_output
+
 
 
 
@@ -104,26 +106,34 @@ def main():
         "--humann3-output-dir",
         help="Directory for HUMAnN3 output files (default: {output-dir}/PreprocessedData/humann3_output)",
     )
-
     preprocessing_group.add_argument(
         "--pathabundance_dir",
         help="Directory for pathway abundance files (default: {output-dir}/PathwayAbundance)",
     )
-
     preprocessing_group.add_argument(
         "--pathcovdirectory",
         help="Directory for pathway coverage files (default: {output-dir}/PathwayCoverage)",
     )
-
     preprocessing_group.add_argument(
         "--genedirectory",
         help="Directory for genefamilies files (default: {output-dir}/GeneFamilies)",
     )   
-
     preprocessing_group.add_argument(
         "--metadirectory",
         help="Directory for metaphlan bugs list files (default: {output-dir}/MetaphlanFiles)",
     )
+    preprocessing_group.add_argument(
+    "--skip-kneaddata", action="store_true", 
+    help="Skip KneadData processing and use existing KneadData output files"
+)
+    preprocessing_group.add_argument(
+        "--kneaddata-output-files", nargs="+",
+        help="Existing KneadData output files to use when --skip-kneaddata is specified"
+    )
+    preprocessing_group.add_argument(
+        "--kneaddata-output-pattern", 
+        help="Pattern to find KneadData output files (e.g. '/path/to/kneaddata/{sample}*paired*.fastq')"
+)
 
     # --- 3.1 Metadata driven workflow ---
     metadata_group = parser.add_argument_group("Metadata-driven workflow options")
@@ -352,8 +362,8 @@ def main():
             humann3_output_dir = os.path.join(preproc_dir, "humann3_output")
 
         # Choose between regular or parallel processing
-    if args.use_parallel:
-        log_print("Using parallel preprocessing pipeline", level="info")
+        if args.use_parallel:
+            log_print("Using parallel preprocessing pipeline", level="info")
         # Determine if files are paired or unpaired
         is_paired = args.paired
 
@@ -375,15 +385,18 @@ def main():
         preprocessing_results = run_preprocessing_pipeline_parallel(
             input_files=args.input_fastq,
             output_dir=preproc_dir,
-            threads_per_sample=threads_per_sample,  # Use threads_per_sample instead of threads
-            max_parallel=args.max_parallel,  # Add this parameter
+            threads_per_sample=threads_per_sample,
+            max_parallel=args.max_parallel,
             kneaddata_dbs=args.kneaddata_dbs,
             nucleotide_db=args.humann3_nucleotide_db,
             protein_db=args.humann3_protein_db,
-            paired=is_paired,  # Consistently use this value
+            paired=is_paired,
             kneaddata_options=kneaddata_options,  
             kneaddata_output_dir=kneaddata_output_dir,
             humann3_output_dir=humann3_output_dir,
+            skip_kneaddata=args.skip_kneaddata,
+            kneaddata_output_files=args.kneaddata_output_files,
+            kneaddata_output_pattern=args.kneaddata_output_pattern,
             logger=logger,
         )
     else:
@@ -395,6 +408,8 @@ def main():
         if is_paired:
             kneaddata_options["decontaminate-pairs"] = args.decontaminate_pairs
 
+        # Add the skip_kneaddata parameter to the non-parallel pipeline too
+        # Note: You'll need to add this parameter in the run_preprocessing_pipeline function definition
         preprocessing_results = run_preprocessing_pipeline(
             input_files=args.input_fastq,
             output_dir=preproc_dir,
@@ -406,9 +421,11 @@ def main():
             kneaddata_options=kneaddata_options,  
             kneaddata_output_dir=kneaddata_output_dir,
             humann3_output_dir=humann3_output_dir,
+            skip_kneaddata=args.skip_kneaddata,
+            kneaddata_output_files=args.kneaddata_output_files,
+            kneaddata_output_pattern=args.kneaddata_output_pattern,
             logger=logger,
         )
-
     if args.run_preprocessing and preprocessing_results:
         log_print("Preprocessing completed successfully. Continuing to HUMAnN3 file processing...", level='info')
         
