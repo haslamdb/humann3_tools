@@ -93,7 +93,6 @@ def process_single_sample_humann3(input_file, sample_id=None, output_dir=None,
                 continue
             full_path = os.path.join(root, f)
             
-            # Match known HUMAnN3 output files
             if "genefamilies" in f_lower:
                 output_files["genefamilies"] = full_path
             elif "pathabundance" in f_lower:
@@ -103,52 +102,59 @@ def process_single_sample_humann3(input_file, sample_id=None, output_dir=None,
             elif "metaphlan_bugs_list" in f_lower:
                 output_files["metaphlan"] = full_path
     
-        # Log which files were found and which are missing
-        found_files = [k for k, v in output_files.items() if v is not None]
-        missing_files = [k for k, v in output_files.items() if v is None]
-        
-        logger.info(f"Found output files: {', '.join(found_files)}")
-        if missing_files:
-            logger.warning(f"Missing output files: {', '.join(missing_files)}")
-        
-        logger.info(f"HUMAnN3 completed for sample {sample_id}")
-
-        # Send to respective directories
-        pathabundance_dir = pathabdirectory
-        genefamilies_dir = genedirectory
-        pathcoverage_dir = pathcovdirectory
-        metaphlan_dir = metadirectory
-
-        # Create target directories if they do not exist
-        os.makedirs(pathabundance_dir, exist_ok=True)
-        os.makedirs(genefamilies_dir, exist_ok=True)
-
-        for sample_id, file_paths in output_files.items():
-
-            path_file = file_paths.get("pathabundance")
-            if path_file and os.path.isfile(path_file):
-                new_location = os.path.join(pathabundance_dir, os.path.basename(path_file))
-                shutil.copy(path_file, new_location)
-                print(f"Copied pathabundance for {sample_id} to {new_location}")
-
+    # Log which files were found and which are missing
+    found_files = [k for k, v in output_files.items() if v is not None]
+    missing_files = [k for k, v in output_files.items() if v is None]
     
-            gene_file = file_paths.get("genefamilies")
-            if gene_file and os.path.isfile(gene_file):
-                new_location = os.path.join(genefamilies_dir, os.path.basename(gene_file))
-                shutil.copy(gene_file, new_location)
-                print(f"Copied genefamilies for {sample_id} to {new_location}")
+    logger.info(f"Found output files: {', '.join(found_files)}")
+    if missing_files:
+        logger.warning(f"Missing output files: {', '.join(missing_files)}")
+    
+    logger.info(f"HUMAnN3 completed for sample {sample_id}")
 
-            path_coverage_file = file_paths.get("pathcoverage")
-            if path_coverage_file and os.path.isfile(path_coverage_file):
-                new_location = os.path.join(pathcoverage_dir, os.path.basename(path_coverage_file))
-                shutil.copy(path_coverage_file, new_location)
-                print(f"Copied pathcoverage for {sample_id} to {new_location}")
+    # Send to respective directories
+    pathabundance_dir = pathabdirectory
+    genefamilies_dir = genedirectory
+    pathcoverage_dir = pathcovdirectory
+    metaphlan_dir = metadirectory
 
-            metaphlan_file = file_paths.get("metaphlan")
-            if metaphlan_file and os.path.isfile(metaphlan_file):
-                new_location = os.path.join(metaphlan_dir, os.path.basename(metaphlan_file))
-                shutil.copy(metaphlan_file, new_location)
-                print(f"Copied metaphlan for {sample_id} to {new_location}")
+    # Create target directories if they do not exist
+    os.makedirs(pathabundance_dir, exist_ok=True)
+    os.makedirs(genefamilies_dir, exist_ok=True)
+    
+    if pathcoverage_dir:
+        os.makedirs(pathcoverage_dir, exist_ok=True)
+    if metaphlan_dir:
+        os.makedirs(metaphlan_dir, exist_ok=True)
+
+    # Process the output files
+    try:
+        path_file = output_files.get("pathabundance")
+        if path_file and os.path.isfile(path_file):
+            new_location = os.path.join(pathabundance_dir, os.path.basename(path_file))
+            shutil.copy(path_file, new_location)
+            logger.info(f"Copied pathabundance for {sample_id} to {new_location}")
+
+        gene_file = output_files.get("genefamilies")
+        if gene_file and os.path.isfile(gene_file):
+            new_location = os.path.join(genefamilies_dir, os.path.basename(gene_file))
+            shutil.copy(gene_file, new_location)
+            logger.info(f"Copied genefamilies for {sample_id} to {new_location}")
+
+        path_coverage_file = output_files.get("pathcoverage")
+        if pathcoverage_dir and path_coverage_file and os.path.isfile(path_coverage_file):
+            new_location = os.path.join(pathcoverage_dir, os.path.basename(path_coverage_file))
+            shutil.copy(path_coverage_file, new_location)
+            logger.info(f"Copied pathcoverage for {sample_id} to {new_location}")
+
+        metaphlan_file = output_files.get("metaphlan")
+        if metaphlan_dir and metaphlan_file and os.path.isfile(metaphlan_file):
+            new_location = os.path.join(metaphlan_dir, os.path.basename(metaphlan_file))
+            shutil.copy(metaphlan_file, new_location)
+            logger.info(f"Copied metaphlan for {sample_id} to {new_location}")
+    except Exception as e:
+        logger.error(f"Error processing output files for sample {sample_id}: {str(e)}")
+        logger.debug(f"output_files content: {output_files}")
 
     return output_files
 

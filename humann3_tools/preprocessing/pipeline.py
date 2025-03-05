@@ -307,6 +307,11 @@ def run_preprocessing_pipeline(
 
     logger.info(f"HUMAnN3 completed for {len(humann3_results)} samples.")
 
+    if humann3_results:
+        for sample_id, files in humann3_results.items():
+            if isinstance(files, dict) and files.get('metaphlan') is None:
+                logger.warning(f"MetaPhlAn output file not found for sample {sample_id}. Continuing anyway.")
+
     # Return combined results
     return {
         "kneaddata_files": kneaddata_files,
