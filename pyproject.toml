@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "humann3_tools"
-version = "0.1.0"
-description = "A comprehensive Python package for assigning raw metagenomic sequence reads to microbial gene and pathway databases using HUMAnN3"
+version = "0.2.0"  # Updated version
+description = "A comprehensive Python package for processing and analyzing HUMAnN3 output data"
 readme = "README.md"
 authors = [
     {name = "David Haslam", email = "dbhaslam@gmail.com"}
@@ -51,8 +51,15 @@ humann = [
 "Bug Tracker" = "https://github.com/dhaslam/humann3_tools/issues"
 
 [project.scripts]
+# Original scripts
 humann3-tools = "humann3_tools.cli:main"
 join_unstratify_humann_output = "humann3_tools.join_unstratify:join_unstratify_humann_output"
+
+# New modular CLI tools
+humann3-join = "humann3_tools.humann3.join_cli:main"
+humann3-diff = "humann3_tools.analysis.differential_abundance_cli:main"
+humann3-stats = "humann3_tools.analysis.statistical_cli:main"
+humann3-viz = "humann3_tools.analysis.visualize_cli:main"
 
 [tool.setuptools]
 packages = ["humann3_tools"]
