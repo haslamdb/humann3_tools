@@ -45,3 +45,38 @@
 2025-03-05 20:37:52,620 - INFO - Found output files for D19G: genefamilies, pathabundance, pathcoverage, metaphlan
 2025-03-05 20:37:52,621 - INFO - Running HUMAnN3 for sample D33G
 2025-03-05 20:37:52,621 - INFO - Running: humann --input /home/david/Data/TrimmedMSSFiles/D33G/D33G_paired_concat.fastq --output ./preprocessing_output/humann3_output/D33G --threads 24
+2025-03-05 21:12:30,049 - INFO - Running: cp ./preprocessing_output/humann3_output/D33G/D33G_paired_concat_genefamilies.tsv ./preprocessing_output/humann3_output/GeneFamilies/D33G_paired_concat_genefamilies.tsv
+2025-03-05 21:12:30,065 - INFO - Running: cp ./preprocessing_output/humann3_output/D33G/D33G_paired_concat_pathcoverage.tsv ./preprocessing_output/humann3_output/PathwayCoverage/D33G_paired_concat_pathcoverage.tsv
+2025-03-05 21:12:30,070 - INFO - Running: cp ./preprocessing_output/humann3_output/D33G/D33G_paired_concat_pathabundance.tsv ./preprocessing_output/humann3_output/PathwayAbundance/D33G_paired_concat_pathabundance.tsv
+2025-03-05 21:12:30,075 - INFO - Running: cp ./preprocessing_output/humann3_output/D33G/D33G_paired_concat_humann_temp/D33G_paired_concat_metaphlan_bugs_list.tsv ./preprocessing_output/humann3_output/MetaphlanFiles/D33G_paired_concat_metaphlan_bugs_list.tsv
+2025-03-05 21:12:30,079 - INFO - Found output files for D33G: genefamilies, pathabundance, pathcoverage, metaphlan
+2025-03-05 21:12:30,080 - INFO - HUMAnN3 processing completed for 2 samples
+2025-03-05 21:12:30,080 - INFO - 
+Preprocessing Pipeline Summary:
+2025-03-05 21:12:30,080 - INFO - KneadData: Processed 2 samples
+2025-03-05 21:12:30,080 - INFO - HUMAnN3: Processed 2 samples
+2025-03-05 21:12:30,080 - INFO - 
+Output Directories:
+2025-03-05 21:12:30,080 - INFO -   KneadData Output: /home/david/Data/TrimmedMSSFiles
+2025-03-05 21:12:30,081 - INFO -   HUMAnN3 Output: ./preprocessing_output/humann3_output
+2025-03-05 21:12:30,081 - INFO - 
+Output Files Summary:
+2025-03-05 21:12:30,081 - INFO -   Pathway Abundance Files: 2 (in ./preprocessing_output/humann3_output/PathwayAbundance)
+2025-03-05 21:12:30,081 - INFO -   Gene Families Files: 2 (in ./preprocessing_output/humann3_output/GeneFamilies)
+2025-03-05 21:12:30,081 - INFO -   Pathway Coverage Files: 2 (in ./preprocessing_output/humann3_output/PathwayCoverage)
+2025-03-05 21:12:30,081 - INFO -   MetaPhlAn Files: 2 (in ./preprocessing_output/humann3_output/MetaphlanFiles)
+2025-03-05 21:12:30,082 - INFO - 
+Sample Results Summary:
+2025-03-05 21:12:30,082 - INFO - |------------|------------|------------|------------|------------|
+2025-03-05 21:12:30,082 - INFO - | Sample     |  Pathway   | Gene Fam.  |  PathCov.  | MetaPhlAn  |
+2025-03-05 21:12:30,082 - INFO - |------------|------------|------------|------------|------------|
+2025-03-05 21:12:30,082 - INFO - | D19G       |     ✓      |     ✓      |     ✓      |     ✓      |
+2025-03-05 21:12:30,082 - INFO - | D33G       |     ✓      |     ✓      |     ✓      |     ✓      |
+2025-03-05 21:12:30,082 - INFO - |------------|------------|------------|------------|------------|
+2025-03-05 21:12:30,082 - INFO - 
+2025-03-05 21:12:30,083 - INFO - 
+Total preprocessing time: 1h 17m 35s
+2025-03-05 21:12:30,083 - INFO - 
+Next Steps:
+2025-03-05 21:12:30,083 - INFO -   To process these files with humann3_tools, you can use:
+2025-03-05 21:12:30,083 - INFO -   humann3_tools --pathway-dir <pathabundance_dir> --gene-dir <genefamilies_dir> --sample-key <metadata.csv> --output-dir <output_dir>
