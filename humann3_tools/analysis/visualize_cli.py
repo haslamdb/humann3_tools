@@ -89,11 +89,158 @@ def main():
     if args.abundance_hist:
         generate_abundance_histogram(abundance_df, metadata_df, args, logger)
     
+    # Handle feature boxplot if specified
+    if args.feature:
+        generate_feature_boxplot(abundance_df, metadata_df, args, logger)
+    
+    # Handle top features boxplots if specified
+    if args.box_top_n > 0:
+        generate_top_features_boxplots(abundance_df, metadata_df, args, logger)
+    
     log_print("Visualization generation complete", level="info")
     return 0
 
-if __name__ == "__main__":
-    sys.exit(main())
+def generate_feature_boxplot(abundance_df, metadata_df, args, logger):
+    """Generate boxplot for a specific feature."""
+    feature = args.feature
+    logger.info(f"Generating boxplot for feature: {feature}")
+    
+    # Check if feature exists in abundance data
+    if feature not in abundance_df.index:
+        logger.error(f"Feature '{feature}' not found in abundance data")
+        logger.info(f"Available features include: {', '.join(abundance_df.index[:5])}...")
+        return False
+    
+    # Get intersection of samples
+    shared_samples = list(set(abundance_df.columns) & set(metadata_df.index))
+    
+    if not shared_samples:
+        logger.error("No shared samples between abundance data and metadata")
+        return False
+    
+    # Filter data to shared samples
+    abundance = abundance_df.loc[feature, shared_samples]
+    
+    # Apply log transformation if requested
+    if args.log_transform:
+        abundance = np.log10(abundance + 1)
+        y_label = f"log10({feature} + 1)"
+        logger.info("Applied log10(x+1) transformation")
+    else:
+        y_label = feature
+    
+    # Create DataFrame for plotting
+    plot_df = pd.DataFrame({
+        'Abundance': abundance,
+        args.group_col: [metadata_df.loc[sample, args.group_col] for sample in shared_samples]
+    })
+    
+    # Create plot
+    plt.figure(figsize=(10, 6))
+    
+    # Draw boxplot
+    sns.boxplot(x=args.group_col, y='Abundance', data=plot_df)
+    
+    # Add individual points
+    sns.stripplot(x=args.group_col, y='Abundance', data=plot_df, 
+                 color='black', alpha=0.5, jitter=True)
+    
+    # Set labels and title
+    plt.xlabel(args.group_col)
+    plt.ylabel(y_label)
+    
+    feature_type = "Pathway" if args.feature_type == "pathway" else "Gene"
+    plt.title(f"{feature_type} Abundance: {feature}")
+    
+    # Use tight layout to ensure everything fits
+    plt.tight_layout()
+    
+    # Save plot
+    feature_name_safe = feature.replace('/', '_').replace('\\', '_').replace(' ', '_')
+    output_file = os.path.join(args.output_dir, f"boxplot_{feature_name_safe}.{args.format}")
+    plt.savefig(output_file, dpi=args.dpi, bbox_inches='tight')
+    plt.close()
+    
+    logger.info(f"Boxplot saved to {output_file}")
+    return True
+
+def generate_top_features_boxplots(abundance_df, metadata_df, args, logger):
+    """Generate boxplots for top N features."""
+    logger.info(f"Generating boxplots for top {args.box_top_n} features...")
+    
+    # Get intersection of samples
+    shared_samples = list(set(abundance_df.columns) & set(metadata_df.index))
+    
+    if not shared_samples:
+        logger.error("No shared samples between abundance data and metadata")
+        return False
+    
+    # Filter data to shared samples
+    abundance = abundance_df[shared_samples]
+    
+    # Apply log transformation if requested for the selection of top features
+    if args.log_transform:
+        abundance_transformed = np.log10(abundance + 1)
+    else:
+        abundance_transformed = abundance
+    
+    # Calculate feature means and select top features
+    feature_means = abundance_transformed.mean(axis=1)
+    top_features = feature_means.sort_values(ascending=False).head(args.box_top_n).index
+    
+    # Create boxplot output directory
+    boxplot_dir = os.path.join(args.output_dir, f"top{args.box_top_n}_boxplots")
+    os.makedirs(boxplot_dir, exist_ok=True)
+    
+    # Generate boxplot for each top feature
+    feature_type = "Pathway" if args.feature_type == "pathway" else "Gene"
+    
+    for i, feature in enumerate(top_features):
+        logger.info(f"Generating boxplot for top feature {i+1}/{len(top_features)}: {feature}")
+        
+        # Extract feature abundance
+        feature_abundance = abundance.loc[feature, shared_samples]
+        
+        # Apply log transformation if requested
+        if args.log_transform:
+            feature_abundance = np.log10(feature_abundance + 1)
+            y_label = f"log10(Abundance + 1)"
+        else:
+            y_label = "Abundance"
+        
+        # Create DataFrame for plotting
+        plot_df = pd.DataFrame({
+            'Abundance': feature_abundance,
+            args.group_col: [metadata_df.loc[sample, args.group_col] for sample in shared_samples]
+        })
+        
+        # Create plot
+        plt.figure(figsize=(10, 6))
+        
+        # Draw boxplot
+        sns.boxplot(x=args.group_col, y='Abundance', data=plot_df)
+        
+        # Add individual points
+        sns.stripplot(x=args.group_col, y='Abundance', data=plot_df, 
+                     color='black', alpha=0.5, jitter=True)
+        
+        # Set labels and title
+        plt.xlabel(args.group_col)
+        plt.ylabel(y_label)
+        
+        plt.title(f"Top {i+1}: {feature}")
+        
+        # Use tight layout to ensure everything fits
+        plt.tight_layout()
+        
+        # Save plot
+        feature_name_safe = feature.replace('/', '_').replace('\\', '_').replace(' ', '_')
+        output_file = os.path.join(boxplot_dir, f"boxplot_{i+1}_{feature_name_safe}.{args.format}")
+        plt.savefig(output_file, dpi=args.dpi, bbox_inches='tight')
+        plt.close()
+    
+    logger.info(f"Generated {len(top_features)} boxplots in {boxplot_dir}")
+    return True
 
 def generate_barplot(abundance_df, metadata_df, args, logger):
     """Generate barplot of top features by group."""
@@ -321,6 +468,12 @@ def parse_args():
     parser.add_argument("--abundance-hist", action="store_true",
                       help="Generate histograms of abundance distributions")
     
+    # Boxplot specific options
+    parser.add_argument("--feature", 
+                      help="Generate boxplot for a specific feature (pathway or gene)")
+    parser.add_argument("--box-top-n", type=int, default=0,
+                      help="Generate boxplots for top N features (default: 0, disabled)")
+    
     # Additional options
     parser.add_argument("--log-transform", action="store_true", default=True,
                       help="Apply log10(x+1) transformation to abundance data")
@@ -329,8 +482,6 @@ def parse_args():
     parser.add_argument("--log-level", default="INFO", 
                       choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
                       help="Logging level (default: INFO)")
-    
-    return parser.parse_args()
     
     return parser.parse_args()
 
@@ -418,3 +569,6 @@ def generate_pca_plot(abundance_df, metadata_df, args, logger):
     
     logger.info(f"PCA plot saved to {output_file}")
     return True
+
+if __name__ == "__main__":
+    sys.exit(main())

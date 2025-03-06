@@ -26,3 +26,22 @@
 2025-03-05 19:54:54,376 - INFO - Using HUMAnN3 version: humann v3.9
 2025-03-05 19:54:54,376 - INFO - Running KneadData for paired sample D19G
 2025-03-05 19:54:54,376 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-05 20:08:54,152 - INFO - KneadData completed for sample D19G with 7 output files
+2025-03-05 20:08:54,152 - INFO - Running KneadData for paired sample D33G
+2025-03-05 20:08:54,153 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --output /home/david/Data/TrimmedMSSFiles/D33G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-05 20:21:31,723 - INFO - KneadData completed for sample D33G with 7 output files
+2025-03-05 20:21:31,724 - INFO - KneadData processing completed for 2 samples
+2025-03-05 20:21:31,724 - INFO - Concatenating files for D19G: D19G_R1_kneaddata_paired_1.fastq + D19G_R1_kneaddata_paired_2.fastq
+2025-03-05 20:21:32,358 - INFO - Created concatenated file for HUMAnN3: /home/david/Data/TrimmedMSSFiles/D19G/D19G_paired_concat.fastq
+2025-03-05 20:21:32,359 - INFO - Concatenating files for D33G: D33G_R1_kneaddata_paired_1.fastq + D33G_R1_kneaddata_paired_2.fastq
+2025-03-05 20:21:40,116 - INFO - Created concatenated file for HUMAnN3: /home/david/Data/TrimmedMSSFiles/D33G/D33G_paired_concat.fastq
+2025-03-05 20:21:40,117 - INFO - Prepared 2 input files for HUMAnN3
+2025-03-05 20:21:40,117 - INFO - Running HUMAnN3 for sample D19G
+2025-03-05 20:21:40,117 - INFO - Running: humann --input /home/david/Data/TrimmedMSSFiles/D19G/D19G_paired_concat.fastq --output ./preprocessing_output/humann3_output/D19G --threads 24
+2025-03-05 20:37:52,598 - INFO - Running: cp ./preprocessing_output/humann3_output/D19G/D19G_paired_concat_pathabundance.tsv ./preprocessing_output/humann3_output/PathwayAbundance/D19G_paired_concat_pathabundance.tsv
+2025-03-05 20:37:52,603 - INFO - Running: cp ./preprocessing_output/humann3_output/D19G/D19G_paired_concat_pathcoverage.tsv ./preprocessing_output/humann3_output/PathwayCoverage/D19G_paired_concat_pathcoverage.tsv
+2025-03-05 20:37:52,608 - INFO - Running: cp ./preprocessing_output/humann3_output/D19G/D19G_paired_concat_genefamilies.tsv ./preprocessing_output/humann3_output/GeneFamilies/D19G_paired_concat_genefamilies.tsv
+2025-03-05 20:37:52,616 - INFO - Running: cp ./preprocessing_output/humann3_output/D19G/D19G_paired_concat_humann_temp/D19G_paired_concat_metaphlan_bugs_list.tsv ./preprocessing_output/humann3_output/MetaphlanFiles/D19G_paired_concat_metaphlan_bugs_list.tsv
+2025-03-05 20:37:52,620 - INFO - Found output files for D19G: genefamilies, pathabundance, pathcoverage, metaphlan
+2025-03-05 20:37:52,621 - INFO - Running HUMAnN3 for sample D33G
+2025-03-05 20:37:52,621 - INFO - Running: humann --input /home/david/Data/TrimmedMSSFiles/D33G/D33G_paired_concat.fastq --output ./preprocessing_output/humann3_output/D33G --threads 24
