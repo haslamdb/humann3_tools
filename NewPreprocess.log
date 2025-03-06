@@ -1,0 +1,28 @@
+2025-03-05 19:52:41,364 - INFO - Starting HUMAnN3 Tools Preprocessing Pipeline
+2025-03-05 19:52:41,517 - INFO - Using KneadData version: kneaddata v0.12.2
+2025-03-05 19:52:41,608 - INFO - Using HUMAnN3 version: humann v3.9
+2025-03-05 19:52:41,609 - INFO - Running KneadData for paired sample D19G
+2025-03-05 19:52:41,609 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq.gz --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output /home/david/Data/TrimmedMSSFiles/D19G --threads 8 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-05 19:52:41,683 - ERROR - ERROR: Command failed with exit code 1
+2025-03-05 19:52:41,684 - ERROR - Error message: ERROR: File does not exist: /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq.gz
+
+2025-03-05 19:52:41,684 - ERROR - Failed command: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq.gz --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output /home/david/Data/TrimmedMSSFiles/D19G --threads 8 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-05 19:52:41,684 - ERROR - KneadData failed for sample D19G
+2025-03-05 19:52:41,685 - INFO - Running KneadData for paired sample D33G
+2025-03-05 19:52:41,685 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq.gz --input2 /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --output /home/david/Data/TrimmedMSSFiles/D33G --threads 8 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-05 19:52:41,763 - ERROR - ERROR: Command failed with exit code 1
+2025-03-05 19:52:41,763 - ERROR - Error message: ERROR: File does not exist: /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq.gz
+
+2025-03-05 19:52:41,764 - ERROR - Failed command: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D33G_R1.fastq.gz --input2 /home/david/Data/TrimmedMSSFiles/D33G_R2.fastq --output /home/david/Data/TrimmedMSSFiles/D33G --threads 8 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-05 19:52:41,764 - ERROR - KneadData failed for sample D33G
+2025-03-05 19:52:41,764 - ERROR - KneadData processing failed. Cannot proceed.
+2025-03-05 19:53:16,912 - INFO - Starting HUMAnN3 Tools Preprocessing Pipeline
+2025-03-05 19:53:16,979 - INFO - Using KneadData version: kneaddata v0.12.2
+2025-03-05 19:53:17,070 - INFO - Using HUMAnN3 version: humann v3.9
+2025-03-05 19:53:17,070 - INFO - Running KneadData for paired sample D19G
+2025-03-05 19:53:17,070 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output /home/david/Data/TrimmedMSSFiles/D19G --threads 8 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict
+2025-03-05 19:54:54,200 - INFO - Starting HUMAnN3 Tools Preprocessing Pipeline
+2025-03-05 19:54:54,272 - INFO - Using KneadData version: kneaddata v0.12.2
+2025-03-05 19:54:54,376 - INFO - Using HUMAnN3 version: humann v3.9
+2025-03-05 19:54:54,376 - INFO - Running KneadData for paired sample D19G
+2025-03-05 19:54:54,376 - INFO - Running: kneaddata --input1 /home/david/Data/TrimmedMSSFiles/D19G_R1.fastq --input2 /home/david/Data/TrimmedMSSFiles/D19G_R2.fastq --output /home/david/Data/TrimmedMSSFiles/D19G --threads 24 --reference-db /home/david/Databases/KneadDataDB --reference-db /home/david/Databases/BT2ContaminantDB --decontaminate-pairs strict

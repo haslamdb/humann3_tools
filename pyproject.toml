@@ -53,13 +53,14 @@ humann = [
 [project.scripts]
 # Original scripts
 humann3-tools = "humann3_tools.cli:main"
-join_unstratify_humann_output = "humann3_tools.join_unstratify:join_unstratify_humann_output"
+join_unstratify_humann_output = "humann3_tools.humann3.join_unstratify:join_unstratify_humann_output"
 
 # New modular CLI tools
 humann3-join = "humann3_tools.humann3.join_cli:main"
 humann3-diff = "humann3_tools.analysis.differential_abundance_cli:main"
 humann3-stats = "humann3_tools.analysis.statistical_cli:main"
 humann3-viz = "humann3_tools.analysis.visualize_cli:main"
+humann3-preprocess = "humann3_tools.preprocessing.preprocessing_cli:main"
 
 [tool.setuptools]
 packages = ["humann3_tools"]
