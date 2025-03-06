@@ -1,4 +1,54 @@
 # humann3_tools/analysis/visualize_cli.py
+"""
+HUMAnN3 Tools Visualization CLI
+
+This module provides tools for creating visualizations from HUMAnN3 output files.
+
+Available Visualizations:
+-------------------------
+- PCA plots: Principal Component Analysis of abundance data
+- Heatmaps: Visualize top features across samples, clustered by similarity
+- Barplots: Compare mean abundance of top features across groups
+- Abundance histograms: Distribution of abundance values for each group
+- Feature boxplots: Compare abundance of specific features across groups
+- Top-N boxplots: Generate boxplots for the most abundant features
+
+Key Options:
+-----------
+Required:
+  --abundance-file PATH     Path to HUMAnN3 output file (unstratified)
+  --metadata-file PATH      Path to metadata CSV with sample information
+
+Grouping:
+  --group-col COL           Column in metadata to use for grouping (default: "Group")
+  --sample-id-col COL       Sample ID column in metadata (auto-detected if not specified)
+
+Visualization Selection:
+  --pca                     Generate PCA plot (default: enabled)
+  --heatmap                 Generate heatmap of top features
+  --barplot                 Generate barplot of top features (default: enabled)
+  --abundance-hist          Generate abundance distribution histograms
+  --feature FEATURE         Generate boxplot for a specific feature
+  --box-top-n N             Generate boxplots for top N features
+
+Formatting:
+  --top-n N                 Number of top features to include (default: 25)
+  --format FMT              Output format: svg, png, pdf (default: svg)
+  --dpi N                   DPI for raster formats (default: 300)
+  --log-transform           Apply log10(x+1) transformation (default: enabled)
+
+Output:
+  --output-dir DIR          Directory for output files (default: ./Visualizations)
+
+Example Outputs:
+--------------
+- pca_pathway.svg                   PCA plot of pathway abundance
+- heatmap_top25_pathway.svg         Heatmap of top 25 pathways
+- barplot_top25_pathway.svg         Barplot of top 25 pathways
+- histogram_pathway.svg             Abundance histogram
+- boxplot_FEATURE_NAME.svg          Boxplot for specific feature
+- top10_boxplots/                   Directory with boxplots for top 10 features
+"""
 
 import os
 import argparse
@@ -16,6 +66,11 @@ from humann3_tools.logger import setup_logger, log_print
 def main():
     """Main function to create visualizations."""
     args = parse_args()
+    
+    # If --help-info is specified, print detailed information and exit
+    if args.help_info:
+        print(__doc__)
+        return 0
     
     # Setup logging
     logger = setup_logger(log_file=args.log_file, 
@@ -76,28 +131,48 @@ def main():
         log_print(f"Available columns: {', '.join(metadata_df.columns)}", level="info")
         sys.exit(1)
     
+    # Track which visualizations were generated
+    generated_visualizations = []
+    
     # Generate requested plots
     if args.pca:
-        generate_pca_plot(abundance_df, metadata_df, args, logger)
+        if generate_pca_plot(abundance_df, metadata_df, args, logger):
+            generated_visualizations.append(("PCA Plot", os.path.join(args.output_dir, f"pca_{args.feature_type}.{args.format}")))
     
     if args.barplot:
-        generate_barplot(abundance_df, metadata_df, args, logger)
+        if generate_barplot(abundance_df, metadata_df, args, logger):
+            generated_visualizations.append(("Barplot", os.path.join(args.output_dir, f"barplot_top{args.top_n}_{args.feature_type}.{args.format}")))
     
     if args.heatmap:
-        generate_heatmap(abundance_df, metadata_df, args, logger)
+        if generate_heatmap(abundance_df, metadata_df, args, logger):
+            generated_visualizations.append(("Heatmap", os.path.join(args.output_dir, f"heatmap_top{args.top_n}_{args.feature_type}.{args.format}")))
     
     if args.abundance_hist:
-        generate_abundance_histogram(abundance_df, metadata_df, args, logger)
+        if generate_abundance_histogram(abundance_df, metadata_df, args, logger):
+            generated_visualizations.append(("Abundance Histogram", os.path.join(args.output_dir, f"histogram_{args.feature_type}.{args.format}")))
     
     # Handle feature boxplot if specified
     if args.feature:
-        generate_feature_boxplot(abundance_df, metadata_df, args, logger)
+        if generate_feature_boxplot(abundance_df, metadata_df, args, logger):
+            feature_name_safe = args.feature.replace('/', '_').replace('\\', '_').replace(' ', '_')
+            generated_visualizations.append(("Feature Boxplot", os.path.join(args.output_dir, f"boxplot_{feature_name_safe}.{args.format}")))
     
     # Handle top features boxplots if specified
     if args.box_top_n > 0:
-        generate_top_features_boxplots(abundance_df, metadata_df, args, logger)
+        if generate_top_features_boxplots(abundance_df, metadata_df, args, logger):
+            boxplot_dir = os.path.join(args.output_dir, f"top{args.box_top_n}_boxplots")
+            generated_visualizations.append((f"Top {args.box_top_n} Boxplots", boxplot_dir))
     
-    log_print("Visualization generation complete", level="info")
+    # Print summary of generated visualizations
+    if generated_visualizations:
+        log_print("\nGenerated Visualizations:", level="info")
+        for viz_type, viz_path in generated_visualizations:
+            log_print(f"  {viz_type}: {viz_path}", level="info")
+    else:
+        log_print("\nNo visualizations were generated. Use options like --pca, --heatmap, --feature, etc.", level="info")
+        log_print("Use --help-info for detailed information about available options.", level="info")
+    
+    log_print("\nVisualization generation complete", level="info")
     return 0
 
 def generate_feature_boxplot(abundance_df, metadata_df, args, logger):
@@ -433,6 +508,10 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description="Create visualizations for HUMAnN3 output files"
     )
+    
+    # Help info option
+    parser.add_argument("--help-info", action="store_true",
+                      help="Show detailed information about options and outputs")
     
     # Required arguments
     parser.add_argument("--abundance-file", required=True, 
