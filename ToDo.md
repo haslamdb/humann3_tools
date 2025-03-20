@@ -2,7 +2,7 @@
 
 # TODO: Issues and Fixes for humann3_tools
 
-## 🛠️ Bugs to Fix
+## 🐞 Bug Fixes
 - [ ] move kneaddata and humann3 output files to a different directory then delete the temp directory
 - [ ] in cli.py , if args.use_metadata is True but no --seq-dir is provided, the current code does not execute metadata-based file collection.
 - [ ] add the flags and examples for skiip kneaddata	
@@ -15,6 +15,10 @@
         e.g. if Kneaddata output files already exist, skip kneaddata
 - [ ] Add genedirectory, pathwaydirectory, etc flags to options section in README.md
 - [ ] incorporate into the README.md new join_unstratify_humann_output command
+
+
+## 📅 Future Plans
+- [ ] Test SHAP force plots with new dataset
 
 
 ```bash
