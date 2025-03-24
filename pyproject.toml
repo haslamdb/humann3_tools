@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "humann3-tools"
-version = "0.1.0"
+version = "0.2.0"
 description = "A comprehensive Python package for assigning raw metagenomic sequence reads to microbial gene and pathway databases using HUMAnN3, followed by downstream processing and analysis"
 readme = "README.md"
-requires-python = ">=3.8,<3.11"
+requires-python = ">=3.12"
 license = {text = "MIT"}
 authors = [
     {name = "David Haslam", email = "dhaslam@gmail.com"}
@@ -84,7 +84,7 @@ packages = ["humann3_tools"]
 
 [tool.black]
 line-length = 100
-target-version = ["py38", "py39", "py310"]
+target-version = ["py38", "py39", "py310", "py312"]
 include = '\.pyi?$'
 
 [tool.isort]
@@ -92,7 +92,7 @@ profile = "black"
 line_length = 100
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false

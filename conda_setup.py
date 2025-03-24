@@ -158,9 +158,9 @@ def install_dependencies(env_name, biobakery_channel):
     
     # Biobakery tools
     biobakery_deps = [
-        "humann=3.6",
+        "humann=3.9",
         "kneaddata",
-        "metaphlan=4.0"
+        "metaphlan=4.1"
     ]
     
     # Dependencies that are better installed with pip

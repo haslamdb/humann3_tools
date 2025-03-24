@@ -23,7 +23,7 @@ set -e
 
 # Default values
 ENV_NAME="humann3-tools"
-PYTHON_VERSION="3.9"
+PYTHON_VERSION="3.12"
 BIOBAKERY_CHANNEL="biobakery"
 FORCE=false
 
@@ -96,6 +96,8 @@ conda install --name $ENV_NAME -y -c conda-forge \
     seaborn \
     scipy \
     scikit-learn \
+    scikit-bio \
+    scikit-posthocs \
     statsmodels \
     tqdm \
     psutil \
@@ -109,11 +111,11 @@ conda install --name $ENV_NAME -y -c conda-forge \
 # Install biobakery tools
 echo "Installing biobakery tools from $BIOBAKERY_CHANNEL channel..."
 conda install --name $ENV_NAME -y -c $BIOBAKERY_CHANNEL \
-    humann=3.6 \
+    humann=3.9 \
     kneaddata \
-    metaphlan=4.0 || {
+    metaphlan=4.1 || {
         echo "Warning: Some biobakery tools failed to install together. Trying individually..."
-        for pkg in "humann=3.6" kneaddata "metaphlan=4.0"; do
+        for pkg in "humann=3.9" kneaddata "metaphlan=4.1"; do
             conda install --name $ENV_NAME -y -c $BIOBAKERY_CHANNEL $pkg || echo "Warning: Failed to install $pkg"
         done
     }
