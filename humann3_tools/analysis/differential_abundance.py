@@ -1,3 +1,13 @@
+# humann3_tools/analysis/differential_abundance.py
+import os
+import numpy as np
+import pandas as pd
+import logging
+import matplotlib.pyplot as plt
+from scipy import stats
+from skbio import composition
+from statsmodels.stats.multitest import multipletests
+
 def aldex2_like(abundance_df, metadata_df, group_col, mc_samples=128, denom="all", filter_groups=None):
     """
     A Python implementation similar to ALDEx2 for differential abundance testing
@@ -259,7 +269,7 @@ def ancom(abundance_df, metadata_df, group_col, alpha=0.05, denom="all", filter_
                     # Multiple groups: ANOVA
                     anova_groups = []
                     for group, values in group_values.items():
-                        anova_groups.extend([values])
+                        anova_groups.append(values)
                     f_stat, p_val = stats.f_oneway(*anova_groups)
                 
                 # Count significant tests
