@@ -75,7 +75,7 @@ def strip_suffix(col):
 def strip_suffixes_from_file_headers(file_path, logger=None):
     """
     Remove HUMAnN3 abundance suffixes from column headers in a file.
-    Uses enhanced suffix detection with multiple patterns.
+    Includes safety checks for file format compatibility.
     
     Args:
         file_path: Path to the file with headers to strip
@@ -85,6 +85,7 @@ def strip_suffixes_from_file_headers(file_path, logger=None):
         True if successful, False otherwise
     """
     if logger is None:
+        import logging
         logger = logging.getLogger('humann3_analysis')
     
     try:
@@ -107,6 +108,37 @@ def strip_suffixes_from_file_headers(file_path, logger=None):
         header = lines[header_index].strip()
         cols = header.split('\t')
         
+        # Check if this is a typical HUMAnN3 output file with named sample columns
+        # First check if we have at least a feature column and one sample column
+        if len(cols) < 2:
+            logger.warning(f"File has fewer than 2 columns, cannot process: {file_path}")
+            return False
+        
+        # Check if columns appear to be numeric IDs rather than sample names with suffixes
+        numeric_cols = sum(1 for col in cols[1:] if col.isdigit())
+        if numeric_cols > 0 and numeric_cols / (len(cols) - 1) > 0.5:  # If >50% are numeric
+            logger.info(f"File appears to have numeric column headers, skipping suffix stripping: {file_path}")
+            return True
+        
+        # Check if any of the columns have a recognizable suffix pattern
+        has_suffix_pattern = False
+        for col in cols[1:]:  # Skip first column (feature ID)
+            # Check for common patterns we expect in HUMAnN3 output
+            if any(suffix in col.lower() for suffix in ['abundance', 'cpm', 'relab']):
+                has_suffix_pattern = True
+                break
+            
+            # Check for patterns with separators
+            for sep in ['.', '_', '-']:
+                if sep in col and any(unit in col.lower().split(sep)[-1] for unit in ['cpm', 'relab']):
+                    has_suffix_pattern = True
+                    break
+        
+        if not has_suffix_pattern:
+            logger.info(f"No recognizable suffix patterns found in column headers: {file_path}")
+            return True
+        
+        # Now we've confirmed this is a suitable file for suffix stripping
         # Apply strip_suffix to each column except the first one (which is usually the feature ID)
         new_cols = [cols[0]]
         change_count = 0
@@ -118,9 +150,9 @@ def strip_suffixes_from_file_headers(file_path, logger=None):
                 change_count += 1
                 logger.debug(f"Stripped suffix: '{col}' -> '{new_col}'")
         
-        # Check if any columns were actually modified
+        # Only update the file if we actually made changes
         if change_count == 0:
-            logger.info(f"No suffix patterns found in headers of: {file_path}")
+            logger.info(f"No columns were modified in: {file_path}")
             return True
         
         # Update the header line
@@ -130,7 +162,7 @@ def strip_suffixes_from_file_headers(file_path, logger=None):
         with open(file_path, 'w') as f:
             f.writelines(lines)
         
-        logger.info(f"Stripped {change_count} suffixes from headers in: {file_path}")
+        logger.info(f"Successfully stripped {change_count} suffixes from headers in: {file_path}")
         return True
     except Exception as e:
         if logger:
