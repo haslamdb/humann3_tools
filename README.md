@@ -25,22 +25,57 @@ A comprehensive Python package for assigning raw metagenomic sequence reads to m
 
 ## Installation
 
+HUMAnN3 Tools offers multiple installation methods to suit different user preferences and environments.
+
 ### Conda Environment Setup (Recommended)
 
-It is **highly recommended** to use a Conda environment to manage the dependencies for `humann3_tools`.
+It is **highly recommended** to use a dedicated Conda environment to manage the dependencies for `humann3_tools`.
+
+#### Option 1: Using the Python Setup Script
 
 ```bash
+# Clone the repository
+git clone https://github.com/dhaslam/humann3_tools.git
+
 # Navigate to package directory
 cd humann3_tools 
 
 # Run the setup script
 python conda_setup.py
 
+# Activate the environment
+conda activate humann3-tools
+
 # Verify the installation
 humann3-tools --help
 ```
 
-### Standard Installation
+#### Option 2: Using the Shell Script (Unix/Linux/macOS)
+
+```bash
+# Clone the repository
+git clone https://github.com/dhaslam/humann3_tools.git
+cd humann3_tools
+
+# Make the script executable and run it
+chmod +x conda_setup.sh
+./conda_setup.sh
+
+# Activate the environment
+conda activate humann3-tools
+```
+
+#### For Customized Installation
+
+Both setup scripts support various options:
+```bash
+# Example with custom environment name and Python version
+python conda_setup.py --name my-humann-env --python 3.8
+# Or with shell script
+./conda_setup.sh --name my-humann-env --python 3.8
+```
+
+### Pip Installation
 
 If you prefer not to use Conda, you can install directly using pip:
 
@@ -53,10 +88,11 @@ cd humann3_tools
 pip install -e .
 ```
 
-Or install directly using pip (once published to PyPI):
-```bash
-pip install humann3-tools
-```
+**Note**: When using pip, you'll need to manually install HUMAnN3, KneadData, and MetaPhlAn3 from the biobakery channel.
+
+### Detailed Installation Instructions
+
+For detailed installation instructions, troubleshooting tips, and advanced options, see the [Installation Guide](install-guide.md).
 
 ---
 

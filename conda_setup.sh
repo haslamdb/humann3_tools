@@ -1,43 +1,176 @@
 #!/bin/bash
+#
+# conda_setup.sh - Set up Conda environment for HUMAnN3 Tools
+#
+# This script creates a conda environment with all necessary dependencies
+# for running the HUMAnN3 Tools package on Unix/Linux/macOS systems.
+#
+# Usage:
+#   ./conda_setup.sh [--name ENV_NAME] [--python PYTHON_VERSION] 
+#                    [--biobakery-channel CHANNEL] [--force]
+#
+# Examples:
+#   # Create default environment (humann3-tools)
+#   ./conda_setup.sh
+#   
+#   # Create environment with specific name and Python version
+#   ./conda_setup.sh --name my-humann-env --python 3.9
+#   
+#   # Force recreation of an existing environment
+#   ./conda_setup.sh --force
+
 set -e
 
-# Create and activate environment
-conda create -n humann3_tools python=3.12 -y
-eval "$(conda shell.bash hook)"
-conda activate humann3_tools
+# Default values
+ENV_NAME="humann3-tools"
+PYTHON_VERSION="3.9"
+BIOBAKERY_CHANNEL="biobakery"
+FORCE=false
 
-# Add channels
-conda config --add channels defaults
-conda config --add channels bioconda
-conda config --add channels conda-forge
-conda config --add channels biobakery
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --name)
+      ENV_NAME="$2"
+      shift 2
+      ;;
+    --python)
+      PYTHON_VERSION="$2"
+      shift 2
+      ;;
+    --biobakery-channel)
+      BIOBAKERY_CHANNEL="$2"
+      shift 2
+      ;;
+    --force)
+      FORCE=true
+      shift
+      ;;
+    *)
+      echo "Unknown option: $1"
+      echo "Usage: ./conda_setup.sh [--name ENV_NAME] [--python PYTHON_VERSION] [--biobakery-channel CHANNEL] [--force]"
+      exit 1
+      ;;
+  esac
+done
 
-# Install core dependencies
-conda install -y humann=3.8 kneaddata
-conda install -y pandas numpy scipy scikit-bio scikit-learn statsmodels matplotlib seaborn
-conda install -y -c conda-forge scikit-posthocs matplotlib-venn tqdm psutil
+# Print banner
+echo "================================================================================"
+echo "HUMAnN3 Tools Conda Environment Setup"
+echo "================================================================================"
+echo "Environment name: $ENV_NAME"
+echo "Python version: $PYTHON_VERSION"
+echo "Biobakery channel: $BIOBAKERY_CHANNEL"
+echo "Force recreation: $FORCE"
+echo "================================================================================"
 
-# Install the package
-# navigate to the main package directory if necessary
-# cd humann3_analysis
-pip install --ignore-installed --no-cache-dir -e .
-
-# Verify installation
-echo "Installation complete. Testing command availability:"
-which humann3-tools
-humann3-tools --help
-
-# Optional: Download test databases
-echo "Do you want to download test databases? (y/n)"
-read answer
-if [ "$answer" = "y" ]; then
-  echo "Enter directory for databases:"
-  read db_dir
-  mkdir -p $db_dir
-  humann_databases --download chocophlan test $db_dir
-  humann_databases --download uniref test $db_dir
-  kneaddata_database --download test_database_human $db_dir
-  echo "Test databases downloaded to $db_dir"
+# Check if conda is installed
+if ! command -v conda &> /dev/null; then
+    echo "ERROR: conda not found in PATH. Please install conda first."
+    exit 1
 fi
 
-echo "Setup complete!"
+echo "Using conda installation at: $(which conda)"
+
+# Create or use existing environment
+if conda env list | grep -q "^$ENV_NAME "; then
+    if [ "$FORCE" = true ]; then
+        echo "Environment '$ENV_NAME' already exists. Removing it as requested..."
+        conda env remove --name $ENV_NAME
+        conda create --name $ENV_NAME python=$PYTHON_VERSION -y
+    else
+        echo "Environment '$ENV_NAME' already exists. Use --force to recreate it."
+        echo "Proceeding with dependency installation..."
+    fi
+else
+    echo "Creating conda environment: $ENV_NAME with Python $PYTHON_VERSION"
+    conda create --name $ENV_NAME python=$PYTHON_VERSION -y
+fi
+
+# Install core dependencies from conda-forge
+echo "Installing core dependencies..."
+conda install --name $ENV_NAME -y -c conda-forge \
+    pandas \
+    numpy \
+    matplotlib \
+    seaborn \
+    scipy \
+    scikit-learn \
+    statsmodels \
+    tqdm \
+    psutil \
+    biopython || {
+        echo "Warning: Some dependencies failed to install together. Trying individually..."
+        for pkg in pandas numpy matplotlib seaborn scipy scikit-learn statsmodels tqdm psutil biopython; do
+            conda install --name $ENV_NAME -y -c conda-forge $pkg || echo "Warning: Failed to install $pkg"
+        done
+    }
+
+# Install biobakery tools
+echo "Installing biobakery tools from $BIOBAKERY_CHANNEL channel..."
+conda install --name $ENV_NAME -y -c $BIOBAKERY_CHANNEL \
+    humann=3.6 \
+    kneaddata \
+    metaphlan=4.0 || {
+        echo "Warning: Some biobakery tools failed to install together. Trying individually..."
+        for pkg in "humann=3.6" kneaddata "metaphlan=4.0"; do
+            conda install --name $ENV_NAME -y -c $BIOBAKERY_CHANNEL $pkg || echo "Warning: Failed to install $pkg"
+        done
+    }
+
+# Install pip dependencies
+echo "Installing additional dependencies with pip..."
+conda run --name $ENV_NAME pip install \
+    scikit-posthocs \
+    skbio || {
+        echo "Warning: Some pip dependencies failed to install together. Trying individually..."
+        for pkg in scikit-posthocs skbio; do
+            conda run --name $ENV_NAME pip install $pkg || echo "Warning: Failed to install $pkg"
+        done
+    }
+
+# Install current package in development mode
+echo "Installing humann3_tools package..."
+conda run --name $ENV_NAME pip install -e . || {
+    echo "Warning: Could not install humann3_tools in development mode."
+    echo "Please install it manually after activation:"
+    echo "    conda activate $ENV_NAME"
+    echo "    pip install -e ."
+}
+
+# Create activation script
+cat > activate_env.sh << EOF
+#!/bin/bash
+# Activate the $ENV_NAME conda environment
+conda activate $ENV_NAME
+EOF
+
+chmod +x activate_env.sh
+echo "Created activation script: activate_env.sh"
+
+# Print success message and next steps
+echo
+echo "================================================================================"
+echo "HUMAnN3 Tools conda environment '$ENV_NAME' has been set up successfully!"
+echo "================================================================================"
+echo
+echo "To activate the environment, run:"
+echo "    conda activate $ENV_NAME"
+echo
+echo "To verify the installation, run:"
+echo "    humann3-tools --help"
+echo
+echo "To get started with a metadata-driven workflow, run:"
+echo "    humann3-tools --run-preprocessing --use-metadata \\"
+echo "        --sample-key metadata.csv \\"
+echo "        --seq-dir /path/to/sequence/files \\"
+echo "        --paired \\"
+echo "        --r1-suffix '_R1.fastq.gz' --r2-suffix '_R2.fastq.gz' \\"
+echo "        --kneaddata-dbs /path/to/kneaddata_db \\"
+echo "        --humann3-nucleotide-db /path/to/chocophlan \\"
+echo "        --humann3-protein-db /path/to/uniref \\"
+echo "        --output-dir ./results \\"
+echo "        --group-col 'Treatment'"
+echo
+echo "Refer to the usage guide for more examples and options."
+echo "================================================================================"
