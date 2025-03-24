@@ -1,20 +1,3 @@
-# humann3_tools/analysis/differential_abundance_cli.py
-
-import os
-import argparse
-import logging
-import pandas as pd
-import sys
-
-from humann3_tools.logger import setup_logger, log_print
-from humann3_tools.analysis.differential_abundance import (
-    aldex2_like,
-    ancom,
-    ancom_bc,
-    run_differential_abundance_analysis
-)
-from humann3_tools.analysis.statistical import kruskal_wallis_dunn
-
 def parse_args():
     """Parse command line arguments for the differential abundance CLI."""
     parser = argparse.ArgumentParser(
@@ -40,6 +23,9 @@ def parse_args():
                        help="Comma-separated list of methods to use (aldex2,ancom,ancom-bc,kruskal)")
     parser.add_argument("--exclude-unmapped", action="store_true",
                        help="Exclude unmapped features from analysis")
+    parser.add_argument("--filter-groups",
+                       help="Comma-separated list of group names to include in the analysis. "
+                            "For ALDEx2, exactly 2 groups must be specified.")
     
     # Additional options
     parser.add_argument("--log-file", default=None,
@@ -117,6 +103,27 @@ def main():
         log_print(f"Available columns: {', '.join(metadata_df.columns)}", level="info")
         sys.exit(1)
     
+    # Process filter groups if specified
+    filter_groups = None
+    if args.filter_groups:
+        filter_groups = [g.strip() for g in args.filter_groups.split(',')]
+        log_print(f"Filtering to groups: {filter_groups}", level="info")
+        
+        # Verify these groups exist in the data
+        unique_groups = metadata_df[args.group_col].unique()
+        missing_groups = [g for g in filter_groups if g not in unique_groups]
+        if missing_groups:
+            log_print(f"ERROR: The following specified groups don't exist in the data: {missing_groups}", level="error")
+            log_print(f"Available groups: {unique_groups}", level="info")
+            sys.exit(1)
+        
+        # Check if ALDEx2 is selected and we have exactly 2 groups
+        if "aldex2" in methods and len(filter_groups) != 2:
+            log_print(f"WARNING: ALDEx2 requires exactly 2 groups, but {len(filter_groups)} were specified", level="warning")
+            if "aldex2" in methods and len(methods) == 1:
+                log_print("ERROR: Cannot proceed with ALDEx2 analysis without exactly 2 groups", level="error")
+                sys.exit(1)
+    
     # Create feature-specific output directory
     feature_dir = os.path.join(args.output_dir, args.feature_type.capitalize() + "s")
     os.makedirs(feature_dir, exist_ok=True)
@@ -143,6 +150,13 @@ def main():
             on=sample_id_col,
             how="inner"
         )
+        
+        # Apply filtering if needed
+        if filter_groups:
+            long_df = long_df[long_df[args.group_col].isin(filter_groups)]
+            if len(long_df) == 0:
+                log_print(f"ERROR: No samples left after filtering to groups: {filter_groups}", level="error")
+                sys.exit(1)
         
         # Run Kruskal-Wallis and Dunn's test
         kw_results, dunn_results = kruskal_wallis_dunn(
@@ -191,6 +205,7 @@ def main():
             group_col=args.group_col,
             methods=run_methods,
             denom=denom,
+            filter_groups=filter_groups,
             logger=logger
         )
         

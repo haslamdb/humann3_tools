@@ -1,18 +1,4 @@
-# humann3_tools/humann3_tools/analysis/differential_abundance.py
-
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from scipy import stats
-import skbio.stats.composition as composition
-from statsmodels.stats.multitest import multipletests
-import os
-import logging
-import warnings
-warnings.filterwarnings('ignore')
-
-def aldex2_like(abundance_df, metadata_df, group_col, mc_samples=128, denom="all"):
+def aldex2_like(abundance_df, metadata_df, group_col, mc_samples=128, denom="all", filter_groups=None):
     """
     A Python implementation similar to ALDEx2 for differential abundance testing
     
@@ -29,6 +15,9 @@ def aldex2_like(abundance_df, metadata_df, group_col, mc_samples=128, denom="all
     denom : str
         Features to use as denominator: "all" for all features, 
         "unmapped_excluded" to exclude unmapped features
+    filter_groups : list or None
+        List of group names to include in the analysis. If provided, only these groups will be used.
+        Must contain exactly 2 groups for ALDEx2.
         
     Returns:
     --------
@@ -57,9 +46,39 @@ def aldex2_like(abundance_df, metadata_df, group_col, mc_samples=128, denom="all
     # Get group information
     groups = metadata[group_col]
     unique_groups = groups.unique()
+    
+    # Apply group filtering if specified
+    if filter_groups is not None:
+        if not isinstance(filter_groups, list):
+            filter_groups = [filter_groups]
+        
+        # Verify the specified groups exist in the data
+        missing_groups = [g for g in filter_groups if g not in unique_groups]
+        if missing_groups:
+            logger.error(f"The following specified groups don't exist in the data: {missing_groups}")
+            raise ValueError(f"Groups not found in data: {missing_groups}")
+        
+        # Filter metadata and abundance to only include samples from specified groups
+        valid_samples = metadata[metadata[group_col].isin(filter_groups)].index
+        if len(valid_samples) == 0:
+            logger.error(f"No samples found for groups: {filter_groups}")
+            raise ValueError(f"No samples found for groups: {filter_groups}")
+        
+        metadata = metadata.loc[valid_samples]
+        abundance = abundance[valid_samples]
+        groups = metadata[group_col]
+        unique_groups = groups.unique()
+        
+        logger.info(f"Filtered to {len(unique_groups)} groups: {unique_groups}")
+    
+    # ALDEx2 requires exactly 2 groups for comparison
     if len(unique_groups) != 2:
-        logger.error("ALDEx2 implementation only supports two groups for comparison")
-        raise ValueError("This implementation only supports two groups for comparison")
+        logger.error(f"ALDEx2 implementation requires exactly 2 groups for comparison, found {len(unique_groups)}: {unique_groups}")
+        if filter_groups:
+            logger.error(f"Please filter to exactly 2 groups using --filter-groups option")
+        else:
+            logger.error(f"Please use --filter-groups option to select 2 groups from: {unique_groups}")
+        raise ValueError("ALDEx2 implementation requires exactly 2 groups for comparison")
         
     group1_samples = groups[groups == unique_groups[0]].index
     group2_samples = groups[groups == unique_groups[1]].index
@@ -127,7 +146,7 @@ def aldex2_like(abundance_df, metadata_df, group_col, mc_samples=128, denom="all
     
     return results.sort_values('q_value')
 
-def ancom(abundance_df, metadata_df, group_col, alpha=0.05, denom="all"):
+def ancom(abundance_df, metadata_df, group_col, alpha=0.05, denom="all", filter_groups=None):
     """
     ANCOM for differential abundance testing
     
@@ -144,6 +163,8 @@ def ancom(abundance_df, metadata_df, group_col, alpha=0.05, denom="all"):
     denom : str
         Features to use as denominator: "all" for all features, 
         "unmapped_excluded" to exclude unmapped features
+    filter_groups : list or None
+        List of group names to include in the analysis. If provided, only these groups will be used.
         
     Returns:
     --------
@@ -172,6 +193,36 @@ def ancom(abundance_df, metadata_df, group_col, alpha=0.05, denom="all"):
     # Get group information
     groups = metadata[group_col]
     unique_groups = groups.unique()
+    
+    # Apply group filtering if specified
+    if filter_groups is not None:
+        if not isinstance(filter_groups, list):
+            filter_groups = [filter_groups]
+        
+        # Verify the specified groups exist in the data
+        missing_groups = [g for g in filter_groups if g not in unique_groups]
+        if missing_groups:
+            logger.error(f"The following specified groups don't exist in the data: {missing_groups}")
+            raise ValueError(f"Groups not found in data: {missing_groups}")
+        
+        # Filter metadata and abundance to only include samples from specified groups
+        valid_samples = metadata[metadata[group_col].isin(filter_groups)].index
+        if len(valid_samples) == 0:
+            logger.error(f"No samples found for groups: {filter_groups}")
+            raise ValueError(f"No samples found for groups: {filter_groups}")
+        
+        metadata = metadata.loc[valid_samples]
+        abundance = abundance[valid_samples]
+        groups = metadata[group_col]
+        unique_groups = groups.unique()
+        
+        logger.info(f"Filtered to {len(unique_groups)} groups: {unique_groups}")
+    
+    # ANCOM needs at least 2 groups
+    if len(unique_groups) < 2:
+        logger.error(f"ANCOM requires at least 2 groups for comparison, found {len(unique_groups)}")
+        raise ValueError("ANCOM requires at least 2 groups for comparison")
+    
     logger.info(f"Running ANCOM analysis with {len(unique_groups)} groups: {unique_groups}")
     
     # Results dataframe
@@ -230,7 +281,7 @@ def ancom(abundance_df, metadata_df, group_col, alpha=0.05, denom="all"):
     
     return results.sort_values('W', ascending=False)
 
-def ancom_bc(abundance_df, metadata_df, group_col, formula=None, denom="all"):
+def ancom_bc(abundance_df, metadata_df, group_col, formula=None, denom="all", filter_groups=None):
     """
     ANCOM-BC for differential abundance testing
     
@@ -248,6 +299,8 @@ def ancom_bc(abundance_df, metadata_df, group_col, formula=None, denom="all"):
     denom : str
         Features to use as denominator: "all" for all features, 
         "unmapped_excluded" to exclude unmapped features
+    filter_groups : list or None
+        List of group names to include in the analysis. If provided, only these groups will be used.
         
     Returns:
     --------
@@ -283,6 +336,36 @@ def ancom_bc(abundance_df, metadata_df, group_col, formula=None, denom="all"):
     # Get group information
     groups = metadata[group_col]
     unique_groups = groups.unique()
+    
+    # Apply group filtering if specified
+    if filter_groups is not None:
+        if not isinstance(filter_groups, list):
+            filter_groups = [filter_groups]
+        
+        # Verify the specified groups exist in the data
+        missing_groups = [g for g in filter_groups if g not in unique_groups]
+        if missing_groups:
+            logger.error(f"The following specified groups don't exist in the data: {missing_groups}")
+            raise ValueError(f"Groups not found in data: {missing_groups}")
+        
+        # Filter metadata and abundance to only include samples from specified groups
+        valid_samples = metadata[metadata[group_col].isin(filter_groups)].index
+        if len(valid_samples) == 0:
+            logger.error(f"No samples found for groups: {filter_groups}")
+            raise ValueError(f"No samples found for groups: {filter_groups}")
+        
+        metadata = metadata.loc[valid_samples]
+        abundance = abundance[valid_samples]
+        groups = metadata[group_col]
+        unique_groups = groups.unique()
+        
+        logger.info(f"Filtered to {len(unique_groups)} groups: {unique_groups}")
+    
+    # ANCOM-BC needs at least 2 groups
+    if len(unique_groups) < 2:
+        logger.error(f"ANCOM-BC requires at least 2 groups for comparison, found {len(unique_groups)}")
+        raise ValueError("ANCOM-BC requires at least 2 groups for comparison")
+    
     logger.info(f"Running ANCOM-BC analysis with {len(unique_groups)} groups: {unique_groups}")
     
     # Results dataframe
@@ -356,7 +439,7 @@ def ancom_bc(abundance_df, metadata_df, group_col, formula=None, denom="all"):
 
 def run_differential_abundance_analysis(abundance_df, metadata_df, output_dir, group_col="Group", 
                                       methods=["aldex2", "ancom", "ancom-bc"], denom="all",
-                                      logger=None):
+                                      filter_groups=None, logger=None):
     """
     Run multiple differential abundance testing methods and compare results
     
@@ -375,6 +458,8 @@ def run_differential_abundance_analysis(abundance_df, metadata_df, output_dir, g
     denom : str
         Features to use as denominator: "all" for all features,
         "unmapped_excluded" to exclude unmapped features
+    filter_groups : list or None
+        List of group names to include in the analysis. If provided, only these groups will be used.
     logger : logging.Logger
         Logger for output
         
@@ -390,18 +475,53 @@ def run_differential_abundance_analysis(abundance_df, metadata_df, output_dir, g
     
     results = {}
     
-    # Check if we have exactly two groups (required for ALDEx2)
+    # Get unique groups in the full dataset
     unique_groups = metadata_df[group_col].unique()
+    logger.info(f"Full dataset contains {len(unique_groups)} groups: {unique_groups}")
+    
+    # Handle group filtering
+    if filter_groups is not None:
+        # Convert single string to list if needed
+        if isinstance(filter_groups, str):
+            filter_groups = [g.strip() for g in filter_groups.split(',')]
+        
+        logger.info(f"Filtering to specified groups: {filter_groups}")
+        
+        # Validate that all specified groups exist in the data
+        missing_groups = [g for g in filter_groups if g not in unique_groups]
+        if missing_groups:
+            logger.error(f"The following specified groups don't exist in the data: {missing_groups}")
+            logger.error(f"Available groups: {unique_groups}")
+            return {}
+        
+        # For ALDEx2, check if we have exactly 2 groups after filtering
+        if "aldex2" in methods and len(filter_groups) != 2:
+            logger.warning(f"ALDEx2 requires exactly 2 groups, but {len(filter_groups)} were specified.")
+            if len(unique_groups) == 2:
+                logger.info(f"Consider using all groups for ALDEx2 as there are exactly 2 in the data: {unique_groups}")
+            else:
+                logger.info(f"Available groups: {unique_groups}")
+            if "aldex2" in methods and len(methods) == 1:
+                logger.error("Cannot proceed with ALDEx2 analysis without exactly 2 groups")
+                return {}
+    
+    # Check if we have exactly two groups (required for ALDEx2)
+    n_unique_groups = len(unique_groups)
+    if filter_groups:
+        n_filtered_groups = len(filter_groups)
+    else:
+        n_filtered_groups = n_unique_groups
     
     # ALDEx2-like analysis
     if "aldex2" in methods:
-        if len(unique_groups) != 2 and "aldex2" in methods:
-            logger.warning(f"Skipping ALDEx2 analysis: found {len(unique_groups)} groups, but ALDEx2 requires exactly 2")
+        if n_filtered_groups != 2 and "aldex2" in methods:
+            logger.warning(f"Skipping ALDEx2 analysis: found {n_filtered_groups} groups after filtering, but ALDEx2 requires exactly 2")
         else:
             logger.info("Running ALDEx2-like analysis...")
             try:
                 aldex2_results = aldex2_like(
-                    abundance_df, metadata_df, group_col=group_col, denom=denom
+                    abundance_df, metadata_df, group_col=group_col, denom=denom,
+                    filter_groups=filter_groups
                 )
                 aldex2_results.to_csv(os.path.join(output_dir, "aldex2_results.csv"))
                 logger.info(f"  Significant features (q < 0.05): {sum(aldex2_results['q_value'] < 0.05)}")
@@ -438,7 +558,8 @@ def run_differential_abundance_analysis(abundance_df, metadata_df, output_dir, g
         logger.info("Running ANCOM analysis...")
         try:
             ancom_results = ancom(
-                abundance_df, metadata_df, group_col=group_col, denom=denom
+                abundance_df, metadata_df, group_col=group_col, denom=denom,
+                filter_groups=filter_groups
             )
             ancom_results.to_csv(os.path.join(output_dir, "ancom_results.csv"))
             logger.info(f"  Significant features: {sum(ancom_results['significant'])}")
@@ -464,7 +585,8 @@ def run_differential_abundance_analysis(abundance_df, metadata_df, output_dir, g
         logger.info("Running ANCOM-BC analysis...")
         try:
             ancom_bc_results = ancom_bc(
-                abundance_df, metadata_df, group_col=group_col, denom=denom
+                abundance_df, metadata_df, group_col=group_col, denom=denom,
+                filter_groups=filter_groups
             )
             ancom_bc_results.to_csv(os.path.join(output_dir, "ancom_bc_results.csv"))
             logger.info(f"  Significant features (q < 0.05): {sum(ancom_bc_results['q_value'] < 0.05)}")

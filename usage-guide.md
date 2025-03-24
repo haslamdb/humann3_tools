@@ -188,6 +188,53 @@ humann3-diff --abundance-file ./processed_data/pathway_abundance-cpm_unstratifie
     --methods aldex2,ancom,ancom-bc
 ```
 
+#### Comparing specific groups
+
+You can use the `--filter-groups` option to perform comparisons between specific groups:
+
+```bash
+# ALDEx2 requires exactly 2 groups
+humann3-diff --abundance-file ./processed_data/pathway_abundance-cpm_unstratified.tsv \
+    --metadata-file metadata.csv \
+    --output-dir ./differential_abundance/control_vs_treatment1 \
+    --group-col Treatment \
+    --methods aldex2 \
+    --filter-groups Control,Treatment1
+
+# ANCOM and ANCOM-BC can compare any number of groups
+humann3-diff --abundance-file ./processed_data/pathway_abundance-cpm_unstratified.tsv \
+    --metadata-file metadata.csv \
+    --output-dir ./differential_abundance/treatment_comparison \
+    --group-col Treatment \
+    --methods ancom,ancom-bc \
+    --filter-groups Treatment1,Treatment2,Treatment3
+```
+
+### humann3-diff
+
+```
+usage: humann3-diff --abundance-file ABUNDANCE_FILE 
+                   --metadata-file METADATA_FILE
+                   [--group-col GROUP_COL]
+                   [--sample-id-col SAMPLE_ID_COL]
+                   [--methods METHODS]
+                   [--filter-groups GROUPS]
+```
+
+Key parameters for humann3-diff:
+```
+Required:
+  --abundance-file        Path to unstratified abundance file
+  --metadata-file         Path to metadata CSV file
+
+Options:
+  --group-col             Column in metadata for grouping samples (default: "Group")
+  --methods               Comma-separated list of methods (default: "aldex2,ancom,ancom-bc")
+  --filter-groups         Comma-separated list of group names to include in the analysis.
+                          For ALDEx2, exactly 2 groups must be specified.
+  --exclude-unmapped      Exclude unmapped features from the analysis
+```
+
 ### 8. Run Statistical Tests
 
 Using metadata for statistics:

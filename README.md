@@ -316,7 +316,8 @@ humann3-diff --abundance-file joined_output/pathway_abundance-cpm_unstratified.t
     --group-col Treatment \
     --output-dir differential_abundance \
     --methods aldex2,ancom,ancom-bc \
-    --feature-type pathway
+    --feature-type pathway \
+    --filter-groups Group1,Group2
 ```
 
 Key options:
@@ -324,6 +325,7 @@ Key options:
 - `--metadata-file`: Path to metadata CSV file
 - `--group-col`: Column name for grouping samples
 - `--methods`: Comma-separated list of methods
+- `--filter-groups`: Comma-separated list of group names to include in the analysis (For ALDEx2, exactly 2 groups must be specified)
 - `--output-dir`: Directory for output files
 - `--feature-type`: Type of features (pathway or gene)
 
@@ -331,6 +333,8 @@ For detailed options:
 ```bash
 humann3-diff --help
 ```
+
+
 
 ### Step 7: Visualization
 
@@ -471,6 +475,28 @@ join_unstratify_humann_output \
     --gene-dir existing_outputs/genes \
     --output-dir joined_output \
     --units cpm
+```
+
+### Example 5: Comparing specific groups with differential abundance analysis
+
+```bash
+# Compare only Baseline and Month 12 groups using ALDEx2
+humann3-diff --abundance-file pathway_abundance-cpm_unstratified.tsv \
+    --metadata-file metadata.csv \
+    --group-col Group \
+    --output-dir differential_abundance/Baseline_vs_mo_12 \
+    --methods aldex2 \
+    --filter-groups Control,Treatment \
+    --feature-type pathway
+
+# Compare multiple specific groups with ANCOM and ANCOM-BC
+humann3-diff --abundance-file pathway_abundance-cpm_unstratified.tsv \
+    --metadata-file metadata.csv \
+    --group-col Group \
+    --output-dir differential_abundance/treatment_groups \
+    --methods ancom,ancom-bc \
+    --filter-groups GroupA,GroupB,GroupD \
+    --feature-type pathway
 ```
 
 ---
