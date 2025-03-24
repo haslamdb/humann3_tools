@@ -1,3 +1,20 @@
+# humann3_tools/analysis/differential_abundance_cli.py
+
+import os
+import sys
+import argparse
+import logging
+import pandas as pd
+
+from humann3_tools.logger import setup_logger, log_print
+from humann3_tools.analysis.differential_abundance import (
+    aldex2_like,
+    ancom,
+    ancom_bc,
+    run_differential_abundance_analysis
+)
+from humann3_tools.analysis.statistical import kruskal_wallis_dunn
+
 def parse_args():
     """Parse command line arguments for the differential abundance CLI."""
     parser = argparse.ArgumentParser(
