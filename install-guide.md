@@ -32,7 +32,7 @@ This method uses a Python script to create a conda environment with all required
 
 ```bash
 # Clone the repository
-git clone https://github.com/dhaslam/humann3_tools.git
+git clone https://github.com/haslamdb/humann3_tools.git
 
 # Navigate to the package directory
 cd humann3_tools
@@ -70,7 +70,7 @@ For Unix/Linux/macOS users, a shell script is provided for convenience.
 
 ```bash
 # Clone the repository
-git clone https://github.com/dhaslam/humann3_tools.git
+git clone https://github.com/haslamdb/humann3_tools.git
 
 # Navigate to the package directory
 cd humann3_tools
@@ -106,7 +106,7 @@ For users who prefer pip or want to manage dependencies manually:
 
 ```bash
 # Clone the repository
-git clone https://github.com/dhaslam/humann3_tools.git
+git clone https://github.com/haslamdb/humann3_tools.git
 
 # Navigate to the package directory
 cd humann3_tools
@@ -182,6 +182,6 @@ If HUMAnN3, KneadData, or MetaPhlAn fail to install:
 
 If you encounter issues not covered in this guide:
 
-1. Check the [GitHub repository issues](https://github.com/dhaslam/humann3_tools/issues)
+1. Check the [GitHub repository issues](https://github.com/haslamdb/humann3_tools/issues)
 2. Run commands with verbose logging: `--log-level DEBUG`
 3. Open a new issue on GitHub with details about your environment and the error messages
