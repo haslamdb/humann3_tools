@@ -122,9 +122,9 @@ conda install --name $ENV_NAME -y -c $BIOBAKERY_CHANNEL \
 echo "Installing additional dependencies with pip..."
 conda run --name $ENV_NAME pip install \
     scikit-posthocs \
-    skbio || {
+    scikit-bio || {
         echo "Warning: Some pip dependencies failed to install together. Trying individually..."
-        for pkg in scikit-posthocs skbio; do
+        for pkg in scikit-posthocs scikit-bio; do
             conda run --name $ENV_NAME pip install $pkg || echo "Warning: Failed to install $pkg"
         done
     }

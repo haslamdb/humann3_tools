@@ -166,7 +166,7 @@ def install_dependencies(env_name, biobakery_channel):
     # Dependencies that are better installed with pip
     pip_deps = [
         "scikit-posthocs",   # For Dunn's test
-        "skbio"              # For compositional data analysis
+        "scikit-bio"              # For compositional data analysis
     ]
     
     # Install core dependencies from conda
