@@ -124,5 +124,25 @@ def process_gene_families(valid_samples, gene_dir, output_dir, output_prefix, se
         log_print(f"Renamed unstratified file to: {unstrat_file}", level='info')
     except Exception as e:
         log_print(f"WARNING: Could not rename file: {e}", level='warning')
-    
+
+    # Rename final unstratified file
+    final_name = os.path.join(gene_families_out, f"gene_families{units_suffix}_unstratified.tsv")
+    try:
+        os.rename(unstrat_file, final_name)
+        unstrat_file = final_name
+        log_print(f"Renamed unstratified file to: {unstrat_file}", level='info')
+        
+        # Strip suffixes from headers in all output files
+        from humann3_tools.utils.file_utils import strip_suffixes_from_file_headers
+        strip_suffixes_from_file_headers(unstrat_file)
+        
+        # Also process the stratified file if it exists
+        stratified_file = os.path.join(gene_families_out, f"gene_families{units_suffix}_stratified.tsv")
+        if os.path.exists(stratified_file):
+            strip_suffixes_from_file_headers(stratified_file)
+            
+    except Exception as e:
+        log_print(f"WARNING: Could not rename file: {e}", level='warning')
+
     return unstrat_file
+    

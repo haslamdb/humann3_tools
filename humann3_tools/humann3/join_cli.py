@@ -180,6 +180,24 @@ def main():
                 log_print(f"Renamed to: {os.path.basename(final_name)}", level="info")
         except Exception as e:
             log_print(f"WARNING: Could not rename file: {str(e)}", level="warning")
+
+        final_name = os.path.join(args.output_dir, f"{args.output_basename}_unstratified.tsv")
+    try:
+        if os.path.abspath(unstrat_file) != os.path.abspath(final_name):
+            os.rename(unstrat_file, final_name)
+            log_print(f"Renamed to: {os.path.basename(final_name)}", level="info")
+            
+            # Strip suffixes from headers
+            from humann3_tools.utils.file_utils import strip_suffixes_from_file_headers
+            strip_suffixes_from_file_headers(final_name)
+            
+            # Also process the stratified file if it exists
+            stratified_file = os.path.join(args.output_dir, f"{args.output_basename}_stratified.tsv")
+            if os.path.exists(stratified_file):
+                strip_suffixes_from_file_headers(stratified_file)
+                
+    except Exception as e:
+        log_print(f"WARNING: Could not rename file: {str(e)}", level="warning")
     
     log_print("Join/normalize/unstratify process complete", level="info")
     return 0
