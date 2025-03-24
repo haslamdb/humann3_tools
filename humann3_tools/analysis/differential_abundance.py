@@ -5,8 +5,34 @@ import pandas as pd
 import logging
 import matplotlib.pyplot as plt
 from scipy import stats
-from skbio import composition
 from statsmodels.stats.multitest import multipletests
+
+# Create our own CLR implementation to avoid skbio dependency
+def clr_transform(data_matrix):
+    """
+    Compute the centered log-ratio (CLR) transformation.
+    
+    Parameters:
+    -----------
+    data_matrix : numpy.ndarray or pandas.DataFrame
+        The data matrix to transform, with features as columns
+        
+    Returns:
+    --------
+    numpy.ndarray or pandas.DataFrame
+        The CLR-transformed data matrix
+    """
+    if isinstance(data_matrix, pd.DataFrame):
+        # For pandas DataFrame
+        log_data = np.log(data_matrix)
+        geometric_means = log_data.mean(axis=1)
+        clr_data = log_data.subtract(geometric_means, axis=0)
+        return clr_data
+    else:
+        # For numpy array
+        log_data = np.log(data_matrix)
+        geometric_means = np.mean(log_data, axis=1, keepdims=True)
+        return log_data - geometric_means
 
 def aldex2_like(abundance_df, metadata_df, group_col, mc_samples=128, denom="all", filter_groups=None):
     """
@@ -112,7 +138,7 @@ def aldex2_like(abundance_df, metadata_df, group_col, mc_samples=128, denom="all
             mc_instance[col] = np.random.dirichlet(abundance[col], 1)[0] * abundance[col].sum()
         
         # CLR transformation
-        clr_data = composition.clr(mc_instance.T + 0.5).T
+        clr_data = clr_transform(mc_instance.T + 0.5).T
         all_clrs.append(clr_data)
     
     # Calculate effect sizes and p-values across MC instances
