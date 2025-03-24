@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: humann3-tools
-Version: 0.1.0
+Version: 0.2.0
 Summary: A comprehensive Python package for assigning raw metagenomic sequence reads to microbial gene and pathway databases using HUMAnN3, followed by downstream processing and analysis
 Author-email: David Haslam <dhaslam@gmail.com>
 Maintainer-email: David Haslam <dhaslam@gmail.com>
@@ -18,7 +18,7 @@ Classifier: Programming Language :: Python :: 3.9
 Classifier: Programming Language :: Python :: 3.10
 Classifier: Programming Language :: Python :: 3.12
 Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
-Requires-Python: <3.11,>=3.8
+Requires-Python: >=3.12
 Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: pandas>=1.3.0
