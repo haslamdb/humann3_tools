@@ -387,6 +387,10 @@ Key options:
 
 ### Example 1: Complete Workflow
 
+Note that metadata-driven inputs can be used instead of --input-fastq with the following flags:
+  --use-metadata \
+  --sample-key metadata.csv \
+
 ```bash
 # Run the full pipeline from raw reads to visualization
 humann3-tools --run-preprocessing \
