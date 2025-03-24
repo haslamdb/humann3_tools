@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "humann3_tools"
-version = "0.2.0"  # Updated version
+version = "0.3.0"  # Updated version
 description = "A comprehensive Python package for processing and analyzing HUMAnN3 output data"
 readme = "README.md"
 authors = [
@@ -51,16 +51,18 @@ humann = [
 "Bug Tracker" = "https://github.com/dhaslam/humann3_tools/issues"
 
 [project.scripts]
-# Original scripts
+# Complete workflow
 humann3-tools = "humann3_tools.cli:main"
-join_unstratify_humann_output = "humann3_tools.humann3.join_unstratify:join_unstratify_humann_output"
 
-# New modular CLI tools
-humann3-join = "humann3_tools.humann3.join_cli:main"
-humann3-diff = "humann3_tools.analysis.differential_abundance_cli:main"
-humann3-stats = "humann3_tools.analysis.statistical_cli:main"
-humann3-viz = "humann3_tools.analysis.visualize_cli:main"
+# Step-by-step workflow components
+humann3-kneaddata = "humann3_tools.preprocessing.kneaddata_cli:main"
+humann3-run = "humann3_tools.preprocessing.humann3_run_cli:main"  
 humann3-preprocess = "humann3_tools.preprocessing.preprocessing_cli:main"
+humann3-join = "humann3_tools.humann3.join_cli:main"
+join_unstratify_humann_output = "humann3_tools.humann3.join_unstratify:join_unstratify_humann_output"
+humann3-stats = "humann3_tools.analysis.statistical_cli:main"
+humann3-diff = "humann3_tools.analysis.differential_abundance_cli:main"
+humann3-viz = "humann3_tools.analysis.visualize_cli:main"
 
 [tool.setuptools]
 packages = ["humann3_tools"]
@@ -68,6 +70,7 @@ packages = ["humann3_tools"]
 [tool.black]
 line-length = 88
 target-version = ["py38"]
+
 
 [tool.isort]
 profile = "black"

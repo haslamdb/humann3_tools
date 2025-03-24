@@ -4,20 +4,16 @@ A comprehensive Python package for assigning raw metagenomic sequence reads to m
 
 ## Table of Contents
 - [Installation](#installation)
-    - [Conda Environment Setup](#conda-environment-setup)
-    - [Standard Installation](#standard-installation)
-- [Overview](#overview)
-- [Command-Line Usage](#command-line-usage)
-    - [Main Pipeline](#main-pipeline)
-    - [Modular Commands](#modular-commands)
-    - [Required and Optional Parameters](#required-and-optional-parameters)
-- [Modular Analysis Commands](#modular-analysis-commands)
-    - [Preprocessing Pipeline (`humann3-preprocess`)](#preprocessing-pipeline)
-    - [Join and Unstratify (`humann3-join` and `join_unstratify`)](#join-and-unstratify)
-    - [Statistical Testing (`humann3-stats`)](#statistical-testing)
-    - [Differential Abundance Analysis (`humann3-dif`)](#differential-abundance-analysis)
-    - [Visualizations (`humann3-viz`)](#visualizations)
-- [Python API Usage](#python-api-usage)
+- [Workflow Overview](#workflow-overview)
+- [Complete Workflow](#complete-workflow)
+- [Step-by-Step Workflow](#step-by-step-workflow)
+  - [Step 1: KneadData Processing](#step-1-kneaddata-processing)
+  - [Step 2: HUMAnN3 Analysis](#step-2-humann3-analysis) 
+  - [Step 3: Preprocessing (Combined Steps 1 & 2)](#step-3-preprocessing-combined-steps-1--2)
+  - [Step 4: Join and Normalize](#step-4-join-and-normalize)
+  - [Step 5: Statistical Testing](#step-5-statistical-testing)
+  - [Step 6: Differential Abundance Analysis](#step-6-differential-abundance-analysis)
+  - [Step 7: Visualization](#step-7-visualization)
 - [Metadata-Driven Workflow](#metadata-driven-workflow)
 - [Examples](#examples)
 - [Troubleshooting](#troubleshooting)
@@ -29,48 +25,20 @@ A comprehensive Python package for assigning raw metagenomic sequence reads to m
 
 ## Installation
 
-This section describes how to install and setup the `humann3_tools` package.
+### Conda Environment Setup (Recommended)
 
-### Conda Environment Setup
+It is **highly recommended** to use a Conda environment to manage the dependencies for `humann3_tools`.
 
-It is **highly recommended** to use a Conda environment to manage the dependencies for `humann3_tools`. This ensures a clean and isolated environment, avoiding potential conflicts with other Python packages you might have installed.
+```bash
+# Navigate to package directory
+cd humann3_tools 
 
-**Steps:**
+# Run the setup script
+python conda_setup.py
 
-1.  **Navigate to the Package Directory:**
-    Before running the setup script, make sure you are in the top-level directory of the `humann3_tools` package (the directory containing `conda_setup.py`, `README.md`, `pyproject.toml` etc). If you cloned the repository, this would be:
-
-    ```bash
-    cd humann3_tools 
-    ```
-
-2.  **Run the Setup Script:**
-    Use the provided `conda_setup.py` script to create and activate a new Conda environment, and then install the `humann3_tools` package and its dependencies.
-
-    ```bash
-    python conda_setup.py
-    ```
-
-    This script will:
-    *   Create a new Conda environment named `humann3_tools` (you can modify this in the script if needed).
-    *   Install all required and recommended dependencies into this environment.
-    *   Install the `humann3_tools` package in development mode (`-e .`).
-    *   Activate the new environment
-
-3.  **Activate the Environment (if not done automatically):**
-    If the environment is not activated automatically, you can activate it manually:
-
-    ```bash
-    conda activate humann3_tools
-    ```
-    
-4. **Verify the installation**
-    You can then check the installation by using:
-    ```bash
-    humann3-tools --help
-    ```
-
-**Note:** You only need to run `conda_setup.py` once. To use `humann3_tools` in the future, just activate the environment using `conda activate humann3_tools`.
+# Verify the installation
+humann3-tools --help
+```
 
 ### Standard Installation
 
@@ -90,395 +58,301 @@ Or install directly using pip (once published to PyPI):
 pip install humann3-tools
 ```
 
-**Required dependencies** (will install automatically if not present):
-- pandas  
-- numpy  
-- scipy  
-- scikit-bio  
-- scikit-learn  
-- scikit-posthocs  
-- statsmodels  
-- matplotlib  
-- seaborn  
-- matplotlib-venn (optional, for visualization of method comparisons)
+---
+
+## Workflow Overview
+
+HUMAnN3 Tools provides two ways to analyze your metagenomic data:
+
+1. **Complete Workflow**: Run the entire analysis pipeline from raw reads to visualizations
+2. **Step-by-Step Workflow**: Run individual steps separately, with the ability to skip or modify steps as needed
+
+The overall workflow consists of these steps:
+
+1. **KneadData Processing**: Quality control and host depletion 
+2. **HUMAnN3 Analysis**: Process cleaned sequences through HUMAnN3
+3. **Join & Normalize**: Combine, normalize, and split HUMAnN3 output files
+4. **Statistical Testing**: Perform statistical tests across groups
+5. **Differential Abundance**: Apply methods like ALDEx2, ANCOM, and ANCOM-BC
+6. **Visualization**: Generate plots and figures for publication
+
+![Workflow Diagram](workflow_diagram.png)
 
 ---
 
-## Overview
+## Complete Workflow
 
-**HUMAnN3 Tools** provides an end-to-end solution for metagenomic analysis:
-
-1. **Preprocessing**: Run quality control and host depletion with KneadData
-2. **Functional Profiling**: Process raw sequences through HUMAnN3
-3. **HUMAnN3 Processing**: Normalize, join, and split HUMAnN3 output files
-4. **Downstream Analysis**: Perform statistical tests, PCA, and visualization
-5. **Differential Abundance Analysis**: Apply methods like ALDEx2, ANCOM, and ANCOM-BC
-
-The package can be used as either an integrated pipeline or through modular commands that can be run separately for more focused analyses.
-
----
-
-## Command-Line Usage
-
-### Main Pipeline
-
-The package provides a command-line tool `humann3-tools` that can be used to run the full analysis pipeline.
+The `humann3-tools` command provides a way to run the full analysis pipeline in a single command:
 
 ```bash
-humann3-tools --run-preprocessing --input-fastq reads_1.fastq reads_2.fastq --paired \
-    --kneaddata-dbs /path/to/kneaddata_db1 /path/to/kneaddata_db2 /path/to/kneaddata_db3 \
-    --humann3-nucleotide-db /path/to/chocophlan \
-    --humann3-protein-db /path/to/uniref \
-    --sample-key /path/to/metadata.csv \
-    --output-dir /path/to/output \
-    --group-col "Group" \
-    --threads 8
-```
-
-### Modular Commands
-
-The package now includes several modular commands that allow for more focused and efficient analysis:
-
-1. **`humann3-preprocess`**: Run KneadData and HUMAnN3 on raw sequence files
-2. **`humann3-join`**: Join, normalize, and unstratify HUMAnN3 output files
-3. **`join_unstratify_humann_output`**: Simplified version for joining and unstratifying HUMAnN3 outputs
-4. **`humann3-stats`**: Run statistical tests on processed HUMAnN3 files
-5. **`humann3-dif`**: Perform differential abundance analysis
-6. **`humann3-viz`**: Generate visualizations from HUMAnN3 output files
-
-### Required and Optional Parameters
-
-Below is a list of key parameters for the `humann3-tools` command, indicating which are required and which are optional:
-
-| Parameter | Required? | Description |
-|-----------|-----------|-------------|
-| `--sample-key` | Required | Path to CSV file with sample metadata |
-| `--output-dir` | Required | Directory where output files will be saved |
-| `--pathway-dir` | Required* | Directory containing HUMAnN3 pathway abundance files |
-| `--gene-dir` | Required* | Directory containing HUMAnN3 gene family files |
-| `--input-fastq` | Required** | Input FASTQ file(s) when running preprocessing |
-| `--run-preprocessing` | Optional | Flag to run KneadData and HUMAnN3 on raw sequence files |
-| `--kneaddata-dbs` | Required*** | Path(s) to KneadData reference database(s) |
-| `--humann3-nucleotide-db` | Optional | Path to HUMAnN3 nucleotide database (ChocoPhlAn) |
-| `--humann3-protein-db` | Optional | Path to HUMAnN3 protein database (UniRef) |
-| `--paired` | Optional | Flag indicating input files are paired-end reads |
-| `--decontaminate-pairs` | Optional | Select level of decontamination of paired reads (default 'strict') |
-| `--threads` | Optional | Number of threads to use (default: 1) |
-| `--group-col` | Optional | Column name to use for grouping in stats (default: 'Group') |
-| `--skip-pathway` | Optional | Skip HUMAnN3 pathway processing |
-| `--skip-gene` | Optional | Skip HUMAnN3 gene family processing |
-| `--skip-downstream` | Optional | Skip downstream analysis |
-| `--run-diff-abundance` | Optional | Run differential abundance analysis |
-| `--diff-methods` | Optional | Comma-separated list of methods to use (default: aldex2,ancom,ancom-bc) |
-| `--exclude-unmapped` | Optional | Exclude unmapped features from differential abundance analysis |
-| `--use-parallel` | Optional | Use parallel processing for preprocessing steps |
-| `--threads-per-sample` | Optional | Number of threads to use per sample (with parallel processing) |
-| `--max-parallel` | Optional | Maximum number of samples to process in parallel |
-| `--log-file` | Optional | Path to combined log file |
-| `--log-level` | Optional | Logging level (default: INFO) |
-| `--no-interactive` | Optional | Non-interactive mode for sample key column selection |
-| `--join-only` | Optional | Run only join and unstratify operations |
-| `--units` | Optional | Units for normalization (default: cpm, can be relab) |
-
-\* Required for processing existing HUMAnN3 output files  
-\*\* Required when `--run-preprocessing` is used  
-\*\*\* Required when `--run-preprocessing` is used
-
----
-
-## Modular Analysis Commands
-
-HUMAnN3 Tools now includes several specialized commands to run specific parts of the pipeline independently for greater flexibility.
-
-### Preprocessing Pipeline
-
-The `humann3-preprocess` command provides a standalone tool for running KneadData and HUMAnN3 preprocessing steps on raw sequence files.
-
-```bash
-# Basic usage with paired-end reads
-humann3-preprocess --input-fastq sample1_R1.fastq.gz sample1_R2.fastq.gz --paired \
+humann3-tools --run-preprocessing \
+    --input-fastq reads_1.fastq reads_2.fastq \
+    --paired \
     --kneaddata-dbs /path/to/kneaddata_db \
     --humann3-nucleotide-db /path/to/chocophlan \
     --humann3-protein-db /path/to/uniref \
-    --output-dir /path/to/output \
+    --sample-key metadata.csv \
+    --output-dir results_directory \
+    --group-col "Treatment" \
+    --run-diff-abundance \
     --threads 8
 ```
 
-**Key Features:**
-- Run only KneadData and HUMAnN3 steps without downstream analysis
-- Process multiple samples in one command
-- Skip KneadData and use existing outputs
-- Detailed logging and progress reporting
-- Organize outputs for easy downstream analysis
+### Key Parameters for Complete Workflow
 
-### Join and Unstratify
+| Parameter | Description |
+|-----------|-------------|
+| `--run-preprocessing` | Flag to run KneadData and HUMAnN3 on raw sequence files |
+| `--input-fastq` | Input FASTQ file(s) for preprocessing |
+| `--paired` | Flag indicating input files are paired-end reads |
+| `--kneaddata-dbs` | Path(s) to KneadData reference database(s) |
+| `--humann3-nucleotide-db` | Path to HUMAnN3 nucleotide database (ChocoPhlAn) |
+| `--humann3-protein-db` | Path to HUMAnN3 protein database (UniRef) |
+| `--sample-key` | Path to CSV file with sample metadata |
+| `--output-dir` | Directory where output files will be saved |
+| `--group-col` | Column name to use for grouping in stats (default: 'Group') |
+| `--run-diff-abundance` | Flag to run differential abundance analysis |
+| `--threads` | Number of threads to use (default: 1) |
 
-Two commands are available for joining and processing HUMAnN3 output files:
+For a complete list of options, run:
+```bash
+humann3-tools --help
+```
 
-#### 1. `humann3-join` Command
+---
 
-The `humann3-join` command is specialized for joining, normalizing, and unstratifying a specific type of HUMAnN3 output file.
+## Step-by-Step Workflow
+
+If you prefer to run each step individually, or need to rerun specific steps, you can use the specialized commands for each part of the workflow.
+
+### Step 1: KneadData Processing
+
+The `humann3-kneaddata` command allows you to run quality control and host depletion on raw sequence files:
 
 ```bash
-humann3-join --input-dir /path/to/humann3_outputs \
+humann3-kneaddata --input-fastq reads_1.fastq reads_2.fastq \
+    --paired \
+    --reference-dbs /path/to/kneaddata_db \
+    --output-dir kneaddata_output \
+    --threads 8 \
+    --decontaminate-pairs strict
+```
+
+Key options:
+- `--input-fastq`: Input FASTQ file(s)
+- `--paired`: Flag if input files are paired-end reads
+- `--reference-dbs`: Path to reference database(s) for decontamination
+- `--output-dir`: Directory for output files
+- `--threads`: Number of threads to use
+- `--decontaminate-pairs`: Method for paired reads (strict, lenient, or unpaired)
+
+For detailed options:
+```bash
+humann3-kneaddata --help
+```
+
+### Step 2: HUMAnN3 Analysis
+
+The `humann3-run` command performs functional profiling on cleaned sequence files:
+
+```bash
+humann3-run --input-files kneaddata_output/sample_paired_1.fastq \
+    --nucleotide-db /path/to/chocophlan \
+    --protein-db /path/to/uniref \
+    --output-dir humann3_output \
+    --threads 8
+```
+
+Key options:
+- `--input-files`: KneadData output file(s)
+- `--nucleotide-db`: Path to nucleotide database
+- `--protein-db`: Path to protein database
+- `--output-dir`: Directory for output files
+- `--threads`: Number of threads to use
+
+For detailed options:
+```bash
+humann3-run --help
+```
+
+### Step 3: Preprocessing (Combined Steps 1 & 2)
+
+If you want to run both KneadData and HUMAnN3 together but still separately from downstream analysis, use `humann3-preprocess`:
+
+```bash
+humann3-preprocess --input-fastq reads_1.fastq reads_2.fastq \
+    --paired \
+    --kneaddata-dbs /path/to/kneaddata_db \
+    --humann3-nucleotide-db /path/to/chocophlan \
+    --humann3-protein-db /path/to/uniref \
+    --output-dir preprocessing_output \
+    --threads 8
+```
+
+Key options:
+- Combines options from both `humann3-kneaddata` and `humann3-run`
+- `--skip-kneaddata`: Skip KneadData and use existing clean reads
+- `--kneaddata-output-files`: Existing KneadData output files when skipping KneadData
+
+For detailed options:
+```bash
+humann3-preprocess --help
+```
+
+### Step 4: Join and Normalize
+
+After running HUMAnN3, the next step is to join, normalize and unstratify the output files. Two commands are available:
+
+#### Option A: Process a specific file type with `humann3-join`:
+
+```bash
+humann3-join --input-dir humann3_output \
     --pathabundance \
-    --output-dir /path/to/output \
+    --output-dir joined_output \
     --units cpm
 ```
 
-**Key Features:**
-- Focus on one file type (pathabundance, pathcoverage, or genefamilies)
-- Normalize to CPM or relative abundance
-- Generate unstratified outputs automatically
-- Simple and fast processing
+Key options:
+- `--input-dir`: Directory with HUMAnN3 output files
+- File type: `--pathabundance`, `--pathcoverage`, or `--genefamilies`
+- `--output-dir`: Directory for output files
+- `--units`: Units for normalization (cpm or relab)
 
-#### 2. `join_unstratify_humann_output` Command
+For detailed options:
+```bash
+humann3-join --help
+```
 
-This command provides a simplified interface for joining and unstratifying both pathway and gene family files in one step.
+#### Option B: Process both pathway and gene files with `join_unstratify_humann_output`:
 
 ```bash
 join_unstratify_humann_output \
     --sample-key metadata.csv \
-    --pathway-dir path/to/pathabundance/files \
-    --gene-dir path/to/genefamilies/files \
-    --output-dir processed_output
+    --pathway-dir humann3_output/pathabundance \
+    --gene-dir humann3_output/genefamilies \
+    --output-dir joined_output \
+    --units cpm
 ```
 
-**Key Features:**
-- Process both pathway and gene files in a single command
-- Connect with sample metadata
-- Skip pathway or gene processing optionally
-- Choose normalization units (CPM or relative abundance)
-- Non-interactive mode for automated workflows
+Key options:
+- `--sample-key`: Path to metadata CSV file
+- `--pathway-dir`: Directory with pathabundance files
+- `--gene-dir`: Directory with genefamilies files
+- `--output-dir`: Directory for output files
+- `--units`: Units for normalization (cpm or relab)
 
-### Statistical Testing
+For detailed options:
+```bash
+join_unstratify_humann_output --help
+```
 
-The `humann3-stats` command performs statistical tests on processed HUMAnN3 data to identify significant differences between groups. 
+### Step 5: Statistical Testing
+
+The `humann3-stats` command performs statistical tests (Kruskal-Wallis and Dunn's post-hoc tests) on processed HUMAnN3 files:
 
 ```bash
-humann3-stats --abundance-file pathway_abundance_unstratified.tsv \
+humann3-stats --abundance-file joined_output/pathway_abundance-cpm_unstratified.tsv \
     --metadata-file metadata.csv \
     --group-col Treatment \
     --output-dir statistical_results \
     --feature-type pathway
 ```
 
-**Key Features:**
-- Run Kruskal-Wallis tests across groups
-- Perform Dunn's post-hoc tests for significant features
-- Apply multiple testing correction (Benjamini-Hochberg FDR)
-- Detailed CSV outputs for results
-- Support for both pathway and gene data
+Key options:
+- `--abundance-file`: Path to unstratified abundance file
+- `--metadata-file`: Path to metadata CSV file
+- `--group-col`: Column name for grouping samples
+- `--output-dir`: Directory for output files
+- `--feature-type`: Type of features (pathway or gene)
 
-### Differential Abundance Analysis
+For detailed options:
+```bash
+humann3-stats --help
+```
 
-The `humann3-dif` command implements advanced methods for differential abundance analysis that account for the compositional nature of microbiome data.
+### Step 6: Differential Abundance Analysis
+
+The `humann3-diff` command performs differential abundance analysis using methods that account for the compositional nature of microbiome data:
 
 ```bash
-humann3-dif --abundance-file pathway_abundance_unstratified.tsv \
+humann3-diff --abundance-file joined_output/pathway_abundance-cpm_unstratified.tsv \
     --metadata-file metadata.csv \
     --group-col Treatment \
-    --output-dir differential_abundance_results \
+    --output-dir differential_abundance \
     --methods aldex2,ancom,ancom-bc \
     --feature-type pathway
 ```
 
-**Key Features:**
-- Multiple method support: ALDEx2, ANCOM, ANCOM-BC, and Kruskal-Wallis
-- Method comparison with Venn diagrams (requires matplotlib-venn)
-- Volcano plot for ALDEx2 results
-- Top features visualization for ANCOM
-- Option to exclude unmapped reads from analysis
+Key options:
+- `--abundance-file`: Path to unstratified abundance file
+- `--metadata-file`: Path to metadata CSV file
+- `--group-col`: Column name for grouping samples
+- `--methods`: Comma-separated list of methods
+- `--output-dir`: Directory for output files
+- `--feature-type`: Type of features (pathway or gene)
 
-### Visualizations
+For detailed options:
+```bash
+humann3-diff --help
+```
 
-The `humann3-viz` command creates publication-quality visualizations from processed HUMAnN3 data.
+### Step 7: Visualization
+
+The `humann3-viz` command creates visualizations from processed HUMAnN3 data:
 
 ```bash
-humann3-viz --abundance-file pathway_abundance_unstratified.tsv \
+humann3-viz --abundance-file joined_output/pathway_abundance-cpm_unstratified.tsv \
     --metadata-file metadata.csv \
     --output-dir visualizations \
     --group-col Treatment \
     --pca --heatmap --barplot
 ```
 
-**Key Features:**
-- PCA plots for sample relationships
-- Heatmaps of top features across samples
-- Bar plots for comparing group abundance patterns
-- Abundance distribution histograms
-- Feature-specific boxplots
-- Multiple output formats (SVG, PNG, PDF)
+Key options:
+- `--abundance-file`: Path to unstratified abundance file
+- `--metadata-file`: Path to metadata CSV file
+- `--group-col`: Column name for coloring points
+- `--output-dir`: Directory for output files
+- Plot selection: `--pca`, `--heatmap`, `--barplot`, `--abundance-hist`
+- `--feature`: Generate boxplot for a specific feature
 
-For detailed information about available visualizations:
+For detailed options:
 ```bash
-humann3-viz --help-info
-```
-
----
-
-## Python API Usage
-
-You can also use the Python API for more flexibility and integration with your own scripts.
-
-### Run End-to-End Preprocessing and Analysis
-
-```python
-from humann3_tools import run_preprocessing_and_analysis
-
-pathway_file, gene_file, success = run_preprocessing_and_analysis(
-    input_fastq=["reads_1.fastq", "reads_2.fastq"],
-    sample_key="metadata.csv",
-    output_dir="results",
-    paired=True,
-    threads=8,
-    kneaddata_db="/path/to/kneaddata_db",
-    nucleotide_db="/path/to/chocophlan",
-    protein_db="/path/to/uniref",
-    group_col="Group"
-)
-```
-
-### Process and Analyze Pathway_abundance and Genefamilies Output Files
-
-```python
-from humann3_tools import run_full_pipeline
-
-pathway_file, gene_file, success = run_full_pipeline(
-    sample_key="/path/to/sample_key.csv",
-    pathway_dir="/path/to/pathway_dir",
-    gene_dir="/path/to/gene_dir",
-    output_dir="/path/to/output",
-    group_col="Group",
-    run_diff_abundance=True,
-    log_file="humann3_analysis.log"
-)
-
-if success:
-    print("Analysis completed successfully!")
-    print(f"Pathway file: {pathway_file}")
-    print(f"Gene family file: {gene_file}")
-```
-
-### Processing HUMAnN3 Files Only
-
-```python
-from humann3_tools import process_humann3_files_only
-
-pathway_file, gene_file = process_humann3_files_only(
-    sample_key="/path/to/sample_key.csv",
-    pathway_dir="/path/to/pathway_dir",
-    gene_dir="/path/to/gene_dir",
-    output_dir="/path/to/output",
-    log_file="humann3_processing.log"
-)
-```
-
-### Running Downstream Analysis on Existing Files
-
-```python
-from humann3_tools import analyze_existing_humann3_files
-
-success = analyze_existing_humann3_files(
-    pathway_file="/path/to/pathway_abundance.tsv",
-    gene_file="/path/to/gene_families_unstratified.tsv",
-    sample_key="/path/to/sample_key.csv",
-    output_dir="/path/to/analysis_results",
-    group_col="Treatment",
-    log_file="downstream_analysis.log"
-)
-```
-
-### Running Only Differential Abundance Analysis
-
-```python
-from humann3_tools import run_pathway_differential_abundance
-
-results = run_pathway_differential_abundance(
-    pathway_file="/path/to/pathway_abundance.tsv",
-    sample_key="/path/to/sample_key.csv",
-    output_dir="/path/to/results",
-    group_col="Treatment",
-    methods=["aldex2", "ancom-bc"],
-    include_unmapped=False
-)
-
-# Access the results
-if 'aldex2' in results:
-    significant = results['aldex2'][results['aldex2']['q_value'] < 0.05]
-    print(f"Found {len(significant)} significant features with ALDEx2")
+humann3-viz --help
 ```
 
 ---
 
 ## Metadata-Driven Workflow
 
-HUMAnN3 Tools supports metadata-driven workflows that automatically locate and use sequence files based on sample information in your metadata file. This eliminates the need to manually specify each input file on the command line.
+HUMAnN3 Tools supports metadata-driven workflows that automatically locate and use sequence files based on sample information in your metadata file:
 
 ```bash
 humann3-tools --run-preprocessing --use-metadata \
-    --sample-key /path/to/metadata.csv \
+    --sample-key metadata.csv \
     --seq-dir /path/to/sequence/files \
     --r1-suffix "_R1.fastq.gz" --r2-suffix "_R2.fastq.gz" --paired \
-    --kneaddata-dbs /path/to/kneaddata_db1 /path/to/kneaddata_db2 \
+    --kneaddata-dbs /path/to/kneaddata_db \
     --humann3-nucleotide-db /path/to/chocophlan \
     --humann3-protein-db /path/to/uniref \
-    --output-dir /path/to/output \
-    --group-col "Group"
+    --output-dir results_directory \
+    --group-col "Treatment"
 ```
 
-See the full documentation for more information on metadata-driven workflows.
+Key options:
+- `--use-metadata`: Use metadata file to locate sequence files
+- `--seq-dir`: Directory containing sequence files
+- `--sample-col`: Column name for sample IDs (autodetected if not specified)
+- `--r1-suffix`, `--r2-suffix`: Suffixes for paired-end files
 
 ---
 
 ## Examples
 
-### Example 1: Using Modular Commands for a Complete Analysis
+### Example 1: Complete Workflow
 
 ```bash
-# Step 1: Preprocess raw sequence files
-humann3-preprocess --input-fastq sample1_R1.fastq.gz sample1_R2.fastq.gz --paired \
-    --kneaddata-dbs /path/to/kneaddata_db \
-    --humann3-nucleotide-db /path/to/chocophlan \
-    --humann3-protein-db /path/to/uniref \
-    --output-dir preprocessing_output \
-    --threads 8
-
-# Step 2: Join and unstratify HUMAnN3 outputs
-join_unstratify_humann_output \
-    --sample-key metadata.csv \
-    --pathway-dir preprocessing_output/humann3_output/PathwayAbundance \
-    --gene-dir preprocessing_output/humann3_output/GeneFamilies \
-    --output-dir processed_output
-
-# Step 3: Run statistical tests
-humann3-stats \
-    --abundance-file processed_output/pathways/ProcessedFiles/pathway_abundance-cpm_unstratified.tsv \
-    --metadata-file metadata.csv \
-    --group-col Treatment \
-    --output-dir statistical_results
-
-# Step 4: Run differential abundance analysis
-humann3-dif \
-    --abundance-file processed_output/pathways/ProcessedFiles/pathway_abundance-cpm_unstratified.tsv \
-    --metadata-file metadata.csv \
-    --group-col Treatment \
-    --methods aldex2,ancom,ancom-bc \
-    --output-dir differential_abundance_results
-
-# Step 5: Create visualizations
-humann3-viz \
-    --abundance-file processed_output/pathways/ProcessedFiles/pathway_abundance-cpm_unstratified.tsv \
-    --metadata-file metadata.csv \
-    --group-col Treatment \
-    --pca --heatmap --barplot \
-    --output-dir visualizations
-```
-
-### Example 2: End-to-End Analysis with the Main Pipeline
-
-```bash
-# Complete analysis using the main pipeline
+# Run the full pipeline from raw reads to visualization
 humann3-tools --run-preprocessing \
     --input-fastq sample1_R1.fastq.gz sample1_R2.fastq.gz sample2_R1.fastq.gz sample2_R2.fastq.gz \
     --paired \
@@ -492,23 +366,66 @@ humann3-tools --run-preprocessing \
     --threads 8
 ```
 
-### Example 3: Processing Existing HUMAnN3 Output Files
+### Example 2: Step-by-Step Workflow
 
 ```bash
-# Process existing HUMAnN3 output files
-humann3-tools --sample-key metadata.csv \
-    --pathway-dir existing_outputs/pathways \
-    --gene-dir existing_outputs/genes \
-    --output-dir processed_results \
-    --group-col "Group" \
-    --run-diff-abundance
+# Step 1: KneadData processing
+humann3-kneaddata --input-fastq sample1_R1.fastq.gz sample1_R2.fastq.gz \
+    --paired \
+    --reference-dbs /path/to/human_db \
+    --output-dir kneaddata_output \
+    --threads 8
+
+# Step 2: HUMAnN3 analysis
+humann3-run --input-files kneaddata_output/sample1_paired_1.fastq kneaddata_output/sample1_paired_2.fastq \
+    --nucleotide-db /path/to/chocophlan \
+    --protein-db /path/to/uniref \
+    --output-dir humann3_output \
+    --threads 8
+
+# Step 3: Join and normalize
+humann3-join --input-dir humann3_output \
+    --pathabundance \
+    --output-dir joined_output \
+    --units cpm
+
+# Step 4: Statistical testing
+humann3-stats --abundance-file joined_output/pathabundance_cpm_unstratified.tsv \
+    --metadata-file metadata.csv \
+    --group-col Treatment \
+    --output-dir statistical_results
+
+# Step 5: Differential abundance
+humann3-diff --abundance-file joined_output/pathabundance_cpm_unstratified.tsv \
+    --metadata-file metadata.csv \
+    --group-col Treatment \
+    --methods aldex2,ancom,ancom-bc \
+    --output-dir differential_abundance
+
+# Step 6: Visualization
+humann3-viz --abundance-file joined_output/pathabundance_cpm_unstratified.tsv \
+    --metadata-file metadata.csv \
+    --group-col Treatment \
+    --pca --heatmap --barplot \
+    --output-dir visualizations
 ```
 
-### Example 4: Join and Unstratify Only
+### Example 3: Skip KneadData and Start with HUMAnN3
 
 ```bash
-# Just join and unstratify existing HUMAnN3 outputs
-humann3-tools --join-only \
+# If you already have quality-filtered reads:
+humann3-run --input-files clean_reads/sample1.fastq clean_reads/sample2.fastq \
+    --nucleotide-db /path/to/chocophlan \
+    --protein-db /path/to/uniref \
+    --output-dir humann3_output \
+    --threads 8
+```
+
+### Example 4: Skip Preprocessing and Start with Existing HUMAnN3 Outputs
+
+```bash
+# Only join and normalize existing HUMAnN3 outputs
+join_unstratify_humann_output \
     --sample-key metadata.csv \
     --pathway-dir existing_outputs/pathways \
     --gene-dir existing_outputs/genes \
@@ -531,30 +448,21 @@ humann3-tools --join-only \
    - Check for duplicate sample IDs.  
    - Verify CSV encoding (use UTF-8).
 
-3. **Statistical Test Errors**  
-   - Minimum number of samples per group may be required.  
+3. **KneadData Errors**
+   - Ensure reference databases are properly built and indexed.
+   - For paired-end issues, try different `--decontaminate-pairs` options.
+
+4. **HUMAnN3 Errors**
+   - Ensure nucleotide and protein databases are correctly installed.
+   - Check that input files are in the correct format.
+
+5. **Statistical Test Errors**  
    - ALDEx2 requires exactly two groups.  
    - Check for missing values in abundance data.
 
-4. **Memory Issues with Large Datasets**  
-   - Consider running the pipeline in stages using the modular commands.  
-   - Use `--skip-pathway` or `--skip-gene` to process fewer data types at once.
-
-### Error Messages and Solutions
-
-- **"No valid pathway/gene files found for any samples"**  
-  Check naming patterns and directory structure; use `--list-files`.
-
-- **"No shared samples between abundance data and metadata"**  
-  Sample IDs in metadata do not match file names. Check for case sensitivity.
-
-- **"This implementation only supports two groups for comparison"**  
-  ALDEx2 is two-group only; try ANCOM or ANCOM-BC for multiple groups.
-
-- **"No significant pathways found after FDR correction"**  
-  - Try a less stringent significance threshold.  
-  - Exclude unmapped reads with `--exclude-unmapped`.  
-  - Use alternative methods.
+6. **Memory Issues with Large Datasets**  
+   - Run steps separately to manage memory usage.  
+   - Use `--threads` to control CPU usage.
 
 ---
 
