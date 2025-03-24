@@ -66,8 +66,8 @@ docs = [
 
 [project.scripts]
 humann3-tools = "humann3_tools.cli:main"
-humann3-kneaddata = "humann3_tools.kneaddata-cli:main"
-humann3-run = "humann3_tools.humann3-run-cli:main"
+humann3-kneaddata = "humann3_tools.kneaddata_cli:main"
+humann3-run = "humann3_tools.humann3_run_cli:main"
 humann3-preprocess = "humann3_tools.preprocessing.preprocessing_cli:main"
 humann3-join = "humann3_tools.humann3.join_cli:main"
 humann3-diff = "humann3_tools.analysis.differential_abundance_cli:main"
