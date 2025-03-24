@@ -1,4 +1,4 @@
-SampleName,UPN,label,CollDate,AliquotBarCode,SampleID,TreatmentDate,TreatmentDays,Group,BMTStatus
+SampleID,UPN,label,CollDate,AliquotBarCode,SampleID,TreatmentDate,TreatmentDays,Group,BMTStatus
 A1498_PIDQSCC,17,L2,2/8/2019,1498,A1498_PIDQSCC,3/24/2019,-44,Baseline,POST
 A1500_PIDQSCC,17,R2,2/8/2019,1500,A1500_PIDQSCC,3/24/2019,-44,Baseline,POST
 QSCC_3647,34,R,7/22/2022,3647,QSCC_3647,7/28/2021,359,mo_12,POST
