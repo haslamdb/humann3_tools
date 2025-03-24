@@ -387,7 +387,7 @@ Key options:
 
 ### Example 1: Complete Workflow
 
-Note that metadata-driven inputs substituted for **--input-fastq** with the following flags:  
+Note that metadata-driven inputs can be substituted for **--input-fastq** with the following flags:  
   **--use-metadata**  
   **--sample-key metadata.csv**
 
