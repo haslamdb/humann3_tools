@@ -4,23 +4,26 @@ Setup script for humann3_tools package.
 """
 
 from setuptools import setup, find_packages
-import os
 
 # Read the long description from README.md
-with open("README.md", "r") as fh:
-    long_description = fh.read()
+try:
+    with open("README.md", "r") as fh:
+        long_description = fh.read()
+except FileNotFoundError:
+    long_description = "HUMAnN3 Tools - A comprehensive toolkit for metagenomic analysis"
 
 # Define package metadata
 setup(
     name="humann3_tools",
     version="0.1.0",
-    author="David Haslam",
-    author_email="dhaslam@example.com", 
+    author="Your Name",
+    author_email="your.email@example.com",
     description="A comprehensive toolkit for metagenomic analysis with HUMAnN3",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/dhaslam/humann3_tools",
-    packages=find_packages(),
+    url="https://github.com/yourusername/humann3_tools",
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
@@ -48,8 +51,5 @@ setup(
             "humann3-diff=humann3_tools.cli.diff_cli:main",
             "humann3-viz=humann3_tools.cli.viz_cli:main",
         ],
-    },
-    package_data={
-        "humann3_tools": ["*.py", "cli/*.py", "utils/*.py"],
     },
 )

@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "humann3_tools"
+version = "0.1.0"
+description = "Comprehensive toolkit for metagenomic analysis with HUMAnN3"
+readme = "README.md"
+requires-python = ">=3.12"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Your Name", email = "your.email@example.com"}
+]
+keywords = ["bioinformatics", "metagenomics", "HUMAnN3", "microbiome"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+
+dependencies = [
+    "pandas>=1.3.0",
+    "numpy>=1.20.0",
+    "matplotlib>=3.4.0",
+    "seaborn>=0.11.0",
+    "scikit-learn>=0.24.0",
+    "statsmodels>=0.12.0",
+    "tqdm>=4.62.0",
+    "psutil>=5.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "black>=21.5b2",
+    "isort>=5.9.1",
+    "flake8>=3.9.2",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/yourusername/humann3_tools"
+"Bug Tracker" = "https://github.com/yourusername/humann3_tools/issues"
+
+[project.scripts]
+humann3-tools = "humann3_tools.cli.main_cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/humann3_tools"]
