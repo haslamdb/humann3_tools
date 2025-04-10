@@ -104,8 +104,13 @@ humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/
     --output-dir results/ --skip-downstream
 
 # Skip KneadData preprocessing
+# For single-end reads
 humann3-tools --run-preprocessing --input-fastq reads_*.fastq \
     --output-dir results/ --skip-kneaddata
+
+# For paired-end reads (files will be automatically concatenated)
+humann3-tools --run-preprocessing --input-fastq sample1_R1.fastq sample1_R2.fastq \
+    --output-dir results/ --skip-kneaddata --paired
 
 # Use a specific column for grouping in statistical tests
 humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/ \
