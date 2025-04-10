@@ -22,6 +22,21 @@ A comprehensive Python package for assigning raw metagenomic sequence reads to m
 
 ## Installation
 
+### Recommended: Install using pipx (isolated environment)
+
+```bash
+# Install pipx if not already installed
+pip install pipx
+pipx ensurepath
+
+# Install humann3-tools
+pipx install humann3-tools
+```
+
+Using pipx is the preferred method as it installs the package in an isolated environment with its dependencies, while making the command-line tool available globally.
+
+### Alternative installation methods:
+
 Install from GitHub:
 ```bash
 # Clone the repository
@@ -80,6 +95,28 @@ humann3-tools --run-preprocessing --input-fastq reads_1.fastq reads_2.fastq --pa
     --threads 8
 ```
 
+### Direct HUMAnN3 Processing (Skip KneadData)
+
+If you want to skip the KneadData preprocessing step and run HUMAnN3 directly on your sequences:
+
+```bash
+# For single-end reads
+humann3-tools --run-preprocessing --input-fastq reads_*.fastq \
+    --humann3-nucleotide-db /path/to/chocophlan \
+    --humann3-protein-db /path/to/uniref \
+    --sample-key /path/to/metadata.csv \
+    --output-dir /path/to/output \
+    --skip-kneaddata
+
+# For paired-end reads (files will be automatically concatenated)
+humann3-tools --run-preprocessing --input-fastq sample1_R1.fastq sample1_R2.fastq \
+    --humann3-nucleotide-db /path/to/chocophlan \
+    --humann3-protein-db /path/to/uniref \
+    --sample-key /path/to/metadata.csv \
+    --output-dir /path/to/output \
+    --skip-kneaddata --paired
+```
+
 ### Analysis of Existing HUMAnN Output Files (pathway-abundance and gene-family files)
 
 ```bash
@@ -102,10 +139,6 @@ humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/
 # Skip downstream analysis (only process HUMAnN3 files)
 humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/ \
     --output-dir results/ --skip-downstream
-
-# Skip KneadData preprocessing
-humann3-tools --run-preprocessing --input-fastq reads_*.fastq \
-    --output-dir results/ --skip-kneaddata
 
 # Use a specific column for grouping in statistical tests
 humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/ \
@@ -184,7 +217,8 @@ pathway_file, gene_file, success = run_preprocessing_and_analysis(
     kneaddata_db="/path/to/kneaddata_db",
     nucleotide_db="/path/to/chocophlan",
     protein_db="/path/to/uniref",
-    group_col="Group"
+    group_col="Group",
+    skip_kneaddata=False  # Set to True to bypass KneadData
 )
 ```
 
@@ -465,7 +499,21 @@ humann3-tools --sample-key metadata.csv \
     --group-col "DiseaseStatus"
 ```
 
-### Example 2: Focused Differential Abundance Analysis
+### Example 2: Direct Analysis of Raw Reads (Skip KneadData)
+
+```bash
+# Run HUMAnN3 directly on raw paired-end reads
+humann3-tools --run-preprocessing \
+    --input-fastq sample1_R1.fastq sample1_R2.fastq sample2_R1.fastq sample2_R2.fastq \
+    --paired --skip-kneaddata \
+    --humann3-nucleotide-db /path/to/chocophlan \
+    --humann3-protein-db /path/to/uniref \
+    --sample-key metadata.csv \
+    --output-dir results/ \
+    --group-col "DiseaseStatus"
+```
+
+### Example 3: Focused Differential Abundance Analysis
 
 ```bash
 # Run only specific differential abundance methods on pathways, excluding unmapped reads
@@ -480,7 +528,7 @@ humann3-tools --sample-key metadata.csv \
     --exclude-unmapped
 ```
 
-### Example 3: Python API for Custom Analysis
+### Example 4: Python API for Custom Analysis
 
 ```python
 import pandas as pd
