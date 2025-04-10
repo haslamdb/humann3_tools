@@ -29,8 +29,10 @@ dependencies = [
     "seaborn>=0.11.0",
     "scikit-learn>=0.24.0",
     "statsmodels>=0.12.0",
+    "scikit-posthocs>=0.7.0",
     "tqdm>=4.62.0",
     "psutil>=5.8.0",
+    "setuptools>=60.0.0",
 ]
 
 [project.optional-dependencies]
@@ -47,6 +49,16 @@ dev = [
 
 [project.scripts]
 humann3-tools = "humann3_tools.cli.main_cli:main"
+humann3-kneaddata = "humann3_tools.cli.kneaddata_cli:main"
+humann3-humann3 = "humann3_tools.cli.humann3_cli_fixed:main"
+humann3-join = "humann3_tools.cli.join_cli:main"
+humann3-stats = "humann3_tools.cli.stats_cli:main"
+humann3-diff = "humann3_tools.cli.diff_cli:main"
+humann3-viz = "humann3_tools.cli.viz_cli:main"
+cli-example = "cli_example:main"
+humann3-tools-simple = "humann3_tools.cli.main_cli_simple:main"
+humann3-humann3-simple = "humann3_tools.cli.humann3_cli_simple:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/humann3_tools"]
+packages = ["src"]
+include = ["cli_example.py"]

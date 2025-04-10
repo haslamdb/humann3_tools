@@ -1,6 +1,4 @@
-# src/humann3_tools/__init__.py
+# src/__init__.py
 """
-HUMAnN3 Tools - A comprehensive toolkit for metagenomic analysis with HUMAnN3.
+This package initializes the src directory for the HUMAnN3 tools.
 """
-
-__version__ = "0.1.0"

@@ -1,4 +1,125 @@
-#!/usr/bin/env python3
+def parse_args():
+    """Parse command line arguments for the Join module."""
+    parser = argparse.ArgumentParser(
+        description="Join, normalize, and unstratify HUMAnN3 output files"
+    )
+    
+    # Required arguments
+    parser.add_argument("--input-dir", required=True, 
+                      help="Directory containing HUMAnN3 output files")
+    
+    # File type options
+    group = parser.add_mutually_exclusive_group(required=True)
+    group.add_argument("--pathabundance", action="store_true", 
+                     help="Process pathabundance files")
+    group.add_argument("--pathcoverage", action="store_true", 
+                     help="Process pathcoverage files")
+    group.add_argument("--genefamilies", action="store_true", 
+                     help="Process genefamilies files")
+    
+    # Output options
+    parser.add_argument("--output-dir", default="./joined_output",
+                      help="Directory for output files")
+    parser.add_argument("--output-basename", 
+                      help="Base filename for output (default derived from file type)")
+    parser.add_argument("--units", default="cpm", choices=["cpm", "relab"],
+                      help="Units for normalization (default: cpm)")
+    
+    # Additional options
+    parser.add_argument("--update-snames", action="store_true",
+                      help="Update sample names during normalization")
+    parser.add_argument("--file-pattern", 
+                      help="Glob pattern for input files (default based on file type)")
+    parser.add_argument("--no-strip-headers", action="store_true",
+                      help="Don't strip suffixes from column headers")
+    parser.add_argument("--log-file", 
+                      help="Path to log file")
+    parser.add_argument("--log-level", default="INFO",
+                      choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+                      help="Logging level")
+    
+    return parser.parse_args()
+
+def main():
+    """Main function to run join, normalize, and unstratify operations."""
+    # Parse arguments
+    args = parse_args()
+    
+    # Setup logging
+    log_level = getattr(logging, args.log_level.upper())
+    setup_logger(args.log_file, log_level)
+    
+    logger.info("Starting HUMAnN3 Tools Join Module")
+    start_time = time.time()
+    
+    # Check required utilities
+    utils_to_check = [
+        "humann_join_tables",
+        "humann_split_stratified_table"
+    ]
+    
+    # Add humann_renorm_table if normalization is needed
+    if (args.pathabundance or args.genefamilies) and args.units:
+        utils_to_check.append("humann_renorm_table")
+    
+    # Check all required utilities
+    for util in utils_to_check:
+        util_ok, util_msg = check_humann_util_installation(util)
+        if not util_ok:
+            logger.error(f"{util} not properly installed: {util_msg}")
+            return 1
+    
+    # Determine file type
+    file_type = None
+    if args.pathabundance:
+        file_type = "pathabundance"
+    elif args.pathcoverage:
+        file_type = "pathcoverage"
+    elif args.genefamilies:
+        file_type = "genefamilies"
+    
+    # Process files
+    results = join_normalize_tables(
+        input_dir=args.input_dir,
+        output_dir=args.output_dir,
+        file_type=file_type,
+        units=args.units if file_type != "pathcoverage" else None,
+        output_basename=args.output_basename,
+        update_snames=args.update_snames,
+        file_pattern=args.file_pattern,
+        strip_headers=not args.no_strip_headers
+    )
+    
+    if not results:
+        logger.error("Join/normalize/unstratify process failed")
+        return 1
+    
+    # Log results
+    logger.info("Join/normalize/unstratify process completed successfully")
+    
+    for file_type, file_path in results.items():
+        logger.info(f"{file_type.capitalize()} file: {file_path}")
+    
+    # Print elapsed time
+    elapsed_time = time.time() - start_time
+    minutes, seconds = divmod(elapsed_time, 60)
+    
+    logger.info(f"Total processing time: {int(minutes)}m {int(seconds)}s")
+    
+    # Print next steps
+    logger.info("\nNext Steps:")
+    if 'unstratified' in results:
+        logger.info("  For statistical testing:")
+        logger.info(f"  humann3-tools stats --abundance-file {results['unstratified']} --metadata-file metadata.csv")
+        logger.info("\n  For differential abundance analysis:")
+        logger.info(f"  humann3-tools diff --abundance-file {results['unstratified']} --metadata-file metadata.csv")
+        logger.info("\n  For visualizations:")
+        logger.info(f"  humann3-tools viz --abundance-file {results['unstratified']} --metadata-file metadata.csv")
+    
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())#!/usr/bin/env python3
 """
 HUMAnN3 Tools Join Module
 
@@ -274,187 +395,3 @@ def join_normalize_tables(
         logger.warning("Could not find stratified output file")
     
     return output_files
-
-def parse_args(args=None, parent_parser=None):
-    """
-    Parse command line arguments for the Join module.
-    
-    Args:
-        args: List of arguments to parse (default: sys.argv[1:])
-        parent_parser: Parent parser to add arguments to (default: create new parser)
-        
-    Returns:
-        Parsed arguments if args is provided, otherwise the configured parser
-    """
-    if parent_parser:
-        # Use the provided parser
-        parser = parent_parser
-    else:
-        # Create a new parser
-        parser = argparse.ArgumentParser(
-            description="Join, normalize, and unstratify HUMAnN3 output files",
-            formatter_class=argparse.RawDescriptionHelpFormatter,
-            epilog="""
-Description:
-  Join module combines multiple HUMAnN3 output files into unified tables, applies
-  normalization, and separates stratified (species-level) from unstratified (community-level)
-  data. This is a critical step for preparing data for statistical testing and visualization.
-
-Key Features:
-  • Combines outputs from multiple samples into a single table
-  • Normalizes abundance data to counts per million (CPM) or relative abundance
-  • Generates both stratified and unstratified tables
-  • Handles all three HUMAnN3 output types (pathway abundance, pathway coverage, gene families)
-
-Output Files:
-  • *_stratified.tsv: Combined table with species contributions preserved
-  • *_unstratified.tsv: Combined table with only community-level totals
-
-Common Usage:
-  # For pathway abundance files with CPM normalization:
-  humann3-tools join --input-dir PathwayAbundance --pathabundance --output-dir joined_output --units cpm
-
-  # For gene families with relative abundance normalization:
-  humann3-tools join --input-dir GeneFamilies --genefamilies --output-dir joined_output --units relab
-
-  # Next step after joining:
-  humann3-tools stats --abundance-file joined_output/pathway_abundance_cpm_unstratified.tsv --metadata-file metadata.csv
-"""
-        )
-    
-    # Required arguments
-    input_group = parser.add_argument_group("Required Options")
-    input_group.add_argument("--input-dir", required=True, 
-                      help="Directory containing HUMAnN3 output files (e.g., PathwayAbundance/)")
-    
-    # File type options
-    file_group = parser.add_argument_group("File Type Options (choose one)")
-    type_group = file_group.add_mutually_exclusive_group(required=True)
-    type_group.add_argument("--pathabundance", action="store_true", 
-                     help="Process pathway abundance files (*pathabundance.tsv)")
-    type_group.add_argument("--pathcoverage", action="store_true", 
-                     help="Process pathway coverage files (*pathcoverage.tsv)")
-    type_group.add_argument("--genefamilies", action="store_true", 
-                     help="Process gene family files (*genefamilies.tsv)")
-    
-    # Output options
-    output_group = parser.add_argument_group("Output Options")
-    output_group.add_argument("--output-dir", default="./joined_output",
-                      help="Directory for output files (default: ./joined_output)")
-    output_group.add_argument("--output-basename", 
-                      help="Base filename for output (default: derived from file type, e.g., 'pathway_abundance_cpm')")
-    output_group.add_argument("--units", default="cpm", choices=["cpm", "relab"],
-                      help="Normalization units: cpm (counts per million) or relab (relative abundance) (default: cpm)")
-    
-    # Additional options
-    format_group = parser.add_argument_group("Format Options")
-    format_group.add_argument("--update-snames", action="store_true",
-                      help="Update sample names during normalization to remove file suffixes")
-    format_group.add_argument("--file-pattern", 
-                      help="Glob pattern for input files (default is based on file type, e.g., '*pathabundance.tsv')")
-    format_group.add_argument("--no-strip-headers", action="store_true",
-                      help="Don't strip suffixes from column headers (keep full sample names)")
-    
-    # Logging options
-    log_group = parser.add_argument_group("Logging Options")
-    log_group.add_argument("--log-file", 
-                      help="Path to log file (if not specified, logs to console only)")
-    log_group.add_argument("--log-level", default="INFO",
-                      choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-                      help="Logging level verbosity (default: INFO)")
-    
-    # If args is provided, parse and return args
-    if args is not None:
-        return parser.parse_args(args)
-    
-    # Otherwise return the parser
-    return parser
-
-def main(args=None):
-    """
-    Main function to run join, normalize, and unstratify operations.
-    
-    Args:
-        args: Command line arguments (optional)
-    """
-    # Parse arguments
-    if isinstance(args, list):
-        args = parse_args(args)
-    else:
-        args = parse_args()
-    
-    # Setup logging
-    log_level = getattr(logging, args.log_level.upper())
-    setup_logger(args.log_file, log_level)
-    
-    logger.info("Starting HUMAnN3 Tools Join Module")
-    start_time = time.time()
-    
-    # Check required utilities
-    utils_to_check = [
-        "humann_join_tables",
-        "humann_split_stratified_table"
-    ]
-    
-    # Add humann_renorm_table if normalization is needed
-    if (args.pathabundance or args.genefamilies) and args.units:
-        utils_to_check.append("humann_renorm_table")
-    
-    # Check all required utilities
-    for util in utils_to_check:
-        util_ok, util_msg = check_humann_util_installation(util)
-        if not util_ok:
-            logger.error(f"{util} not properly installed: {util_msg}")
-            return 1
-    
-    # Determine file type
-    file_type = None
-    if args.pathabundance:
-        file_type = "pathabundance"
-    elif args.pathcoverage:
-        file_type = "pathcoverage"
-    elif args.genefamilies:
-        file_type = "genefamilies"
-    
-    # Process files
-    results = join_normalize_tables(
-        input_dir=args.input_dir,
-        output_dir=args.output_dir,
-        file_type=file_type,
-        units=args.units if file_type != "pathcoverage" else None,
-        output_basename=args.output_basename,
-        update_snames=args.update_snames,
-        file_pattern=args.file_pattern,
-        strip_headers=not args.no_strip_headers
-    )
-    
-    if not results:
-        logger.error("Join/normalize/unstratify process failed")
-        return 1
-    
-    # Log results
-    logger.info("Join/normalize/unstratify process completed successfully")
-    
-    for file_type, file_path in results.items():
-        logger.info(f"{file_type.capitalize()} file: {file_path}")
-    
-    # Print elapsed time
-    elapsed_time = time.time() - start_time
-    minutes, seconds = divmod(elapsed_time, 60)
-    
-    logger.info(f"Total processing time: {int(minutes)}m {int(seconds)}s")
-    
-    # Print next steps
-    logger.info("\nNext Steps:")
-    if 'unstratified' in results:
-        logger.info("  For statistical testing:")
-        logger.info(f"  humann3-tools stats --abundance-file {results['unstratified']} --metadata-file metadata.csv")
-        logger.info("\n  For differential abundance analysis:")
-        logger.info(f"  humann3-tools diff --abundance-file {results['unstratified']} --metadata-file metadata.csv")
-        logger.info("\n  For visualizations:")
-        logger.info(f"  humann3-tools viz --abundance-file {results['unstratified']} --metadata-file metadata.csv")
-    
-    return 0
-
-if __name__ == "__main__":
-    sys.exit(main())

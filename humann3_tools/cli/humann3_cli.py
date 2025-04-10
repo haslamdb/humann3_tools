@@ -1,9 +1,319 @@
-#!/usr/bin/env python3
+
+def organize_output_files(results, output_dir):
+    """
+    Organize HUMAnN3 output files into type-specific subdirectories.
+    
+    Args:
+        results: Dictionary mapping sample IDs to dictionaries of output file paths by type
+        output_dir: Base output directory
+        
+    Returns:
+        Dictionary mapping output types to their directories
+    """
+    # Create output type directories
+    output_dirs = {
+        'pathabundance': os.path.join(output_dir, "PathwayAbundance"),
+        'genefamilies': os.path.join(output_dir, "GeneFamilies"),
+        'pathcoverage': os.path.join(output_dir, "PathwayCoverage"),
+        'metaphlan': os.path.join(output_dir, "MetaphlanFiles")
+    }
+    
+    # Create directories if they don't exist
+    for dir_path in output_dirs.values():
+        os.makedirs(dir_path, exist_ok=True)
+    
+    # Copy files to respective directories
+    for sample_id, sample_outputs in results.items():
+        for output_type, file_path in sample_outputs.items():
+            if file_path is None:
+                continue
+                
+            # Get destination directory
+            dest_dir = output_dirs[output_type]
+            
+            # Copy file
+            dest_path = os.path.join(dest_dir, os.path.basename(file_path))
+            try:
+                import shutil
+                shutil.copy2(file_path, dest_path)
+                logger.debug(f"Copied {output_type} file for {sample_id} to {dest_path}")
+            except Exception as e:
+                logger.warning(f"Failed to copy {output_type} file for {sample_id}: {str(e)}")
+    
+    return output_dirs
+
+def parse_args():
+    """Parse command line arguments for the HUMAnN3 module."""
+    parser = argparse.ArgumentParser(
+        description="Run HUMAnN3 on preprocessed sequence files"
+    )
+    
+    # Input options group (four methods supported)
+    input_group = parser.add_argument_group("Input Options (choose one)")
+    # Method 1: Direct input files
+    input_group.add_argument("--input-files", nargs="+", 
+                           help="Input FASTQ file(s) for HUMAnN3")
+    # Method 2: Sample list file
+    input_group.add_argument("--samples-file", 
+                           help="Tab-delimited file with sample IDs and file paths")
+    # Method 3: Metadata-driven
+    input_group.add_argument("--metadata-file", 
+                           help="CSV file with sample metadata")
+    input_group.add_argument("--seq-dir", 
+                           help="Directory containing sequence files (for metadata-driven)")
+    # Method 4: KneadData output directory
+    input_group.add_argument("--input-dir", 
+                           help="Directory containing KneadData output files")
+    
+    # Metadata-specific options
+    metadata_group = parser.add_argument_group("Metadata Options")
+    metadata_group.add_argument("--sample-col", 
+                              help="Column name for sample IDs in metadata")
+    metadata_group.add_argument("--r1-col", 
+                              help="Column name for R1 file paths in metadata")
+    metadata_group.add_argument("--r2-col", 
+                              help="Column name for R2 file paths in metadata")
+    metadata_group.add_argument("--file-pattern", 
+                              help="Pattern for finding files (e.g., {sample}_S*_R*.fastq.gz)")
+    metadata_group.add_argument("--r1-suffix", 
+                              help="Suffix for R1 files (e.g., _R1.fastq.gz)")
+    metadata_group.add_argument("--r2-suffix", 
+                              help="Suffix for R2 files (e.g., _R2.fastq.gz)")
+    
+    # Output options
+    output_group = parser.add_argument_group("Output Options")
+    output_group.add_argument("--output-dir", default="./humann3_output",
+                            help="Directory for HUMAnN3 output")
+    output_group.add_argument("--organize-outputs", action="store_true", default=True,
+                            help="Organize outputs into type-specific directories")
+    
+    # Database options
+    db_group = parser.add_argument_group("Database Options")
+    db_group.add_argument("--nucleotide-db", 
+                        help="Path to HUMAnN3 nucleotide database (ChocoPhlAn)")
+    db_group.add_argument("--protein-db", 
+                        help="Path to HUMAnN3 protein database (UniRef)")
+    
+    # HUMAnN3 options
+    humann3_group = parser.add_argument_group("HUMAnN3 Options")
+    humann3_group.add_argument("--bypass-prescreen", action="store_true",
+                             help="Bypass the MetaPhlAn taxonomic prescreen")
+    humann3_group.add_argument("--bypass-nucleotide-index", action="store_true",
+                             help="Bypass the nucleotide index database")
+    humann3_group.add_argument("--bypass-translated-search", action="store_true",
+                             help="Bypass the translated search")
+    humann3_group.add_argument("--humann3-options", nargs="+",
+                             help="Additional options to pass to HUMAnN3 (format: key=value)")
+    
+    # Input-specific options
+    parser.add_argument("--paired", action="store_true",
+                      help="Input files are paired-end reads")
+    
+    # Performance options
+    perf_group = parser.add_argument_group("Performance Options")
+    perf_group.add_argument("--threads", type=int, default=1,
+                          help="Number of threads to use per sample")
+    perf_group.add_argument("--use-parallel", action="store_true",
+                          help="Process multiple samples in parallel")
+    perf_group.add_argument("--max-parallel", type=int, default=None,
+                          help="Maximum number of samples to process in parallel")
+    
+    # Logging options
+    parser.add_argument("--log-file", 
+                      help="Path to log file")
+    parser.add_argument("--log-level", default="INFO",
+                      choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+                      help="Logging level")
+    
+    return parser.parse_args()
+
+def main():
+    """Main function to run HUMAnN3 processing."""
+    # Parse arguments
+    args = parse_args()
+    
+    # Setup logging
+    log_level = getattr(logging, args.log_level.upper())
+    setup_logger(args.log_file, log_level)
+    
+    start_time = time.time()
+    logger.info("Starting HUMAnN3 Tools HUMAnN3 Module")
+    
+    # Check HUMAnN3 installation
+    humann3_ok, humann3_version = check_humann3_installation()
+    if not humann3_ok:
+        logger.error(f"HUMAnN3 not properly installed: {humann3_version}")
+        return 1
+    logger.info(f"Using HUMAnN3 version: {humann3_version}")
+    
+    # Create output directory
+    os.makedirs(args.output_dir, exist_ok=True)
+    
+    # Process samples based on input method
+    samples = {}
+    
+    # Method 1, 2, or 3: Use input handler
+    if args.input_files or args.samples_file or (args.metadata_file and args.seq_dir):
+        samples = get_input_files(args, input_type="sequence")
+    
+    # Method 4: KneadData output directory
+    elif args.input_dir:
+        # Find KneadData output files in the input directory
+        logger.info(f"Searching for KneadData output files in {args.input_dir}")
+        kneaddata_files_by_sample = find_kneaddata_files_in_dir(args.input_dir)
+        
+        # Convert to standard sample format
+        for sample_id, files in kneaddata_files_by_sample.items():
+            samples[sample_id] = {
+                'kneaddata_files': files,
+                'files': [],
+                'metadata': {}
+            }
+    
+    if not samples:
+        logger.error("No valid input samples found")
+        return 1
+    
+    logger.info(f"Prepared {len(samples)} samples for HUMAnN3 processing")
+    
+    # Process HUMAnN3 options
+    humann3_options = {}
+    
+    if args.bypass_prescreen:
+        humann3_options["bypass-prescreen"] = True
+    if args.bypass_nucleotide_index:
+        humann3_options["bypass-nucleotide-index"] = True
+    if args.bypass_translated_search:
+        humann3_options["bypass-translated-search"] = True
+    
+    # Add any additional options
+    if args.humann3_options:
+        for option in args.humann3_options:
+            if '=' in option:
+                key, value = option.split('=', 1)
+                humann3_options[key] = value
+            else:
+                humann3_options[option] = True
+    
+    # Run HUMAnN3
+    if args.use_parallel:
+        # Parallel processing
+        logger.info("Using parallel processing for HUMAnN3")
+        results = run_humann3_parallel(
+            samples=samples,
+            output_dir=args.output_dir,
+            nucleotide_db=args.nucleotide_db,
+            protein_db=args.protein_db,
+            threads_per_sample=args.threads,
+            max_parallel=args.max_parallel,
+            options=humann3_options,
+            paired=args.paired
+        )
+    else:
+        # Sequential processing
+        logger.info("Processing samples sequentially")
+        results = {}
+        
+        for sample_id, sample_info in samples.items():
+            # Prepare input file
+            input_file = None
+            
+            # Check if we have KneadData files or direct input files
+            if 'kneaddata_files' in sample_info and sample_info['kneaddata_files']:
+                input_file = prepare_humann3_input(
+                    sample_info['kneaddata_files'], 
+                    sample_id, 
+                    args.output_dir, 
+                    args.paired
+                )
+            elif 'files' in sample_info and sample_info['files']:
+                # If single input file, use it directly; if multiple, concatenate if paired
+                if len(sample_info['files']) == 1:
+                    input_file = sample_info['files'][0]
+                elif args.paired and len(sample_info['files']) >= 2:
+                    input_file = prepare_humann3_input(
+                        sample_info['files'],
+                        sample_id,
+                        args.output_dir,
+                        args.paired
+                    )
+                else:
+                    logger.warning(f"Sample {sample_id} has {len(sample_info['files'])} files but paired={args.paired}. Using first file.")
+                    input_file = sample_info['files'][0]
+            
+            if not input_file:
+                logger.warning(f"Skipping sample {sample_id}: no valid input file")
+                continue
+                
+            # Process the sample with HUMAnN3
+            output_files = process_sample_humann3(
+                sample_id=sample_id,
+                input_file=input_file,
+                output_dir=args.output_dir,
+                nucleotide_db=args.nucleotide_db,
+                protein_db=args.protein_db,
+                threads=args.threads,
+                options=humann3_options
+            )
+            
+            if output_files:
+                results[sample_id] = output_files
+    
+    # Organize outputs if requested
+    if args.organize_outputs and results:
+        logger.info("Organizing output files into type-specific directories")
+        output_dirs = organize_output_files(results, args.output_dir)
+        
+        # Log where to find outputs
+        for output_type, dir_path in output_dirs.items():
+            count = sum(1 for sample in results.values() if sample.get(output_type))
+            if count > 0:
+                logger.info(f"{output_type.capitalize()} files ({count}): {dir_path}")
+    
+    # Log results summary
+    if results:
+        successful_samples = len(results)
+        
+        logger.info(f"HUMAnN3 processing completed successfully for {successful_samples}/{len(samples)} samples")
+        
+        # Count outputs by type
+        output_counts = {
+            'pathabundance': sum(1 for sample in results.values() if sample.get('pathabundance')),
+            'genefamilies': sum(1 for sample in results.values() if sample.get('genefamilies')),
+            'pathcoverage': sum(1 for sample in results.values() if sample.get('pathcoverage')),
+            'metaphlan': sum(1 for sample in results.values() if sample.get('metaphlan'))
+        }
+        
+        for output_type, count in output_counts.items():
+            logger.info(f"  {output_type.capitalize()} files: {count}")
+        
+        logger.info(f"All output files are in: {os.path.abspath(args.output_dir)}")
+    else:
+        logger.error("HUMAnN3 processing failed for all samples")
+        return 1
+    
+    # Print elapsed time
+    elapsed_time = time.time() - start_time
+    minutes, seconds = divmod(elapsed_time, 60)
+    hours, minutes = divmod(minutes, 60)
+    
+    logger.info(f"Total processing time: {int(hours)}h {int(minutes)}m {int(seconds)}s")
+    
+    # Print next steps
+    logger.info("\nNext Steps:")
+    logger.info("  To join and normalize these files, use:")
+    logger.info("  humann3-tools join --input-dir PathwayAbundance --output-dir joined_output")
+    logger.info("  humann3-tools join --input-dir GeneFamilies --output-dir joined_output")
+    
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())#!/usr/bin/env python3
 """
 HUMAnN3 Tools HUMAnN3 Module
 
 This module runs HUMAnN3 on preprocessed sequence files (typically from KneadData).
-It supports four input methods:
+It supports three input methods:
 1. Direct input files
 2. Sample list file
 3. Metadata-driven input
@@ -209,7 +519,7 @@ def find_kneaddata_files_in_dir(input_dir: str, sample_id: Optional[str] = None)
     
     # Log what we found
     logger.info(f"Found KneadData files for {len(samples)} samples in {input_dir}")
-    return samples
+    
 
 def process_sample_humann3(
     sample_id: str, 
@@ -407,271 +717,3 @@ def run_humann3_parallel(
                 logger.error(f"Error processing sample {sample_id}: {str(e)}")
     
     return results
-
-def organize_output_files(results, output_dir):
-    """
-    Organize HUMAnN3 output files into type-specific subdirectories.
-    
-    Args:
-        results: Dictionary mapping sample IDs to dictionaries of output file paths by type
-        output_dir: Base output directory
-        
-    Returns:
-        Dictionary mapping output types to their directories
-    """
-    # Create output type directories
-    output_dirs = {
-        'pathabundance': os.path.join(output_dir, "PathwayAbundance"),
-        'genefamilies': os.path.join(output_dir, "GeneFamilies"),
-        'pathcoverage': os.path.join(output_dir, "PathwayCoverage"),
-        'metaphlan': os.path.join(output_dir, "MetaphlanFiles")
-    }
-    
-    # Create directories if they don't exist
-    for dir_path in output_dirs.values():
-        os.makedirs(dir_path, exist_ok=True)
-    
-    # Copy files to respective directories
-    for sample_id, sample_outputs in results.items():
-        for output_type, file_path in sample_outputs.items():
-            if file_path is None:
-                continue
-                
-            # Get destination directory
-            dest_dir = output_dirs[output_type]
-            
-            # Copy file
-            dest_path = os.path.join(dest_dir, os.path.basename(file_path))
-            try:
-                import shutil
-                shutil.copy2(file_path, dest_path)
-                logger.debug(f"Copied {output_type} file for {sample_id} to {dest_path}")
-            except Exception as e:
-                logger.warning(f"Failed to copy {output_type} file for {sample_id}: {str(e)}")
-    
-    return output_dirs
-
-def parse_args(args=None, parent_parser=None):
-    """
-    Parse command line arguments for the HUMAnN3 module.
-    
-    Args:
-        args: List of arguments to parse (default: sys.argv[1:])
-        parent_parser: Parent parser to add arguments to (default: create new parser)
-        
-    Returns:
-        Parsed arguments if args is provided, otherwise the configured parser
-    """
-    # Use existing parser or create new one
-    parser = parent_parser or argparse.ArgumentParser(
-        description="Run HUMAnN3 on preprocessed sequence files"
-    )
-    
-    # Add basic arguments
-    parser.add_argument("--input-dir", 
-                      help="Directory containing KneadData output files")
-    parser.add_argument("--input-files", nargs="+", 
-                      help="Input FASTQ file(s) for HUMAnN3")
-    parser.add_argument("--output-dir", default="./humann3_output", 
-                      help="Output directory (default: ./humann3_output)")
-    parser.add_argument("--threads", type=int, default=1, 
-                      help="Number of threads (default: 1)")
-    parser.add_argument("--paired", action="store_true", 
-                      help="Input files are paired-end reads")
-    
-    # Return the parser or parsed args
-    if args is not None:
-        return parser.parse_args(args)
-    return parser
-
-def main(args=None):
-    """
-    Main function to run HUMAnN3 processing.
-    
-    Args:
-        args: Command line arguments (optional)
-    """
-    # Parse arguments
-    if isinstance(args, list):
-        args = parse_args(args)
-    else:
-        args = parse_args()
-    
-    # Set up basic logging to console
-    logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
-    
-    # Print arguments
-    print("Running HUMAnN3 processing...")
-    for arg in vars(args):
-        print(f"  {arg}: {getattr(args, arg)}")
-    
-    # This is a simplified placeholder implementation
-    if args.input_dir:
-        print(f"Processing KneadData outputs from: {args.input_dir}")
-    elif args.input_files:
-        print(f"Processing input files: {', '.join(args.input_files)}")
-    else:
-        print("Error: No input files or directory specified")
-        return 1
-        
-    # Simulate HUMAnN3 running
-    print(f"Using {args.threads} threads for processing")
-    print(f"Results will be written to {args.output_dir}")
-    
-    # Simulate successful completion
-    print("HUMAnN3 processing completed successfully")
-    return 0
-    
-    # Method 4: KneadData output directory
-    elif args.input_dir:
-        # Find KneadData output files in the input directory
-        logger.info(f"Searching for KneadData output files in {args.input_dir}")
-        kneaddata_files_by_sample = find_kneaddata_files_in_dir(args.input_dir)
-        
-        # Convert to standard sample format
-        for sample_id, files in kneaddata_files_by_sample.items():
-            samples[sample_id] = {
-                'kneaddata_files': files,
-                'files': [],
-                'metadata': {}
-            }
-    
-    if not samples:
-        logger.error("No valid input samples found")
-        return 1
-    
-    logger.info(f"Prepared {len(samples)} samples for HUMAnN3 processing")
-    
-    # Process HUMAnN3 options
-    humann3_options = {}
-    
-    if args.bypass_prescreen:
-        humann3_options["bypass-prescreen"] = True
-    if args.bypass_nucleotide_index:
-        humann3_options["bypass-nucleotide-index"] = True
-    if args.bypass_translated_search:
-        humann3_options["bypass-translated-search"] = True
-    
-    # Add any additional options
-    if args.humann3_options:
-        for option in args.humann3_options:
-            if '=' in option:
-                key, value = option.split('=', 1)
-                humann3_options[key] = value
-            else:
-                humann3_options[option] = True
-    
-    # Run HUMAnN3
-    if args.use_parallel:
-        # Parallel processing
-        logger.info("Using parallel processing for HUMAnN3")
-        results = run_humann3_parallel(
-            samples=samples,
-            output_dir=args.output_dir,
-            nucleotide_db=args.nucleotide_db,
-            protein_db=args.protein_db,
-            threads_per_sample=args.threads,
-            max_parallel=args.max_parallel,
-            options=humann3_options,
-            paired=args.paired
-        )
-    else:
-        # Sequential processing
-        logger.info("Processing samples sequentially")
-        results = {}
-        
-        for sample_id, sample_info in samples.items():
-            # Prepare input file
-            input_file = None
-            
-            # Check if we have KneadData files or direct input files
-            if 'kneaddata_files' in sample_info and sample_info['kneaddata_files']:
-                input_file = prepare_humann3_input(
-                    sample_info['kneaddata_files'], 
-                    sample_id, 
-                    args.output_dir, 
-                    args.paired
-                )
-            elif 'files' in sample_info and sample_info['files']:
-                # If single input file, use it directly; if multiple, concatenate if paired
-                if len(sample_info['files']) == 1:
-                    input_file = sample_info['files'][0]
-                elif args.paired and len(sample_info['files']) >= 2:
-                    input_file = prepare_humann3_input(
-                        sample_info['files'],
-                        sample_id,
-                        args.output_dir,
-                        args.paired
-                    )
-                else:
-                    logger.warning(f"Sample {sample_id} has {len(sample_info['files'])} files but paired={args.paired}. Using first file.")
-                    input_file = sample_info['files'][0]
-            
-            if not input_file:
-                logger.warning(f"Skipping sample {sample_id}: no valid input file")
-                continue
-                
-            # Process the sample with HUMAnN3
-            output_files = process_sample_humann3(
-                sample_id=sample_id,
-                input_file=input_file,
-                output_dir=args.output_dir,
-                nucleotide_db=args.nucleotide_db,
-                protein_db=args.protein_db,
-                threads=args.threads,
-                options=humann3_options
-            )
-            
-            if output_files:
-                results[sample_id] = output_files
-    
-    # Organize outputs if requested
-    if args.organize_outputs and results:
-        logger.info("Organizing output files into type-specific directories")
-        output_dirs = organize_output_files(results, args.output_dir)
-        
-        # Log where to find outputs
-        for output_type, dir_path in output_dirs.items():
-            count = sum(1 for sample in results.values() if sample.get(output_type))
-            if count > 0:
-                logger.info(f"{output_type.capitalize()} files ({count}): {dir_path}")
-    
-    # Log results summary
-    if results:
-        successful_samples = len(results)
-        
-        logger.info(f"HUMAnN3 processing completed successfully for {successful_samples}/{len(samples)} samples")
-        
-        # Count outputs by type
-        output_counts = {
-            'pathabundance': sum(1 for sample in results.values() if sample.get('pathabundance')),
-            'genefamilies': sum(1 for sample in results.values() if sample.get('genefamilies')),
-            'pathcoverage': sum(1 for sample in results.values() if sample.get('pathcoverage')),
-            'metaphlan': sum(1 for sample in results.values() if sample.get('metaphlan'))
-        }
-        
-        for output_type, count in output_counts.items():
-            logger.info(f"  {output_type.capitalize()} files: {count}")
-        
-        logger.info(f"All output files are in: {os.path.abspath(args.output_dir)}")
-    else:
-        logger.error("HUMAnN3 processing failed for all samples")
-        return 1
-    
-    # Print elapsed time
-    elapsed_time = time.time() - start_time
-    minutes, seconds = divmod(elapsed_time, 60)
-    hours, minutes = divmod(minutes, 60)
-    
-    logger.info(f"Total processing time: {int(hours)}h {int(minutes)}m {int(seconds)}s")
-    
-    # Print next steps
-    logger.info("\nNext Steps:")
-    logger.info("  To join and normalize these files, use:")
-    logger.info("  humann3-tools join --input-dir PathwayAbundance --output-dir joined_output")
-    logger.info("  humann3-tools join --input-dir GeneFamilies --output-dir joined_output")
-    
-    return 0
-
-if __name__ == "__main__":
-    sys.exit(main())

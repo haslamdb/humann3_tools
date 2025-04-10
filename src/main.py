@@ -1,4 +1,4 @@
-# humann3_tools/main.py
+# src/main.py
 """
 Main module for humann3_tools package.
 
@@ -563,7 +563,7 @@ def run_gene_differential_abundance(
                 
                 # First import the functions
                 from humann3_tools.analysis.differential_abundance import run_differential_abundance_analysis
-                from humann3_tools.main import run_pathway_differential_abundance, run_gene_differential_abundance
+                from src.main import run_pathway_differential_abundance, run_gene_differential_abundance
                 
                 # Create a sub-directory for differential abundance results
                 diff_abund_dir = os.path.join(args.output_dir, "DifferentialAbundance")

@@ -629,42 +629,7 @@ def generate_abundance_histogram(
 def parse_args():
     """Parse command line arguments for the Visualization module."""
     parser = argparse.ArgumentParser(
-        description="Create visualizations for HUMAnN3 output files",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Description:
-  Visualization module creates publication-quality figures from HUMAnN3 output data to explore
-  patterns, relationships, and differences between samples and groups. It supports multiple
-  visualization types to help interpret functional metagenomic data.
-
-Key Features:
-  • PCA plots to visualize overall sample relationships and clustering
-  • Heatmaps to display abundance patterns across samples
-  • Barplots to compare top features between groups
-  • Feature-specific boxplots to examine distributions of individual pathways/genes
-  • Abundance histograms to visualize distribution characteristics
-  • Customizable plot styling and output formats
-
-Plot Types:
-  • PCA: Principal Component Analysis for sample clustering and dimensionality reduction
-  • Heatmap: Hierarchical clustering heatmap of top features across samples
-  • Barplot: Grouped bar charts of top features by group
-  • Boxplot: Distribution boxplots for specific features
-  • Histogram: Distribution of abundance values across samples and groups
-
-Common Usage:
-  # Generate all default visualizations:
-  humann3-tools viz --abundance-file joined_output/pathway_abundance_cpm_unstratified.tsv --metadata-file metadata.csv
-
-  # Generate specific visualization types:
-  humann3-tools viz --abundance-file joined_output/pathway_abundance_cpm_unstratified.tsv --metadata-file metadata.csv --pca --heatmap
-
-  # Create boxplot for a specific pathway:
-  humann3-tools viz --abundance-file joined_output/pathway_abundance_cpm_unstratified.tsv --metadata-file metadata.csv --feature "PWY-7219: adenosine ribonucleotides de novo biosynthesis"
-
-  # Customize plot format:
-  humann3-tools viz --abundance-file joined_output/pathway_abundance_cpm_unstratified.tsv --metadata-file metadata.csv --format pdf --dpi 600
-"""
+        description="Create visualizations for HUMAnN3 output files"
     )
     
     # Help info option

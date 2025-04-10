@@ -1,4 +1,4 @@
-# humann3_tools/utils/__init__.py
+# src/humann3_tools/utils/__init__.py
 """
 Utility modules for humann3_tools.
 
@@ -10,22 +10,22 @@ This package contains various utility modules:
 """
 
 # Import key functions
-from humann3_tools.utils.file_utils import (
+from src.humann3_tools.utils.file_utils import (
     check_file_exists,
     strip_suffixes_from_file_headers,
     sanitize_filename
 )
 
-from humann3_tools.utils.cmd_utils import run_cmd
+from src.humann3_tools.utils.cmd_utils import run_cmd
 
-from humann3_tools.utils.input_handler import (
+from src.humann3_tools.utils.input_handler import (
     get_input_files,
     find_sample_files,
     collect_files_from_metadata,
     read_samples_file
 )
 
-from humann3_tools.utils.resource_utils import (
+from src.humann3_tools.utils.resource_utils import (
     track_peak_memory,
     limit_memory_usage
 )

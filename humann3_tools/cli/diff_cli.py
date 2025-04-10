@@ -53,38 +53,7 @@ def setup_logger(log_file=None, log_level=logging.INFO):
 def parse_args():
     """Parse command line arguments for the Differential Abundance module."""
     parser = argparse.ArgumentParser(
-        description="Run differential abundance analysis on HUMAnN3 output files",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Description:
-  Differential abundance module performs sophisticated differential abundance testing to identify
-  pathways or genes that significantly differ between experimental groups. It uses robust
-  compositional data analysis methods that account for the special properties of microbiome data.
-
-Key Features:
-  • Supports multiple differential abundance methods:
-    - ALDEx2: Uses Bayesian approach with Monte-Carlo instances of the Dirichlet distribution
-    - ANCOM: Analysis of composition of microbiomes, robust to compositional effects
-    - ANCOM-BC: ANCOM with bias correction for uneven sampling depth
-  • Handles both pathway and gene family data
-  • Accounts for compositional nature of microbiome data
-  • Option to filter by specific groups of interest
-
-Output Files:
-  • [method]_results.csv: Results from each differential abundance method with statistics
-  • diff_abundance_summary.txt: Summary of analysis with significant feature counts
-  • Visualizations of significant features (when applicable)
-
-Common Usage:
-  # Basic differential abundance analysis:
-  humann3-tools diff --abundance-file joined_output/pathway_abundance_cpm_unstratified.tsv --metadata-file metadata.csv
-
-  # For gene family data:
-  humann3-tools diff --abundance-file joined_output/genefamilies_cpm_unstratified.tsv --metadata-file metadata.csv --feature-type gene
-
-  # Specify specific groups to compare:
-  humann3-tools diff --abundance-file joined_output/pathway_abundance_cpm_unstratified.tsv --metadata-file metadata.csv --filter-groups Control,Treatment
-"""
+        description="Run differential abundance analysis on HUMAnN3 output files"
     )
     
     # Required arguments

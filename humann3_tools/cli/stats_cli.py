@@ -224,35 +224,7 @@ def run_statistical_tests(
 def parse_args():
     """Parse command line arguments for the Statistical Testing module."""
     parser = argparse.ArgumentParser(
-        description="Run statistical tests on HUMAnN3 output data",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Description:
-  Statistics module performs non-parametric statistical tests to identify significant
-  differences in pathway or gene abundances between sample groups. It uses Kruskal-Wallis
-  tests followed by Dunn's post-hoc tests for pairwise comparisons.
-
-Key Features:
-  • Performs Kruskal-Wallis tests to detect overall differences between groups
-  • Applies Benjamini-Hochberg FDR correction for multiple testing
-  • Conducts Dunn's post-hoc tests for significant features to identify specific group differences
-  • Works with both pathway and gene family data
-
-Output Files:
-  • kruskal_wallis_results.csv: Contains test statistics and adjusted p-values for all features
-  • dunn_posthoc_tests/: Directory with pairwise comparison results for significant features
-  • statistical_summary.txt: Summary of the analysis, including counts of significant features
-
-Common Usage:
-  # Basic statistical testing on pathway data:
-  humann3-tools stats --abundance-file joined_output/pathway_abundance_cpm_unstratified.tsv --metadata-file metadata.csv
-
-  # Specify a different group column in metadata:
-  humann3-tools stats --abundance-file joined_output/pathway_abundance_cpm_unstratified.tsv --metadata-file metadata.csv --group-col Treatment
-
-  # With gene family data:
-  humann3-tools stats --abundance-file joined_output/genefamilies_cpm_unstratified.tsv --metadata-file metadata.csv --feature-type gene
-"""
+        description="Run statistical tests on HUMAnN3 output data"
     )
     
     # Required arguments

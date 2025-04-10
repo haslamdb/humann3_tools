@@ -1,4 +1,4 @@
-# humann3_tools/cli/__init__.py
+# src/humann3_tools/cli/__init__.py
 """
 Command-line interface modules for humann3_tools.
 
@@ -13,4 +13,4 @@ This package contains the command-line interface modules for each step of the wo
 """
 
 # Import main CLI entry point
-from humann3_tools.cli.main_cli import main
+from src.humann3_tools.cli.main_cli import main
