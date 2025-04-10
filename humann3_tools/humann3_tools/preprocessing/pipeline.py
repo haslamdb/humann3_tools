@@ -58,13 +58,47 @@ def run_preprocessing_pipeline(input_files, output_dir, threads=1,
     # Create output directories
     kneaddata_output = os.path.join(output_dir, "kneaddata_output")
     humann3_output = os.path.join(output_dir, "humann3_output")
+    raw_concat_dir = os.path.join(output_dir, "concatenated_input")
     os.makedirs(output_dir, exist_ok=True)
     
     # Determine input files for HUMAnN3
     if skip_kneaddata:
-        # Use raw input files directly for HUMAnN3
-        humann3_input_files = input_files
-        logger.info(f"Using {len(humann3_input_files)} raw FASTQ files directly for HUMAnN3")
+        # If paired-end files and skip_kneaddata, we need to concatenate them for HUMAnN3
+        if paired and len(input_files) >= 2:
+            logger.info("Concatenating paired-end files for HUMAnN3 input")
+            os.makedirs(raw_concat_dir, exist_ok=True)
+            humann3_input_files = []
+            
+            # Loop through pairs of files (assuming they're in order R1, R2, R1, R2, etc.)
+            for i in range(0, len(input_files), 2):
+                if i + 1 >= len(input_files):
+                    logger.warning(f"Unpaired file found: {input_files[i]}, skipping")
+                    continue
+                    
+                r1_file = input_files[i]
+                r2_file = input_files[i+1]
+                
+                # Extract sample name from R1 file
+                sample_name = os.path.basename(r1_file).split('_R1')[0].split('.')[0]
+                concat_file = os.path.join(raw_concat_dir, f"{sample_name}_concat.fastq")
+                
+                # Concatenate R1 and R2 files
+                logger.info(f"Concatenating {r1_file} and {r2_file} to {concat_file}")
+                with open(concat_file, 'w') as outfile:
+                    # Copy content of R1
+                    with open(r1_file, 'r') as infile:
+                        outfile.write(infile.read())
+                    # Copy content of R2
+                    with open(r2_file, 'r') as infile:
+                        outfile.write(infile.read())
+                
+                humann3_input_files.append(concat_file)
+            
+            logger.info(f"Created {len(humann3_input_files)} concatenated files for HUMAnN3")
+        else:
+            # Use raw input files directly for HUMAnN3 (for single-end)
+            humann3_input_files = input_files
+            logger.info(f"Using {len(humann3_input_files)} raw FASTQ files directly for HUMAnN3")
     else:
         # Step 1: Run KneadData
         logger.info("Starting KneadData step...")
@@ -138,6 +172,7 @@ def run_preprocessing_pipeline_parallel(input_files, output_dir, threads_per_sam
         humann3_options: Dict of additional HUMAnN3 options
         paired: Whether input files are paired
         logger: Logger instance
+        skip_kneaddata: Skip KneadData preprocessing and use raw FASTQ files directly
         
     Returns:
         Dict of final HUMAnN3 output file paths by sample and type
@@ -167,13 +202,48 @@ def run_preprocessing_pipeline_parallel(input_files, output_dir, threads_per_sam
     # Create output directories
     kneaddata_output = os.path.join(output_dir, "kneaddata_output")
     humann3_output = os.path.join(output_dir, "humann3_output")
+    raw_concat_dir = os.path.join(output_dir, "concatenated_input")
     os.makedirs(output_dir, exist_ok=True)
     
     # Determine input files for HUMAnN3
     if skip_kneaddata:
-        # Use raw input files directly for HUMAnN3
-        humann3_input_files = input_files
-        logger.info(f"Using {len(humann3_input_files)} raw FASTQ files directly for HUMAnN3")
+        # If paired-end files and skip_kneaddata, we need to concatenate them for HUMAnN3
+        if paired and len(input_files) >= 2:
+            logger.info("Concatenating paired-end files for HUMAnN3 input")
+            os.makedirs(raw_concat_dir, exist_ok=True)
+            humann3_input_files = []
+            
+            # Loop through pairs of files (assuming they're in order R1, R2, R1, R2, etc.)
+            for i in range(0, len(input_files), 2):
+                if i + 1 >= len(input_files):
+                    logger.warning(f"Unpaired file found: {input_files[i]}, skipping")
+                    continue
+                    
+                r1_file = input_files[i]
+                r2_file = input_files[i+1]
+                
+                # Extract sample name from R1 file
+                sample_name = os.path.basename(r1_file).split('_R1')[0].split('.')[0]
+                concat_file = os.path.join(raw_concat_dir, f"{sample_name}_concat.fastq")
+                
+                # Concatenate R1 and R2 files
+                logger.info(f"Concatenating {r1_file} and {r2_file} to {concat_file}")
+                with open(concat_file, 'w') as outfile:
+                    # Copy content of R1
+                    with open(r1_file, 'r') as infile:
+                        outfile.write(infile.read())
+                    # Copy content of R2
+                    with open(r2_file, 'r') as infile:
+                        outfile.write(infile.read())
+                
+                humann3_input_files.append(concat_file)
+            
+            logger.info(f"Created {len(humann3_input_files)} concatenated files for HUMAnN3")
+        else:
+            # Use raw input files directly for HUMAnN3 (for single-end)
+            humann3_input_files = input_files
+            logger.info(f"Using {len(humann3_input_files)} raw FASTQ files directly for HUMAnN3")
+        
         kneaddata_files = input_files  # Keep track of original files
     else:
         # Step 1: Run KneadData in parallel
