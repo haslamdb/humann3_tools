@@ -31,7 +31,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'humann3-tools=humann3_tools.humann_tools.cli:main',
+            'humann3-tools=humann3_tools.humann3_tools.cli:main',
         ],
     },
     author="David Haslam",

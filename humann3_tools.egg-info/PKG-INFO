@@ -1,13 +1,15 @@
-Metadata-Version: 2.1
-Name: humann3_tools
-Version: 0.1.0
-Summary: A comprehensive Python package for processing and analyzing HUMAnN3 output data from metagenomic sequencing
+Metadata-Version: 2.4
+Name: humann3-tools
+Version: 0.2.0
+Summary: A comprehensive Python package for assigning raw metagenomic sequence reads to microbial gene and pathway databases using HUMAnN3, followed by downstream processing and analysis
 Home-page: https://github.com/dhaslam/humann3_tools
 Author: David Haslam
-Author-email: David Haslam <dbhaslam@gmail.com>
+Author-email: David Haslam <dhaslam@gmail.com>
+Maintainer-email: David Haslam <dhaslam@gmail.com>
 License: MIT
 Project-URL: Homepage, https://github.com/dhaslam/humann3_tools
 Project-URL: Issues, https://github.com/dhaslam/humann3_tools/issues
+Keywords: microbiome,metagenomics,humann3,kneaddata,bioinformatics
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
@@ -18,11 +20,20 @@ Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: pandas>=1.3.0
 Requires-Dist: numpy>=1.20.0
-Requires-Dist: scipy>=1.7.0
 Requires-Dist: matplotlib>=3.4.0
 Requires-Dist: seaborn>=0.11.0
-Requires-Dist: psutil>=5.9.0
+Requires-Dist: scipy>=1.7.0
+Requires-Dist: scikit-learn>=1.0.0
+Requires-Dist: statsmodels>=0.13.0
+Requires-Dist: scikit-posthocs>=0.7.0
+Requires-Dist: scikit-bio>=0.5.6
 Requires-Dist: tqdm>=4.62.0
+Requires-Dist: psutil>=5.8.0
+Requires-Dist: biopython>=1.79
+Dynamic: author
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-python
 
 # HUMAnN3 Tools
 
@@ -128,6 +139,10 @@ humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/
 # Skip downstream analysis (only process HUMAnN3 files)
 humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/ \
     --output-dir results/ --skip-downstream
+
+# Skip KneadData preprocessing
+humann3-tools --run-preprocessing --input-fastq reads_*.fastq \
+    --output-dir results/ --skip-kneaddata
 
 # Use a specific column for grouping in statistical tests
 humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/ \
