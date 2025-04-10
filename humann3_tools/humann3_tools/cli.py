@@ -48,6 +48,7 @@ def limit_memory_usage(*args, **kwargs):
 def main():
     
     """Main entry point for the humann3_tools CLI."""
+    
     parser = argparse.ArgumentParser(description="HUMAnN3 Tools: Process and analyze HUMAnN3 output")
 
     #  --- Preprocessing and Humann alignment ---
@@ -179,6 +180,7 @@ def main():
         os.makedirs(preproc_dir, exist_ok=True)
 
         # Choose between regular or parallel processing
+
         if args.use_parallel:
             log_print("Using parallel preprocessing pipeline", level='info')
             preprocessing_results = run_preprocessing_pipeline_parallel(
