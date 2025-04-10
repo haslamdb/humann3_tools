@@ -11,7 +11,7 @@ This package provides functions for:
 __version__ = "0.1.0"
 
 # Import main functions for easy access
-from humann3_tools.humann_tools.main import (
+from humann3_tools.humann3_tools.main import (
     run_full_pipeline,
     process_humann3_files_only,
     analyze_existing_humann3_files,
@@ -25,10 +25,10 @@ from humann3_tools.humann3_tools.logger import setup_logger, log_print
 # Import key utility functions
 from humann3_tools.utils.file_utils import check_file_exists, sanitize_filename
 
-# Import differential abundance functions
-from humann3_tools.analysis.differential_abundance import (
-    aldex2_like,
-    ancom,
-    ancom_bc,
-    run_differential_abundance_analysis
-)
+# Import differential abundance functions (commented out until needed)
+# from humann3_tools.analysis.differential_abundance import (
+#     aldex2_like,
+#     ancom,
+#     ancom_bc,
+#     run_differential_abundance_analysis
+# )

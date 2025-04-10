@@ -85,7 +85,7 @@ def run_humann3_parallel(input_files, output_dir, threads=1, max_parallel=None,
     Run HUMAnN3 on multiple samples in parallel.
     
     Args:
-        input_files: List of input FASTQ files from KneadData
+        input_files: List of input FASTQ files (from KneadData or raw files if skip_kneaddata=True)
         output_dir: Base directory for outputs
         threads: Number of threads per sample
         max_parallel: Maximum number of parallel samples (None = CPU count)
@@ -131,7 +131,7 @@ def run_humann3(input_files, output_dir, threads=1, nucleotide_db=None,
     Run HUMAnN3 on input sequence files.
     
     Args:
-        input_files: List of input FASTQ files from KneadData
+        input_files: List of input FASTQ files (from KneadData or raw files if skip_kneaddata=True)
         output_dir: Directory for HUMAnN3 output
         threads: Number of threads to use
         nucleotide_db: Path to nucleotide database

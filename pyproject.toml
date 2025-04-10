@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "humann3-tools"
+version = "0.2.0"
+description = "A comprehensive Python package for assigning raw metagenomic sequence reads to microbial gene and pathway databases using HUMAnN3, followed by downstream processing and analysis"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    {name = "David Haslam", email = "dhaslam@gmail.com"}
+]
+maintainers = [
+    {name = "David Haslam", email = "dhaslam@gmail.com"}
+]
+keywords = ["microbiome", "metagenomics", "humann3", "kneaddata", "bioinformatics"]
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Intended Audience :: Science/Research",
+]
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=1.3.0",
+    "numpy>=1.20.0",
+    "matplotlib>=3.4.0",
+    "seaborn>=0.11.0",
+    "scipy>=1.7.0",
+    "scikit-learn>=1.0.0",
+    "statsmodels>=0.13.0",
+    "scikit-posthocs>=0.7.0",
+    "scikit-bio>=0.5.6",
+    "tqdm>=4.62.0",
+    "psutil>=5.8.0",
+    "biopython>=1.79",
+]
+
+[project.urls]
+Homepage = "https://github.com/dhaslam/humann3_tools"
+Issues = "https://github.com/dhaslam/humann3_tools/issues"
+
+[project.scripts]
+humann3-tools = "humann3_tools.humann3_tools.cli:main"
+
+[tool.setuptools]
+packages = ["humann3_tools", "humann3_tools.humann3_tools", "humann3_tools.utils"]
+
+[tool.pipx]
+include-system-packages = true
+use-python = "3.12"

@@ -103,6 +103,10 @@ humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/
 humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/ \
     --output-dir results/ --skip-downstream
 
+# Skip KneadData preprocessing
+humann3-tools --run-preprocessing --input-fastq reads_*.fastq \
+    --output-dir results/ --skip-kneaddata
+
 # Use a specific column for grouping in statistical tests
 humann3-tools --sample-key samples.csv --pathway-dir pathways/ --gene-dir genes/ \
     --output-dir results/ --group-col "Treatment"
