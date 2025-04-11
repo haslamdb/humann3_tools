@@ -6,7 +6,7 @@ import time
 import logging
 import traceback
 
-from humann3_tools.humann3_tools.logger import setup_logger, log_print
+from humann3_tools.logger import setup_logger, log_print
 from humann3_tools.utils.sample_utils import validate_sample_key, check_input_files_exist
 from humann3_tools.utils.file_utils import check_file_exists_with_logger
 
