@@ -43,10 +43,10 @@ Homepage = "https://github.com/dhaslam/humann3_tools"
 Issues = "https://github.com/dhaslam/humann3_tools/issues"
 
 [project.scripts]
-humann3-tools = "humann3_tools.humann3_tools.cli:main"
+humann3-tools = "humann3_tools.cli:main"
 
 [tool.setuptools]
-packages = ["humann3_tools", "humann3_tools.humann3_tools", "humann3_tools.utils"]
+packages = ["humann3_tools", "humann3_tools", "humann3_tools.utils"]
 
 [tool.pipx]
 include-system-packages = true
