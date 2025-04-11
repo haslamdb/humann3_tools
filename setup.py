@@ -29,12 +29,11 @@ setup(
         "humann>=3.8",
         "kneaddata"
     ],
-    entry_points={
-        'console_scripts': [
-            'humann3-tools=humann3_tools.humann3_tools.cli:main',
-        ],
-    },
-    author="David Haslam",
+entry_points={
+    'console_scripts': [
+        'humann3-tools=humann3_tools.cli:main',  # Changed from humann3_tools.humann_tools.cli:main
+    ],
+},    author="David Haslam",
     author_email="dbhaslam@gmail.com",
     description="A comprehensive Python package for processing and analyzing HUMAnN3 output data from metagenomic sequencing",
     long_description=open("README.md").read(),

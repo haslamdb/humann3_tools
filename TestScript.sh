@@ -1,20 +1,49 @@
+# test skip-kneaddata 
+
+humann3-tools --run-preprocessing --input-fastq MP00609L_1_output.fastq.gz MP00609L_2_output.fastq.gz \
+    --output-dir Tommy.out \
+    --skip-kneaddata --paired \
+    --threads 12 \
+    --pathway-dir pathway.out \
+    --gene-dir gene.out \
+    --sample-key TommyFiles.txt \
+    --log-level DEBUG \
+    --paired
+
+humann3-tools --run-preprocessing \
+    --input-fastq MP00609L_1_output.fastq.gz MP00609L_2_output.fastq.gz \
+    --output-dir Tommy.out \
+    --skip-kneaddata --paired \
+    --threads 12 \
+    --pathway-dir pathway.out \
+    --gene-dir gene.out \
+    --sample-key TommyFiles.txt \
+    --log-level DEBUG \
+    --humann3-nucleotide-db /home/david/Databases/Humann35Databases/chocophlan \
+    --humann3-protein-db /home/david/Databases/Humann35Databases/uniref
+
+
+
+
+
+
 humann3-tools --log-file test.log \
-	--log-level DEBUG \
-	--output-dir tommyt.out \
-	--run-preprocessing \
-	--skip-kneaddata \
-	--paired \
-	--threads 12 \
-  	--humann3-output-dir ~/Documents/Alignments/Humann3Alignments \
-  	--kneaddata-output-dir ~/Data/MSSData/TommyData/NCNP_outputs \
-    	--r1-suffix "_1_output.fastq.gz" --r2-suffix "_2_output.fastq.gz" \
-	--samples-file TommyFiles.txt \
-	--pathway-dir ~/Documents/Alignments/Humann3Alignments/PathwayAbundance \
-	--gene-dir ~/Documents/Alignments/Humann3Alignments/GeneFamilies \
-	--input-fastq ~/Data/MSSData/TommyData/NCNP_outputs/*fastq.gz \
-	--skip-downstream
-
-
+    --log-level DEBUG \
+    --output-dir tommyt.out \
+    --run-preprocessing \
+    --skip-kneaddata \
+    --paired \
+    --threads 12 \
+    --humann3-output-dir ~/Documents/Alignments/Humann3Alignments \
+    --kneaddata-output-dir ~/Data/MSSData/TommyData/NCNP_outputs \
+    --kneaddata-output-pattern "*_?_output.fastq.gz" \
+    --r1-suffix "_1_output.fastq.gz" \
+    --r2-suffix "_2_output.fastq.gz" \
+    --samples-file TommyFiles.txt \
+    --pathway-dir ~/Documents/Alignments/Humann3Alignments/PathwayAbundance \
+    --gene-dir ~/Documents/Alignments/Humann3Alignments/GeneFamilies \
+    --input-fastq ~/Data/MSSData/TommyData/NCNP_outputs/*fastq.gz \
+    --skip-downstream
 
 humann3-tools --log-file test.log \
 	--log-level DEBUG \
