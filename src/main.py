@@ -11,19 +11,19 @@ import time
 import traceback
 import pandas as pd
 
-from humann3_tools.logger import setup_logger, log_print
-from humann3_tools.utils.sample_utils import validate_sample_key, check_input_files_exist
-from humann3_tools.utils.file_utils import check_file_exists_with_logger
-from humann3_tools.humann3.pathway_processing import process_pathway_abundance
-from humann3_tools.humann3.gene_processing import process_gene_families
-from humann3_tools.analysis.metadata import read_and_process_metadata
-from humann3_tools.analysis.visualizations import (
+from src.humann3_tools.logger import setup_logger, log_print
+from src.humann3_tools.utils.sample_utils import validate_sample_key, check_input_files_exist
+from src.humann3_tools.utils.file_utils import check_file_exists_with_logger
+from src.humann3_tools.humann3.pathway_processing import process_pathway_abundance
+from src.humann3_tools.humann3.gene_processing import process_gene_families
+from src.humann3_tools.analysis.metadata import read_and_process_metadata
+from src.humann3_tools.analysis.visualizations import (
     read_and_process_gene_families,
     read_and_process_pathways,
 )
-from humann3_tools.analysis.statistical import run_statistical_tests
-from humann3_tools.analysis.differential_abundance import run_differential_abundance_analysis
-from humann3_tools.preprocessing.pipeline import run_preprocessing_pipeline
+from src.humann3_tools.analysis.statistical import run_statistical_tests
+from src.humann3_tools.analysis.differential_abundance import run_differential_abundance_analysis
+from src.humann3_tools.preprocessing.pipeline import run_preprocessing_pipeline
 
 
 def run_full_pipeline(
@@ -562,7 +562,7 @@ def run_gene_differential_abundance(
                 diff_methods = [m.strip().lower() for m in args.diff_methods.split(',')]
                 
                 # First import the functions
-                from humann3_tools.analysis.differential_abundance import run_differential_abundance_analysis
+                from src.humann3_tools.analysis.differential_abundance import run_differential_abundance_analysis
                 from src.main import run_pathway_differential_abundance, run_gene_differential_abundance
                 
                 # Create a sub-directory for differential abundance results

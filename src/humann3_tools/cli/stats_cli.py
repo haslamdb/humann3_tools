@@ -16,12 +16,12 @@ except ImportError:
 
 # Import internal modules
 try:
-    from humann3_tools.utils.resource_utils import track_peak_memory
-    from humann3_tools.utils.file_utils import sanitize_filename
+    from src.humann3_tools.utils.resource_utils import track_peak_memory
+    from src.humann3_tools.utils.file_utils import sanitize_filename
 except ImportError:
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-    from humann3_tools.utils.resource_utils import track_peak_memory
-    from humann3_tools.utils.file_utils import sanitize_filename
+    from src.humann3_tools.utils.resource_utils import track_peak_memory
+    from src.humann3_tools.utils.file_utils import sanitize_filename
 
 # Set up logging
 logger = logging.getLogger('humann3_tools')
@@ -379,12 +379,12 @@ except ImportError:
 
 # Import internal modules
 try:
-    from humann3_tools.utils.resource_utils import track_peak_memory
-    from humann3_tools.utils.file_utils import sanitize_filename
+    from src.humann3_tools.utils.resource_utils import track_peak_memory
+    from src.humann3_tools.utils.file_utils import sanitize_filename
 except ImportError:
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-    from humann3_tools.utils.resource_utils import track_peak_memory
-    from humann3_tools.utils.file_utils import sanitize_filename
+    from src.humann3_tools.utils.resource_utils import track_peak_memory
+    from src.humann3_tools.utils.file_utils import sanitize_filename
 
 # Set up logging
 logger = logging.getLogger('humann3_tools')

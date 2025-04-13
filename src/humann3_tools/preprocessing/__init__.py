@@ -7,7 +7,7 @@ This module provides functions to preprocess raw sequence files using KneadData 
 
 # Import pipeline functions if available
 try:
-    from humann3_tools.preprocessing.pipeline import (
+    from src.humann3_tools.preprocessing.pipeline import (
         run_preprocessing_pipeline, 
         run_preprocessing_pipeline_parallel
     )

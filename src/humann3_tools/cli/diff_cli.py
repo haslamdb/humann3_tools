@@ -17,10 +17,10 @@ from typing import Dict, List, Tuple, Optional, Union
 
 # Import internal modules
 try:
-    from humann3_tools.analysis.differential_abundance import run_differential_abundance_analysis
+    from src.humann3_tools.analysis.differential_abundance import run_differential_abundance_analysis
 except ImportError:
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-    from humann3_tools.analysis.differential_abundance import run_differential_abundance_analysis
+    from src.humann3_tools.analysis.differential_abundance import run_differential_abundance_analysis
 
 # Set up logging
 logger = logging.getLogger('humann3_tools')

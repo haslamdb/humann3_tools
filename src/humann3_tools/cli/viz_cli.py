@@ -49,10 +49,10 @@ from sklearn.preprocessing import StandardScaler
 
 # Import internal modules
 try:
-    from humann3_tools.utils.resource_utils import track_peak_memory
+    from src.humann3_tools.utils.resource_utils import track_peak_memory
 except ImportError:
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-    from humann3_tools.utils.resource_utils import track_peak_memory
+    from src.humann3_tools.utils.resource_utils import track_peak_memory
 
 # Set up logging
 logger = logging.getLogger('humann3_tools')

@@ -8,18 +8,18 @@ This package contains the core functionality for the different steps of the work
 - join_unstratify.py: Join and unstratify operations
 """
 
-from humann3_tools.core.kneaddata import (
+from src.humann3_tools.core.kneaddata import (
     check_kneaddata_installation,
     run_kneaddata,
     run_kneaddata_parallel
 )
 
-from humann3_tools.core.humann3 import (
+from src.humann3_tools.core.humann3 import (
     check_humann3_installation,
     run_humann3,
     run_humann3_parallel
 )
 
-from humann3_tools.core.join_unstratify import (
+from src.humann3_tools.core.join_unstratify import (
     process_join_unstratify
 )

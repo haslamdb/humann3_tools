@@ -3,9 +3,9 @@ import os
 import subprocess
 import logging
 import shutil
-from humann3_tools.utils.cmd_utils import run_cmd
-from humann3_tools.logger import log_print
-from humann3_tools.utils.resource_utils import track_peak_memory
+from src.humann3_tools.utils.cmd_utils import run_cmd
+from src.humann3_tools.logger import log_print
+from src.humann3_tools.utils.resource_utils import track_peak_memory
 
 def check_humann3_installation():
     """Check if HUMAnN3 is installed and available."""
@@ -180,7 +180,7 @@ def run_humann3_parallel(input_files, output_dir, threads=1, max_parallel=None,
     Returns:
         Dict mapping sample IDs to output files
     """
-    from humann3_tools.preprocessing.parallel import run_parallel
+    from src.humann3_tools.preprocessing.parallel import run_parallel
     
     if logger is None:
         logger = logging.getLogger('humann3_analysis')

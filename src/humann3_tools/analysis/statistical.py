@@ -9,7 +9,7 @@ from scipy.stats import kruskal
 from statsmodels.stats.multitest import multipletests
 import scikit_posthocs as sp
 
-from humann3_tools.utils.file_utils import sanitize_filename
+from src.humann3_tools.utils.file_utils import sanitize_filename
 
 def kruskal_wallis_dunn(df_long, group_col="Group", feature_col="Pathway", 
                        abundance_col="Abundance", alpha=0.05, logger=None):

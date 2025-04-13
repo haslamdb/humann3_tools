@@ -33,20 +33,20 @@ from typing import Dict, List, Optional, Tuple
 
 # Set up path for imports - add parent directory to path if module imports fail
 try:
-    from humann3_tools.utils.input_handler import get_input_files
-    from humann3_tools.utils.cmd_utils import run_cmd
+    from src.humann3_tools.utils.input_handler import get_input_files
+    from src.humann3_tools.utils.cmd_utils import run_cmd
     try:
-        from humann3_tools.utils.resource_utils import track_peak_memory
+        from src.humann3_tools.utils.resource_utils import track_peak_memory
         TRACK_MEMORY = True
     except ImportError:
         TRACK_MEMORY = False
 except ImportError:
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
     try:
-        from humann3_tools.utils.input_handler import get_input_files
-        from humann3_tools.utils.cmd_utils import run_cmd
+        from src.humann3_tools.utils.input_handler import get_input_files
+        from src.humann3_tools.utils.cmd_utils import run_cmd
         try:
-            from humann3_tools.utils.resource_utils import track_peak_memory
+            from src.humann3_tools.utils.resource_utils import track_peak_memory
             TRACK_MEMORY = True
         except ImportError:
             TRACK_MEMORY = False

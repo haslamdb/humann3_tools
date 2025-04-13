@@ -2,8 +2,8 @@
 import os
 import logging
 
-from humann3_tools.logger import log_print
-from humann3_tools.utils.cmd_utils import run_cmd
+from src.humann3_tools.logger import log_print
+from src.humann3_tools.utils.cmd_utils import run_cmd
 
 def process_gene_families(valid_samples, gene_dir, output_dir, output_prefix, selected_columns=None, units="cpm"):
     """
@@ -133,7 +133,7 @@ def process_gene_families(valid_samples, gene_dir, output_dir, output_prefix, se
         log_print(f"Renamed unstratified file to: {unstrat_file}", level='info')
         
         # Strip suffixes from headers in all output files
-        from humann3_tools.utils.file_utils import strip_suffixes_from_file_headers
+        from src.humann3_tools.utils.file_utils import strip_suffixes_from_file_headers
         strip_suffixes_from_file_headers(unstrat_file)
         
         # Also process the stratified file if it exists

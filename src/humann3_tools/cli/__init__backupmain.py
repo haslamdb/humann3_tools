@@ -14,13 +14,13 @@ This package provides a modular workflow for processing and analyzing metagenomi
 __version__ = "0.1.0"
 
 # Import key classes and functions for easy access
-from humann3_tools.utils.input_handler import (
+from src.humann3_tools.utils.input_handler import (
     find_sample_files,
     collect_files_from_metadata,
     read_samples_file
 )
 
-from humann3_tools.utils.file_utils import (
+from src.humann3_tools.utils.file_utils import (
     check_file_exists,
     strip_suffixes_from_file_headers,
     sanitize_filename

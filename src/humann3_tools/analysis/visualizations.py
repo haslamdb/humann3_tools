@@ -8,7 +8,7 @@ import seaborn as sns
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
-from humann3_tools.utils.file_utils import strip_suffix
+from src.humann3_tools.utils.file_utils import strip_suffix
 
 def read_and_process_gene_families(unstrat_genefam, sample_key_df, output_dir, logger):
     """

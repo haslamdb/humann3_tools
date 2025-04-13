@@ -5,10 +5,10 @@ import argparse
 import logging
 import time
 
-from humann3_tools.logger import setup_logger, log_print
-from humann3_tools.utils.sample_utils import validate_sample_key, check_input_files_exist
-from humann3_tools.humann3.pathway_processing import process_pathway_abundance
-from humann3_tools.humann3.gene_processing import process_gene_families
+from src.humann3_tools.logger import setup_logger, log_print
+from src.humann3_tools.utils.sample_utils import validate_sample_key, check_input_files_exist
+from src.humann3_tools.humann3.pathway_processing import process_pathway_abundance
+from src.humann3_tools.humann3.gene_processing import process_gene_families
 
 def parse_args():
     """Parse command line arguments for join_unstratify_humann_output."""

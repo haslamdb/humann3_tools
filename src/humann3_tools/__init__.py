@@ -14,10 +14,10 @@ This package provides a modular workflow for processing and analyzing metagenomi
 __version__ = "0.1.0"
 
 # Import key functions for easy access
-from humann3_tools.logger import setup_logger, log_print
+from src.humann3_tools.logger import setup_logger, log_print
 
 # Import main functions
-from humann3_tools.core.humann3 import (
+from src.humann3_tools.core.humann3 import (
     run_full_pipeline,
     process_humann3_files_only,
     analyze_existing_humann3_files,

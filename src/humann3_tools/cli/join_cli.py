@@ -33,14 +33,14 @@ from typing import Dict, List, Optional, Tuple, Union
 
 # Import internal modules
 try:
-    from humann3_tools.utils.cmd_utils import run_cmd
-    from humann3_tools.utils.resource_utils import track_peak_memory
-    from humann3_tools.utils.file_utils import strip_suffixes_from_file_headers
+    from src.humann3_tools.utils.cmd_utils import run_cmd
+    from src.humann3_tools.utils.resource_utils import track_peak_memory
+    from src.humann3_tools.utils.file_utils import strip_suffixes_from_file_headers
 except ImportError:
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-    from humann3_tools.utils.cmd_utils import run_cmd
-    from humann3_tools.utils.resource_utils import track_peak_memory
-    from humann3_tools.utils.file_utils import strip_suffixes_from_file_headers
+    from src.humann3_tools.utils.cmd_utils import run_cmd
+    from src.humann3_tools.utils.resource_utils import track_peak_memory
+    from src.humann3_tools.utils.file_utils import strip_suffixes_from_file_headers
 
 # Set up logging
 logger = logging.getLogger('humann3_tools')
