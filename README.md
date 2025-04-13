@@ -34,7 +34,7 @@ HUMAnN3 Tools provides a complete workflow for metagenomic analysis, from qualit
 
 ```bash
 # Install bioBakery3 environment (if not already installed)
-conda create -n biobakery3 python=3.8
+conda create -n biobakery3 python=3.12
 conda activate biobakery3
 conda install -c biobakery -c conda-forge -c bioconda humann=3.6 kneaddata=0.10.0
 
@@ -42,7 +42,7 @@ conda install -c biobakery -c conda-forge -c bioconda humann=3.6 kneaddata=0.10.
 # MetaPhlAn database (required for HUMAnN3)
 metaphlan --install
 
-# Optional: Install HUMAnN databases (if not already installed)
+# Install HUMAnN databases (if not already installed)
 # humann_databases --download chocophlan full /path/to/databases
 # humann_databases --download uniref uniref90_diamond /path/to/databases
 # humann_databases --download utility_mapping full /path/to/databases
