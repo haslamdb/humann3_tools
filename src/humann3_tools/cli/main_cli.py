@@ -143,30 +143,56 @@ def main():
     # Execute appropriate command
     if args.command == 'humann3':
         logger.info(f"Running HUMAnN3 with input_dir: {args.input_dir or 'not specified'}, "
-                   f"output_dir: {args.output_dir or 'not specified'}, "
-                   f"threads: {args.threads}")
-        return humann3_cli.main(args)
+                f"output_dir: {args.output_dir or 'not specified'}, "
+                f"threads: {args.threads}")
+        # Modify sys.argv to remove the subcommand and pass to humann3_cli
+        saved_argv = sys.argv.copy()
+        sys.argv = [saved_argv[0]] + saved_argv[2:]
+        result = humann3_cli.main()
+        # Restore original argv
+        sys.argv = saved_argv
+        return result   
         
     elif args.command == 'join':
         logger.info(f"Running Join with input_dir: {args.input_dir}, "
                    f"output_dir: {args.output_dir}")
-        return join_cli.main(args)
+        saved_argv = sys.argv.copy()
+        sys.argv = [saved_argv[0]] + saved_argv[2:]
+        result = join_cli.main()
+        sys.argv = saved_argv
+        return result   
         
     elif args.command == 'kneaddata':
         logger.info("Running KneadData...")
-        return kneaddata_cli.main(args)
+        saved_argv = sys.argv.copy()
+        sys.argv = [saved_argv[0]] + saved_argv[2:]
+        result = kneaddata_cli.main()
+        sys.argv = saved_argv
+        return result 
         
     elif args.command == 'stats':
         logger.info("Running Statistics...")
-        return stats_cli.main(args)
+        saved_argv = sys.argv.copy()
+        sys.argv = [saved_argv[0]] + saved_argv[2:]
+        result = stats_cli.main()
+        sys.argv = saved_argv
+        return result 
         
     elif args.command == 'diff':
         logger.info("Running Differential Analysis...")
-        return diff_cli.main(args)
+        saved_argv = sys.argv.copy()
+        sys.argv = [saved_argv[0]] + saved_argv[2:]
+        result = diff_cli.main()
+        sys.argv = saved_argv
+        return result 
         
     elif args.command == 'viz':
         logger.info("Running Visualization...")
-        return viz_cli.main(args)
+        saved_argv = sys.argv.copy()
+        sys.argv = [saved_argv[0]] + saved_argv[2:]
+        result = viz_cli.main()
+        sys.argv = saved_argv
+        return result 
         
     else:
         logger.error(f"Unknown command: {args.command}")
