@@ -48,7 +48,7 @@ handler.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
 logger.addHandler(handler)
 
 # Package version - avoid pkg_resources for compatibility
-__version__ = "0.1.0"  # Hardcode version to avoid dependency issues
+#__version__ = "0.2.0"  # Hardcode version to avoid dependency issues
 
 def setup_subparsers(parser):
     """
