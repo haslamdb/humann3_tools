@@ -467,21 +467,79 @@ def parse_args(args=None, parent_parser=None):
         description="Run HUMAnN3 on preprocessed sequence files"
     )
     
-    # Add basic arguments
-    parser.add_argument("--input-dir", 
-                      help="Directory containing KneadData output files")
-    parser.add_argument("--input-files", nargs="+", 
-                      help="Input FASTQ file(s) for HUMAnN3")
-    parser.add_argument("--output-dir", default="./humann3_output", 
-                      help="Output directory (default: ./humann3_output)")
-    parser.add_argument("--threads", type=int, default=1, 
-                      help="Number of threads (default: 1)")
-    parser.add_argument("--paired", action="store_true", 
-                      help="Input files are paired-end reads")
+    # Input methods (choose one)
+    input_group = parser.add_argument_group("Input Options (choose one)")
+    input_group.add_argument("--input-dir", 
+                           help="Directory containing KneadData output files")
+    input_group.add_argument("--input-files", nargs="+", 
+                           help="Input FASTQ file(s) for HUMAnN3")
+    input_group.add_argument("--samples-file", 
+                           help="Tab-delimited file with sample IDs and file paths")
+    input_group.add_argument("--metadata-file", 
+                           help="CSV file with sample metadata")
+    
+    # Metadata-driven input options
+    metadata_group = parser.add_argument_group("Metadata-driven Input Options")
+    metadata_group.add_argument("--seq-dir", 
+                             help="Directory containing sequence files (for metadata-driven)")
+    metadata_group.add_argument("--sample-col", 
+                             help="Column name for sample IDs in metadata")
+    metadata_group.add_argument("--r1-col", 
+                             help="Column name for R1 file paths in metadata")
+    metadata_group.add_argument("--r2-col", 
+                             help="Column name for R2 file paths in metadata")
+    metadata_group.add_argument("--file-pattern", 
+                             help="Pattern for finding files (e.g., {sample}_S*_R*.fastq.gz)")
+    metadata_group.add_argument("--r1-suffix", 
+                             help="Suffix for R1 files (e.g., _R1.fastq.gz)")
+    metadata_group.add_argument("--r2-suffix", 
+                             help="Suffix for R2 files (e.g., _R2.fastq.gz)")
+    
+    # Output options
+    output_group = parser.add_argument_group("Output Options")
+    output_group.add_argument("--output-dir", default="./humann3_output", 
+                           help="Directory for output files (default: ./humann3_output)")
+    output_group.add_argument("--organize-outputs", action="store_true",
+                           help="Organize output files into type-specific directories")
+    output_group.add_argument("--log-file", 
+                           help="Path to log file")
+    output_group.add_argument("--log-level", default="INFO", 
+                           choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+                           help="Logging level")
+    
+    # HUMAnN3 database options
+    db_group = parser.add_argument_group("HUMAnN3 Database Options")
+    db_group.add_argument("--nucleotide-db", 
+                        help="Path to nucleotide database (ChocoPhlAn)")
+    db_group.add_argument("--protein-db", 
+                        help="Path to protein database (UniRef)")
+    
+    # HUMAnN3 processing options
+    processing_group = parser.add_argument_group("HUMAnN3 Processing Options")
+    processing_group.add_argument("--threads", type=int, default=1, 
+                               help="Number of threads per sample (default: 1)")
+    processing_group.add_argument("--paired", action="store_true", 
+                               help="Input files are paired-end reads")
+    processing_group.add_argument("--use-parallel", action="store_true",
+                               help="Process samples in parallel")
+    processing_group.add_argument("--max-parallel", type=int,
+                               help="Maximum number of samples to process in parallel")
+    
+    # HUMAnN3 pipeline options
+    pipeline_group = parser.add_argument_group("HUMAnN3 Pipeline Options")
+    pipeline_group.add_argument("--bypass-prescreen", action="store_true",
+                             help="Bypass the MetaPhlAn taxonomic prescreen")
+    pipeline_group.add_argument("--bypass-nucleotide-index", action="store_true",
+                             help="Bypass the nucleotide index database")
+    pipeline_group.add_argument("--bypass-translated-search", action="store_true",
+                             help="Bypass the translated search")
+    pipeline_group.add_argument("--humann3-options", nargs="+",
+                             help="Additional options to pass to HUMAnN3 (format: key=value)")
     
     # Return the parser or parsed args
     if args is not None:
         return parser.parse_args(args)
+    
     return parser
 
 def main(args=None):
@@ -494,33 +552,70 @@ def main(args=None):
     # Parse arguments
     if isinstance(args, list):
         args = parse_args(args)
-    else:
+    elif args is None:
         args = parse_args()
     
-    # Set up basic logging to console
-    logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+    # Setup logging
+    log_level = getattr(logging, args.log_level.upper())
+    setup_logger(args.log_file, log_level)
     
-    # Print arguments
-    print("Running HUMAnN3 processing...")
-    for arg in vars(args):
-        print(f"  {arg}: {getattr(args, arg)}")
+    start_time = time.time()
+    logger.info("Starting HUMAnN3 Tools HUMAnN3 Module")
     
-    # This is a simplified placeholder implementation
-    if args.input_dir:
-        print(f"Processing KneadData outputs from: {args.input_dir}")
-    elif args.input_files:
-        print(f"Processing input files: {', '.join(args.input_files)}")
-    else:
-        print("Error: No input files or directory specified")
+    # Check HUMAnN3 installation
+    humann3_ok, humann3_version = check_humann3_installation()
+    if not humann3_ok:
+        logger.error(f"HUMAnN3 not properly installed: {humann3_version}")
         return 1
-        
-    # Simulate HUMAnN3 running
-    print(f"Using {args.threads} threads for processing")
-    print(f"Results will be written to {args.output_dir}")
+    logger.info(f"Using HUMAnN3 version: {humann3_version}")
     
-    # Simulate successful completion
-    print("HUMAnN3 processing completed successfully")
-    return 0
+    # Process input methods to get sample dictionary
+    samples = {}
+    
+    # Method 1: Direct input files
+    if args.input_files:
+        logger.info(f"Processing {len(args.input_files)} input files")
+        
+        # Create a basic sample from the input files
+        if args.paired and len(args.input_files) >= 2:
+            # For paired-end data, use the first two files
+            r1_file = args.input_files[0]
+            r2_file = args.input_files[1]
+            sample_name = os.path.basename(r1_file).split('_')[0]
+            
+            samples[sample_name] = {
+                'files': [r1_file, r2_file],
+                'metadata': {}
+            }
+            logger.info(f"Created sample {sample_name} from paired input files")
+        elif args.input_files:
+            # For single-end data, treat each file as a separate sample
+            for i, file in enumerate(args.input_files):
+                sample_name = os.path.basename(file).split('.')[0]
+                
+                # Handle potential duplicates by adding an index
+                if sample_name in samples:
+                    sample_name = f"{sample_name}_{i+1}"
+                
+                samples[sample_name] = {
+                    'files': [file],
+                    'metadata': {}
+                }
+                logger.info(f"Created sample {sample_name} from input file")
+    
+    # Method 2: Sample list file
+    elif args.samples_file:
+        logger.info(f"Reading samples from file: {args.samples_file}")
+        
+        # Use input handler to process sample list file
+        samples = get_input_files(args, input_type="sequence")
+    
+    # Method 3: Metadata-driven
+    elif args.metadata_file and args.seq_dir:
+        logger.info(f"Reading samples from metadata: {args.metadata_file}")
+        
+        # Use input handler to process metadata and find sequence files
+        samples = get_input_files(args, input_type="sequence")
     
     # Method 4: KneadData output directory
     elif args.input_dir:
@@ -553,7 +648,7 @@ def main(args=None):
         humann3_options["bypass-translated-search"] = True
     
     # Add any additional options
-    if args.humann3_options:
+    if hasattr(args, 'humann3_options') and args.humann3_options:
         for option in args.humann3_options:
             if '=' in option:
                 key, value = option.split('=', 1)

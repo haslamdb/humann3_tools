@@ -50,7 +50,7 @@ dev = [
 [project.scripts]
 humann3-tools = "src.humann3_tools.cli.main_cli:main"
 humann3-kneaddata = "src.humann3_tools.cli.kneaddata_cli:main"
-humann3-humann3 = "src.humann3_tools.cli.humann3_cli_fixed:main"
+humann3-humann3 = "src.humann3_tools.cli.humann3_cli:main"
 humann3-join = "src.humann3_tools.cli.join_cli:main"
 humann3-stats = "src.humann3_tools.cli.stats_cli:main"
 humann3-diff = "src.humann3_tools.cli.diff_cli:main"
