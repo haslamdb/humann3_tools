@@ -536,12 +536,12 @@ def parse_args(args=None, parent_parser=None):
     pipeline_group.add_argument("--humann3-options", nargs="+",
                              help="Additional options to pass to HUMAnN3 (format: key=value)")
     
-    # Return the parser or parsed args
+    # If args is provided, parse and return args, otherwise parse from sys.argv
     if args is not None:
         return parser.parse_args(args)
+    else:
+        return parser.parse_args()
     
-    return parser
-
 def main(args=None):
     """
     Main function to run HUMAnN3 processing.
@@ -552,7 +552,7 @@ def main(args=None):
     # Parse arguments
     if isinstance(args, list):
         args = parse_args(args)
-    elif args is None:
+    else:
         args = parse_args()
     
     # Setup logging
