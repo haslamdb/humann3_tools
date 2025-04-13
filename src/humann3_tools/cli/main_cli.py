@@ -141,58 +141,70 @@ def main():
             logger.debug(f"  {arg}: {value}")
     
     # Execute appropriate command
+    # In main_cli.py, modify all the command handlers:
+
     if args.command == 'humann3':
         logger.info(f"Running HUMAnN3 with input_dir: {args.input_dir or 'not specified'}, "
                 f"output_dir: {args.output_dir or 'not specified'}, "
                 f"threads: {args.threads}")
-        # Modify sys.argv to remove the subcommand and pass to humann3_cli
+        # Modify sys.argv to remove the subcommand
         saved_argv = sys.argv.copy()
         sys.argv = [saved_argv[0]] + saved_argv[2:]
         result = humann3_cli.main()
         # Restore original argv
         sys.argv = saved_argv
-        return result   
-        
+        return result
+            
     elif args.command == 'join':
         logger.info(f"Running Join with input_dir: {args.input_dir}, "
-                   f"output_dir: {args.output_dir}")
+                f"output_dir: {args.output_dir}")
+        # Modify sys.argv to remove the subcommand
         saved_argv = sys.argv.copy()
         sys.argv = [saved_argv[0]] + saved_argv[2:]
         result = join_cli.main()
+        # Restore original argv
         sys.argv = saved_argv
-        return result   
-        
+        return result
+            
     elif args.command == 'kneaddata':
         logger.info("Running KneadData...")
+        # Modify sys.argv to remove the subcommand
         saved_argv = sys.argv.copy()
         sys.argv = [saved_argv[0]] + saved_argv[2:]
         result = kneaddata_cli.main()
+        # Restore original argv
         sys.argv = saved_argv
-        return result 
-        
+        return result
+            
     elif args.command == 'stats':
         logger.info("Running Statistics...")
+        # Modify sys.argv to remove the subcommand
         saved_argv = sys.argv.copy()
         sys.argv = [saved_argv[0]] + saved_argv[2:]
         result = stats_cli.main()
+        # Restore original argv
         sys.argv = saved_argv
-        return result 
-        
+        return result
+            
     elif args.command == 'diff':
         logger.info("Running Differential Analysis...")
+        # Modify sys.argv to remove the subcommand
         saved_argv = sys.argv.copy()
         sys.argv = [saved_argv[0]] + saved_argv[2:]
         result = diff_cli.main()
+        # Restore original argv
         sys.argv = saved_argv
-        return result 
-        
+        return result
+            
     elif args.command == 'viz':
         logger.info("Running Visualization...")
+        # Modify sys.argv to remove the subcommand
         saved_argv = sys.argv.copy()
         sys.argv = [saved_argv[0]] + saved_argv[2:]
         result = viz_cli.main()
+        # Restore original argv
         sys.argv = saved_argv
-        return result 
+        return result        
         
     else:
         logger.error(f"Unknown command: {args.command}")
