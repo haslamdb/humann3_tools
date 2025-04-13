@@ -120,8 +120,8 @@ def main():
         epilog=__doc__
     )
     
-    # Add version argument
-    parser.add_argument('--version', action='version', version=f'HUMAnN3 Tools v{__version__}')
+    # Add version argument (skip this as it's sure to cause problems down the road)
+    # parser.add_argument('--version', action='version', version=f'HUMAnN3 Tools v{__version__}')
     
     # Add subparsers for each command
     parser = setup_subparsers(parser)
