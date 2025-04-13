@@ -121,64 +121,67 @@ def main():
             formatter_class=argparse.RawDescriptionHelpFormatter,
             epilog=__doc__
         )
-        parser.add_argument('--version', action='version', version=f'HUMAnN3 Tools v{__version__}')
         parser.print_help()
         return 0
     
     command = sys.argv[1]
     
-    # Remove the command from argv for further processing
-    command_args = sys.argv[2:]
+    # Save original argv and modify for subcommand
+    original_argv = sys.argv.copy()
+    # Remove "humann3-tools" and the subcommand, leaving just the actual arguments
+    sys.argv = [original_argv[0]] + original_argv[2:]
     
     # Execute appropriate command
-    if command == 'humann3':
-        logger.info(f"Running HUMAnN3...")
-        return humann3_cli.main()
+    try:
+        if command == 'humann3':
+            logger.info(f"Running HUMAnN3...")
+            return humann3_cli.main()
+            
+        elif command == 'join':
+            logger.info(f"Running Join...")
+            return join_cli.main()
+            
+        elif command == 'kneaddata':
+            logger.info("Running KneadData...")
+            return kneaddata_cli.main()
+            
+        elif command == 'stats':
+            logger.info("Running Statistics...")
+            return stats_cli.main()
+            
+        elif command == 'diff':
+            logger.info("Running Differential Analysis...")
+            return diff_cli.main()
+            
+        elif command == 'viz':
+            logger.info("Running Visualization...")
+            return viz_cli.main()
         
-    elif command == 'join':
-        logger.info(f"Running Join...")
-        return join_cli.main()
-        
-    elif command == 'kneaddata':
-        logger.info("Running KneadData...")
-        return kneaddata_cli.main()
-        
-    elif command == 'stats':
-        logger.info("Running Statistics...")
-        return stats_cli.main()
-        
-    elif command == 'diff':
-        logger.info("Running Differential Analysis...")
-        return diff_cli.main()
-        
-    elif command == 'viz':
-        logger.info("Running Visualization...")
-        return viz_cli.main()
-    
-    elif command == '--help' or command == '-h':
-        # Show help
-        parser = argparse.ArgumentParser(
-            description="HUMAnN3 Tools - A comprehensive toolkit for metagenomic analysis",
-            formatter_class=argparse.RawDescriptionHelpFormatter,
-            epilog=__doc__
-        )
-        parser.add_argument('--version', action='version', version=f'HUMAnN3 Tools v{__version__}')
-        parser.print_help()
-        return 0
-        
-    else:
-        logger.error(f"Unknown command: {command}")
-        # Show available commands
-        print("\nAvailable commands:")
-        print("  humann3    - Run HUMAnN3 on preprocessed sequence files")
-        print("  join       - Join and normalize HUMAnN3 output files")
-        print("  kneaddata  - Quality control and host depletion using KneadData")
-        print("  stats      - Run statistical tests on HUMAnN3 output data")
-        print("  diff       - Run differential abundance analysis")
-        print("  viz        - Create visualizations from HUMAnN3 output data")
-        print("\nFor more information on any command, use:")
-        print("  humann3-tools [command] --help")
-        return 1
+        elif command == '--help' or command == '-h':
+            # Show help
+            parser = argparse.ArgumentParser(
+                description="HUMAnN3 Tools - A comprehensive toolkit for metagenomic analysis",
+                formatter_class=argparse.RawDescriptionHelpFormatter,
+                epilog=__doc__
+            )
+            parser.print_help()
+            return 0
+            
+        else:
+            logger.error(f"Unknown command: {command}")
+            # Show available commands
+            print("\nAvailable commands:")
+            print("  humann3    - Run HUMAnN3 on preprocessed sequence files")
+            print("  join       - Join and normalize HUMAnN3 output files")
+            print("  kneaddata  - Quality control and host depletion using KneadData")
+            print("  stats      - Run statistical tests on HUMAnN3 output data")
+            print("  diff       - Run differential abundance analysis")
+            print("  viz        - Create visualizations from HUMAnN3 output data")
+            print("\nFor more information on any command, use:")
+            print("  humann3-tools [command] --help")
+            return 1
+    finally:
 
+        sys.argv = original_argv
 if __name__ == "__main__":
     sys.exit(main())
