@@ -41,6 +41,7 @@ try:
     from src.humann3_tools.utils.input_handler import get_input_files, find_kneaddata_output_files
     from src.humann3_tools.utils.cmd_utils import run_cmd
     from src.humann3_tools.utils.resource_utils import track_peak_memory
+ 
 except ImportError:
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
     from src.humann3_tools.utils.input_handler import get_input_files, find_kneaddata_output_files

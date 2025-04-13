@@ -32,6 +32,14 @@ import logging
 import warnings
 import pkg_resources
 
+# Import CLI modules
+from src.humann3_tools.cli import kneaddata_cli
+from src.humann3_tools.cli import humann3_cli
+from src.humann3_tools.cli import join_cli
+from src.humann3_tools.cli import stats_cli
+from src.humann3_tools.cli import diff_cli
+from src.humann3_tools.cli import viz_cli
+
 # Set up logging
 logger = logging.getLogger('humann3_tools')
 logger.setLevel(logging.INFO)
@@ -134,37 +142,31 @@ def main():
     
     # Execute appropriate command
     if args.command == 'humann3':
-        print(f"Running HUMAnN3 with input_dir: {args.input_dir or 'not specified'}, "
-              f"output_dir: {args.output_dir or 'not specified'}, "
-              f"threads: {args.threads}")
-        # In a real implementation, you would call humann3_cli.main(args)
-        return 0
+        logger.info(f"Running HUMAnN3 with input_dir: {args.input_dir or 'not specified'}, "
+                   f"output_dir: {args.output_dir or 'not specified'}, "
+                   f"threads: {args.threads}")
+        return humann3_cli.main(args)
         
     elif args.command == 'join':
-        print(f"Running Join with input_dir: {args.input_dir}, "
-              f"output_dir: {args.output_dir}")
-        # In a real implementation, you would call join_cli.main(args)
-        return 0
+        logger.info(f"Running Join with input_dir: {args.input_dir}, "
+                   f"output_dir: {args.output_dir}")
+        return join_cli.main(args)
         
     elif args.command == 'kneaddata':
-        print("Running KneadData...")
-        # In a real implementation, you would call kneaddata_cli.main(args)
-        return 0
+        logger.info("Running KneadData...")
+        return kneaddata_cli.main(args)
         
     elif args.command == 'stats':
-        print("Running Statistics...")
-        # In a real implementation, you would call stats_cli.main(args)
-        return 0
+        logger.info("Running Statistics...")
+        return stats_cli.main(args)
         
     elif args.command == 'diff':
-        print("Running Differential Analysis...")
-        # In a real implementation, you would call diff_cli.main(args)
-        return 0
+        logger.info("Running Differential Analysis...")
+        return diff_cli.main(args)
         
     elif args.command == 'viz':
-        print("Running Visualization...")
-        # In a real implementation, you would call viz_cli.main(args)
-        return 0
+        logger.info("Running Visualization...")
+        return viz_cli.main(args)
         
     else:
         logger.error(f"Unknown command: {args.command}")
