@@ -10,16 +10,16 @@ It supports three input methods:
 
 Examples:
   # Basic usage with direct input files:
-  humann3-tools kneaddata --input-files sample1_R1.fastq.gz sample1_R2.fastq.gz --paired --threads 8 --output-dir ./kneaddata_output
+  humann3-kneaddata --input-files sample1_R1.fastq.gz sample1_R2.fastq.gz --paired --threads 8 --output-dir ./kneaddata_output
 
   # Using a sample list file:
-  humann3-tools kneaddata --samples-file samples.txt --reference-dbs human --output-dir ./kneaddata_output
+  humann3-kneaddata --samples-file samples.txt --reference-dbs human --output-dir ./kneaddata_output
 
   # Using metadata:
-  humann3-tools kneaddata --metadata-file metadata.csv --seq-dir /path/to/sequences --r1-suffix _R1.fastq.gz --r2-suffix _R2.fastq.gz --paired --output-dir ./kneaddata_output
+  humann3-kneaddata --metadata-file metadata.csv --seq-dir /path/to/sequences --r1-suffix _R1.fastq.gz --r2-suffix _R2.fastq.gz --paired --output-dir ./kneaddata_output
   
   # With additional KneadData options:
-  humann3-tools kneaddata --input-files sample.fastq.gz --reference-dbs human --output-dir ./kneaddata_output --kneaddata-options trimmomatic-options=SLIDINGWINDOW:4:20,MINLEN:50
+  humann3-kneaddata --input-files sample.fastq.gz --reference-dbs human --output-dir ./kneaddata_output --kneaddata-options trimmomatic-options=SLIDINGWINDOW:4:20,MINLEN:50
 """
 
 import os
@@ -31,16 +31,33 @@ import subprocess
 import multiprocessing
 from typing import Dict, List, Optional, Tuple
 
-# Import internal modules
+# Set up path for imports - add parent directory to path if module imports fail
 try:
     from humann3_tools.utils.input_handler import get_input_files
     from humann3_tools.utils.cmd_utils import run_cmd
-    from humann3_tools.utils.resource_utils import track_peak_memory
+    try:
+        from humann3_tools.utils.resource_utils import track_peak_memory
+        TRACK_MEMORY = True
+    except ImportError:
+        TRACK_MEMORY = False
 except ImportError:
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
-    from humann3_tools.utils.input_handler import get_input_files
-    from humann3_tools.utils.cmd_utils import run_cmd
-    from humann3_tools.utils.resource_utils import track_peak_memory
+    try:
+        from humann3_tools.utils.input_handler import get_input_files
+        from humann3_tools.utils.cmd_utils import run_cmd
+        try:
+            from humann3_tools.utils.resource_utils import track_peak_memory
+            TRACK_MEMORY = True
+        except ImportError:
+            TRACK_MEMORY = False
+    except ImportError:
+        print("ERROR: Failed to import required modules. Please ensure the humann3_tools package is properly installed.")
+        sys.exit(1)
+
+# Create a no-op decorator to use if track_peak_memory is not available
+if not TRACK_MEMORY:
+    def track_peak_memory(func):
+        return func
 
 # Set up logging
 logger = logging.getLogger('humann3_tools')
@@ -80,77 +97,6 @@ def check_kneaddata_installation() -> Tuple[bool, str]:
         return False, "KneadData command exists but returned an error"
     except FileNotFoundError:
         return False, "KneadData not found in PATH"
-
-def run_kneaddata_parallel(samples: Dict[str, Dict],
-                        output_dir: str,
-                        reference_dbs: List[str],
-                        threads_per_sample: int = 1,
-                        max_parallel: Optional[int] = None,
-                        paired: bool = False,
-                        options: Optional[Dict] = None) -> Dict[str, List[str]]:
-    """
-    Run KneadData on multiple samples in parallel.
-    
-    Args:
-        samples: Dictionary mapping sample IDs to sample information
-        output_dir: Base directory for outputs
-        reference_dbs: List of reference database paths
-        threads_per_sample: Number of threads per sample
-        max_parallel: Maximum number of parallel samples
-        paired: Whether to process as paired-end
-        options: Dictionary of additional KneadData options
-        
-    Returns:
-        Dictionary mapping sample IDs to lists of output file paths
-    """
-    from concurrent.futures import ProcessPoolExecutor
-    
-    # Set default max_parallel based on CPU count if not specified
-    if max_parallel is None:
-        available_cpus = multiprocessing.cpu_count()
-        max_parallel = max(1, available_cpus // threads_per_sample)
-    
-    logger.info(f"Running KneadData in parallel: {len(samples)} samples, " 
-                f"{max_parallel} parallel processes, {threads_per_sample} threads per sample")
-    
-    results = {}
-    
-    # Process samples in parallel
-    with ProcessPoolExecutor(max_workers=max_parallel) as executor:
-        # Create futures for all samples
-        futures = {}
-        for sample_id, sample_info in samples.items():
-            if not sample_info['files']:
-                logger.warning(f"Skipping sample {sample_id}: no input files")
-                continue
-                
-            # Submit job
-            future = executor.submit(
-                process_sample_kneaddata,
-                sample_id, 
-                sample_info['files'],
-                output_dir,
-                reference_dbs,
-                threads_per_sample,
-                paired,
-                options
-            )
-            futures[future] = sample_id
-        
-        # Collect results
-        for future in futures:
-            sample_id = futures[future]
-            try:
-                output_files = future.result()
-                if output_files:
-                    results[sample_id] = output_files
-                    logger.info(f"Successfully processed sample {sample_id}")
-                else:
-                    logger.error(f"Failed to process sample {sample_id}")
-            except Exception as e:
-                logger.error(f"Error processing sample {sample_id}: {str(e)}")
-    
-    return results
 
 def process_sample_kneaddata(sample_id: str, 
                             input_files: List[str], 
@@ -235,94 +181,143 @@ def process_sample_kneaddata(sample_id: str,
     
     return output_files
 
+def run_kneaddata_parallel(samples: Dict[str, Dict],
+                        output_dir: str,
+                        reference_dbs: List[str],
+                        threads_per_sample: int = 1,
+                        max_parallel: Optional[int] = None,
+                        paired: bool = False,
+                        options: Optional[Dict] = None) -> Dict[str, List[str]]:
+    """
+    Run KneadData on multiple samples in parallel.
+    
+    Args:
+        samples: Dictionary mapping sample IDs to sample information
+        output_dir: Base directory for outputs
+        reference_dbs: List of reference database paths
+        threads_per_sample: Number of threads per sample
+        max_parallel: Maximum number of parallel samples
+        paired: Whether to process as paired-end
+        options: Dictionary of additional KneadData options
+        
+    Returns:
+        Dictionary mapping sample IDs to lists of output file paths
+    """
+    from concurrent.futures import ProcessPoolExecutor
+    
+    # Set default max_parallel based on CPU count if not specified
+    if max_parallel is None:
+        available_cpus = multiprocessing.cpu_count()
+        max_parallel = max(1, available_cpus // threads_per_sample)
+    
+    logger.info(f"Running KneadData in parallel: {len(samples)} samples, " 
+                f"{max_parallel} parallel processes, {threads_per_sample} threads per sample")
+    
+    results = {}
+    
+    # Define a wrapper for parallel processing
+    def process_sample_wrapper(sample_id, sample_info):
+        if not sample_info['files']:
+            logger.warning(f"Skipping sample {sample_id}: no input files")
+            return sample_id, []
+        
+        output_files = process_sample_kneaddata(
+            sample_id=sample_id, 
+            input_files=sample_info['files'],
+            output_dir=output_dir,
+            reference_dbs=reference_dbs,
+            threads=threads_per_sample,
+            paired=paired,
+            options=options
+        )
+        return sample_id, output_files
+    
+    # Process samples in parallel
+    with ProcessPoolExecutor(max_workers=max_parallel) as executor:
+        # Submit jobs
+        futures = {
+            executor.submit(process_sample_wrapper, sample_id, sample_info): sample_id 
+            for sample_id, sample_info in samples.items()
+        }
+        
+        # Collect results
+        for future in futures:
+            sample_id = futures[future]
+            try:
+                result_id, output_files = future.result()
+                if output_files:
+                    results[result_id] = output_files
+                    logger.info(f"Successfully processed sample {result_id}")
+                else:
+                    logger.error(f"Failed to process sample {result_id}")
+            except Exception as e:
+                logger.error(f"Error processing sample {sample_id}: {str(e)}")
+    
+    return results
+
 def parse_args():
     """Parse command line arguments for the KneadData module."""
     parser = argparse.ArgumentParser(
-        description="Process FASTQ files with KneadData for quality control and host depletion",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Description:
-  KneadData module performs quality control and host contamination removal on 
-  metagenomic sequencing data. It processes FASTQ files (single or paired-end) 
-  to prepare them for HUMAnN3 functional profiling.
-
-Key Features:
-  • Supports multiple reference databases for host/contaminant removal
-  • Handles paired-end and single-end sequencing reads
-  • Provides three flexible input methods: direct files, sample list, or metadata-driven
-  • Parallel processing of multiple samples to improve throughput
-  
-Common Usage:
-  # Basic quality control with human reference database:
-  humann3-tools kneaddata --input-files sample_R1.fastq.gz sample_R2.fastq.gz --paired --reference-dbs human
-
-  # With multiple reference databases and trimming options:
-  humann3-tools kneaddata --input-files sample.fastq.gz --reference-dbs human mouse --kneaddata-options trimmomatic-options=SLIDINGWINDOW:4:20,MINLEN:50
-
-  # Next step after KneadData:
-  humann3-tools humann3 --input-dir kneaddata_output
-"""
+        description="Process FASTQ files with KneadData for quality control and host depletion"
     )
     
     # Input options group (three methods supported)
     input_group = parser.add_argument_group("Input Options (choose one)")
     # Method 1: Direct input files
     input_group.add_argument("--input-files", nargs="+", 
-                           help="Input FASTQ file(s) for KneadData. For paired-end data, provide both files and use --paired.")
+                           help="Input FASTQ file(s) for KneadData")
     # Method 2: Sample list file
     input_group.add_argument("--samples-file", 
-                           help="Tab-delimited file with sample IDs and file paths. Format: 'sample_id\tfile_path_1[,file_path_2]'")
+                           help="Tab-delimited file with sample IDs and file paths")
     # Method 3: Metadata-driven
     input_group.add_argument("--metadata-file", 
-                           help="CSV file with sample metadata including sample IDs and file locations")
+                           help="CSV file with sample metadata")
     input_group.add_argument("--seq-dir", 
-                           help="Directory containing sequence files (required for metadata-driven approach)")
+                           help="Directory containing sequence files (for metadata-driven)")
     input_group.add_argument("--sample-col", 
-                           help="Column name for sample IDs in metadata (default: auto-detect)")
+                           help="Column name for sample IDs in metadata")
     input_group.add_argument("--r1-col", 
-                           help="Column name for R1 file paths or names in metadata")
+                           help="Column name for R1 file paths in metadata")
     input_group.add_argument("--r2-col", 
-                           help="Column name for R2 file paths or names in metadata (for paired data)")
+                           help="Column name for R2 file paths in metadata")
     input_group.add_argument("--file-pattern", 
-                           help="Pattern for finding files using sample ID (e.g., {sample}_S*_R*.fastq.gz)")
+                           help="Pattern for finding files (e.g., {sample}_S*_R*.fastq.gz)")
     input_group.add_argument("--r1-suffix", 
-                           help="Suffix for R1 files to append to sample ID (e.g., _R1.fastq.gz)")
+                           help="Suffix for R1 files (e.g., _R1.fastq.gz)")
     input_group.add_argument("--r2-suffix", 
-                           help="Suffix for R2 files to append to sample ID (e.g., _R2.fastq.gz)")
+                           help="Suffix for R2 files (e.g., _R2.fastq.gz)")
     
     # Required arguments
-    required_group = parser.add_argument_group("Required Options")
-    required_group.add_argument("--reference-dbs", nargs="+", required=True,
-                      help="Path(s) to KneadData reference database(s) (e.g., human, mouse). Can provide multiple.")
-    required_group.add_argument("--output-dir", default="./kneaddata_output",
-                      help="Directory for KneadData output (default: ./kneaddata_output)")
+    parser.add_argument("--reference-dbs", nargs="+", required=True,
+                      help="Path(s) to KneadData reference database(s)")
+    parser.add_argument("--output-dir", default="./kneaddata_output",
+                      help="Directory for KneadData output")
     
     # KneadData options
-    kneaddata_group = parser.add_argument_group("KneadData Options")
-    kneaddata_group.add_argument("--paired", action="store_true",
-                      help="Input files are paired-end reads. Required for paired-end processing.")
-    kneaddata_group.add_argument("--decontaminate-pairs", default="strict", 
+    parser.add_argument("--paired", action="store_true",
+                      help="Input files are paired-end reads")
+    parser.add_argument("--decontaminate-pairs", default="strict", 
                       choices=["strict", "lenient", "unpaired"],
                       help="Method for decontaminating paired-end reads (default: strict)")
-    kneaddata_group.add_argument("--kneaddata-options", nargs="+",
-                      help="Additional options to pass to KneadData (format: key=value, e.g., trimmomatic-options=SLIDINGWINDOW:4:20)")
     
     # Performance options
-    perf_group = parser.add_argument_group("Performance Options")
-    perf_group.add_argument("--threads", type=int, default=1,
-                      help="Number of threads to use per sample (default: 1)")
-    perf_group.add_argument("--use-parallel", action="store_true",
-                      help="Process multiple samples in parallel to improve throughput")
-    perf_group.add_argument("--max-parallel", type=int, default=None,
-                      help="Maximum number of samples to process in parallel (default: auto-configure based on CPU count)")
+    parser.add_argument("--threads", type=int, default=1,
+                      help="Number of threads to use per sample")
+    parser.add_argument("--use-parallel", action="store_true",
+                      help="Process multiple samples in parallel")
+    parser.add_argument("--max-parallel", type=int, default=None,
+                      help="Maximum number of samples to process in parallel")
     
     # Logging options
-    log_group = parser.add_argument_group("Logging Options")
-    log_group.add_argument("--log-file", 
-                      help="Path to log file (if not specified, logs to console only)")
-    log_group.add_argument("--log-level", default="INFO",
+    parser.add_argument("--log-file", 
+                      help="Path to log file")
+    parser.add_argument("--log-level", default="INFO",
                       choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
-                      help="Logging level verbosity (default: INFO)")
+                      help="Logging level")
+    
+    # Additional KneadData options
+    parser.add_argument("--kneaddata-options", nargs="+",
+                      help="Additional options to pass to KneadData (format: key=value)")
     
     return parser.parse_args()
 
