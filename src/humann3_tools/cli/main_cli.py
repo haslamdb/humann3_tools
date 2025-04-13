@@ -113,98 +113,71 @@ def main():
     warnings.filterwarnings("ignore", category=FutureWarning)
     warnings.filterwarnings("ignore", category=DeprecationWarning)
     
-    # Create the main parser
-    parser = argparse.ArgumentParser(
-        description="HUMAnN3 Tools - A comprehensive toolkit for metagenomic analysis",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=__doc__
-    )
-    
-    # Add version argument (skip this as it's sure to cause problems down the road)
-    # parser.add_argument('--version', action='version', version=f'HUMAnN3 Tools v{__version__}')
-    
-    # Add subparsers for each command
-    parser = setup_subparsers(parser)
-    
-    # Parse arguments
-    args = parser.parse_args()
-    
-    # If no command was provided, show help
-    if not hasattr(args, 'command') or not args.command:
+    # First just parse the command name
+    if len(sys.argv) < 2:
+        # No command provided, show help
+        parser = argparse.ArgumentParser(
+            description="HUMAnN3 Tools - A comprehensive toolkit for metagenomic analysis",
+            formatter_class=argparse.RawDescriptionHelpFormatter,
+            epilog=__doc__
+        )
+        parser.add_argument('--version', action='version', version=f'HUMAnN3 Tools v{__version__}')
         parser.print_help()
         return 0
     
-    # Print command and arguments (for debugging)
-    logger.debug(f"Command: {args.command}")
-    for arg, value in vars(args).items():
-        if arg != 'command':
-            logger.debug(f"  {arg}: {value}")
+    command = sys.argv[1]
+    
+    # Remove the command from argv for further processing
+    command_args = sys.argv[2:]
     
     # Execute appropriate command
-    # In main_cli.py, modify all the command handlers:
-
-    if args.command == 'humann3':
-        logger.info(f"Running HUMAnN3 with input_dir: {args.input_dir or 'not specified'}, "
-                   f"output_dir: {args.output_dir or 'not specified'}, "
-                   f"threads: {getattr(args, 'threads', 1)}")
-        saved_argv = sys.argv.copy()
-        sys.argv = [saved_argv[0].replace('-tools', '-humann3')] + saved_argv[2:]
-        result = humann3_cli.main()
-        # Restore original argv
-        sys.argv = saved_argv
-        return result
-            
-    elif args.command == 'join':
-        logger.info(f"Running Join with input_dir: {args.input_dir}, "
-                f"output_dir: {args.output_dir}")
-        # Modify sys.argv to remove the subcommand
-        saved_argv = sys.argv.copy()
-        sys.argv = [saved_argv[0].replace('-tools', '-join')] + saved_argv[2:]
-        result = join_cli.main()
-        # Restore original argv
-        sys.argv = saved_argv
-        return result
-            
-    elif args.command == 'kneaddata':
+    if command == 'humann3':
+        logger.info(f"Running HUMAnN3...")
+        return humann3_cli.main()
+        
+    elif command == 'join':
+        logger.info(f"Running Join...")
+        return join_cli.main()
+        
+    elif command == 'kneaddata':
         logger.info("Running KneadData...")
-        saved_argv = sys.argv.copy()
-        sys.argv = [saved_argv[0].replace('-tools', '-kneaddata')] + saved_argv[2:]
-        result = kneaddata_cli.main()
-        sys.argv = saved_argv
-        return result
-            
-    elif args.command == 'stats':
+        return kneaddata_cli.main()
+        
+    elif command == 'stats':
         logger.info("Running Statistics...")
-        # Modify sys.argv to remove the subcommand
-        saved_argv = sys.argv.copy()
-        sys.argv = [saved_argv[0].replace('-tools', '-stats')] + saved_argv[2:]
-        result = stats_cli.main()
-        # Restore original argv
-        sys.argv = saved_argv
-        return result
-            
-    elif args.command == 'diff':
+        return stats_cli.main()
+        
+    elif command == 'diff':
         logger.info("Running Differential Analysis...")
-        # Modify sys.argv to remove the subcommand
-        saved_argv = sys.argv.copy()
-        sys.argv = [saved_argv[0].replace('-tools', '-diff')] + saved_argv[2:]
-        result = diff_cli.main()
-        # Restore original argv
-        sys.argv = saved_argv
-        return result
-            
-    elif args.command == 'viz':
+        return diff_cli.main()
+        
+    elif command == 'viz':
         logger.info("Running Visualization...")
-        # Modify sys.argv to remove the subcommand
-        saved_argv = sys.argv.copy()
-        sys.argv = [saved_argv[0].replace('-tools', '-viz')] + saved_argv[2:]
-        result = viz_cli.main()
-        # Restore original argv
-        sys.argv = saved_argv
-        return result        
+        return viz_cli.main()
+    
+    elif command == '--help' or command == '-h':
+        # Show help
+        parser = argparse.ArgumentParser(
+            description="HUMAnN3 Tools - A comprehensive toolkit for metagenomic analysis",
+            formatter_class=argparse.RawDescriptionHelpFormatter,
+            epilog=__doc__
+        )
+        parser.add_argument('--version', action='version', version=f'HUMAnN3 Tools v{__version__}')
+        parser.print_help()
+        return 0
         
     else:
-        logger.error(f"Unknown command: {args.command}")
+        logger.error(f"Unknown command: {command}")
+        # Show available commands
+        print("\nAvailable commands:")
+        print("  humann3    - Run HUMAnN3 on preprocessed sequence files")
+        print("  join       - Join and normalize HUMAnN3 output files")
+        print("  kneaddata  - Quality control and host depletion using KneadData")
+        print("  stats      - Run statistical tests on HUMAnN3 output data")
+        print("  diff       - Run differential abundance analysis")
+        print("  viz        - Create visualizations from HUMAnN3 output data")
+        print("\nFor more information on any command, use:")
+        print("  humann3-tools [command] --help")
         return 1
 
 if __name__ == "__main__":
