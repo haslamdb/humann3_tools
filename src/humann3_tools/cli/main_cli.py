@@ -145,11 +145,10 @@ def main():
 
     if args.command == 'humann3':
         logger.info(f"Running HUMAnN3 with input_dir: {args.input_dir or 'not specified'}, "
-                f"output_dir: {args.output_dir or 'not specified'}, "
-                f"threads: {args.threads}")
-        # Modify sys.argv to remove the subcommand
+                   f"output_dir: {args.output_dir or 'not specified'}, "
+                   f"threads: {getattr(args, 'threads', 1)}")
         saved_argv = sys.argv.copy()
-        sys.argv = [saved_argv[0]] + saved_argv[2:]
+        sys.argv = [saved_argv[0].replace('-tools', '-humann3')] + saved_argv[2:]
         result = humann3_cli.main()
         # Restore original argv
         sys.argv = saved_argv
@@ -160,7 +159,7 @@ def main():
                 f"output_dir: {args.output_dir}")
         # Modify sys.argv to remove the subcommand
         saved_argv = sys.argv.copy()
-        sys.argv = [saved_argv[0]] + saved_argv[2:]
+        sys.argv = [saved_argv[0].replace('-tools', '-join')] + saved_argv[2:]
         result = join_cli.main()
         # Restore original argv
         sys.argv = saved_argv
@@ -168,11 +167,9 @@ def main():
             
     elif args.command == 'kneaddata':
         logger.info("Running KneadData...")
-        # Modify sys.argv to remove the subcommand
         saved_argv = sys.argv.copy()
-        sys.argv = [saved_argv[0]] + saved_argv[2:]
+        sys.argv = [saved_argv[0].replace('-tools', '-kneaddata')] + saved_argv[2:]
         result = kneaddata_cli.main()
-        # Restore original argv
         sys.argv = saved_argv
         return result
             
@@ -180,7 +177,7 @@ def main():
         logger.info("Running Statistics...")
         # Modify sys.argv to remove the subcommand
         saved_argv = sys.argv.copy()
-        sys.argv = [saved_argv[0]] + saved_argv[2:]
+        sys.argv = [saved_argv[0].replace('-tools', '-stats')] + saved_argv[2:]
         result = stats_cli.main()
         # Restore original argv
         sys.argv = saved_argv
@@ -190,7 +187,7 @@ def main():
         logger.info("Running Differential Analysis...")
         # Modify sys.argv to remove the subcommand
         saved_argv = sys.argv.copy()
-        sys.argv = [saved_argv[0]] + saved_argv[2:]
+        sys.argv = [saved_argv[0].replace('-tools', '-diff')] + saved_argv[2:]
         result = diff_cli.main()
         # Restore original argv
         sys.argv = saved_argv
@@ -200,7 +197,7 @@ def main():
         logger.info("Running Visualization...")
         # Modify sys.argv to remove the subcommand
         saved_argv = sys.argv.copy()
-        sys.argv = [saved_argv[0]] + saved_argv[2:]
+        sys.argv = [saved_argv[0].replace('-tools', '-viz')] + saved_argv[2:]
         result = viz_cli.main()
         # Restore original argv
         sys.argv = saved_argv
