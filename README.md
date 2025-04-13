@@ -42,7 +42,7 @@ conda install -c biobakery -c conda-forge -c bioconda humann=3.6 kneaddata=0.10.
 # MetaPhlAn database (required for HUMAnN3)
 metaphlan --install
 
-# Optional: Install HUMAnN databases (if not already installed)
+# Install HUMAnN databases (if not already installed)
 # humann_databases --download chocophlan full /path/to/databases
 # humann_databases --download uniref uniref90_diamond /path/to/databases
 # humann_databases --download utility_mapping full /path/to/databases
