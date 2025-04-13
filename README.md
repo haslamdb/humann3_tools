@@ -5,6 +5,9 @@ A comprehensive Python package for assigning raw metagenomic sequence reads to m
 ## Table of Contents
 - [Introduction](#introduction)
 - [Installation](#installation)
+  - [Step 1: Set up bioBakery3 environment](#step-1-set-up-biobakery3-environment)
+  - [Step 2: Install HUMAnN3 Tools](#step-2-install-humann3-tools)
+  - [Step 3: Verify Installation](#step-3-verify-installation)
 - [Workflow Overview](#workflow-overview)
 - [Command Line Interface](#command-line-interface)
   - [1. KneadData](#1-kneaddata)
@@ -25,48 +28,46 @@ HUMAnN3 Tools provides a complete workflow for metagenomic analysis, from qualit
 
 ## Installation
 
-### Prerequisites
+### Step 1: Set up bioBakery3 environment
 
-HUMAnN3 Tools requires Python 3.8+ and depends on HUMAnN3 and KneadData, which are best installed through biobakery3 conda environment.
-
-### Option 1: Install with biobakery3 (Recommended)
-
-If you already have the biobakery3 environment set up:
+**IMPORTANT**: HUMAnN3 Tools requires the bioBakery3 conda environment, which includes properly configured HUMAnN3, KneadData, and other dependencies. You must activate this environment before using HUMAnN3 Tools.
 
 ```bash
-# Activate the biobakery3 environment
+# Install bioBakery3 environment (if not already installed)
+conda create -n biobakery3 python=3.8
+conda activate biobakery3
+conda install -c biobakery -c conda-forge -c bioconda humann=3.6 kneaddata=0.10.0
+
+# Download and install necessary databases
+# MetaPhlAn database (required for HUMAnN3)
+metaphlan --install
+
+# Optional: Install HUMAnN databases (if not already installed)
+# humann_databases --download chocophlan full /path/to/databases
+# humann_databases --download uniref uniref90_diamond /path/to/databases
+# humann_databases --download utility_mapping full /path/to/databases
+```
+
+### Step 2: Install HUMAnN3 Tools
+
+**ALWAYS ENSURE biobakery3 ENVIRONMENT IS ACTIVATED BEFORE RUNNING ANY COMMANDS**
+
+```bash
+# Make sure biobakery3 is activated
 conda activate biobakery3
 
 # Install HUMAnN3 Tools from the repository
 pip install git+https://github.com/haslamdb/humann3_tools.git
 ```
 
-### Option 2: Install in a new conda environment
-
-If you need to set up a new environment:
-
-```bash
-# Create a conda environment
-conda create -n humann3-tools-env python=3.12
-conda activate humann3-tools-env
-
-# Install bioBakery suite
-conda install -c biobakery humann=3.6 kneaddata=0.12
-
-# Install HUMAnN3 Tools
-pip install git+https://github.com/haslamdb/humann3_tools.git
-```
-
-### Option 3: Development Installation
-
-If you want to modify the code:
+For development installation:
 
 ```bash
 # Clone the repository
 git clone https://github.com/haslamdb/humann3_tools.git
 cd humann3_tools
 
-# Activate your conda environment
+# Make sure biobakery3 is activated
 conda activate biobakery3
 
 # Install in development mode
@@ -77,11 +78,14 @@ After installation, you can use either:
 - Individual commands: `humann3-kneaddata`, `humann3-humann3`, etc.
 - The unified interface: `humann3-tools kneaddata`, `humann3-tools humann3`, etc.
 
-### Verifying Installation
+### Step 3: Verify Installation
 
 To verify that HUMAnN3 Tools is installed correctly:
 
 ```bash
+# Make sure biobakery3 is activated
+conda activate biobakery3
+
 # Check version
 humann3-tools --version
 
@@ -105,6 +109,12 @@ HUMAnN3 Tools provides a modular workflow for metagenomic analysis:
 ## Command Line Interface
 
 HUMAnN3 Tools provides a consistent command-line interface for each step of the workflow. Each command can be accessed either through the main `humann3-tools` command or as individual commands.
+
+**IMPORTANT: Always make sure the biobakery3 environment is activated before running these commands.**
+
+```bash
+conda activate biobakery3
+```
 
 ### 1. KneadData
 
@@ -145,6 +155,7 @@ Key options:
 - `--output-dir`: Directory for output files
 - `--threads`: Number of threads to use
 - `--use-parallel`: Process multiple samples in parallel
+- `--bypass-prescreen`: Skip MetaPhlAn taxonomic prescreen (useful if MetaPhlAn database isn't installed)
 
 ### 3. Join and Normalize
 
@@ -246,6 +257,9 @@ humann3-tools kneaddata --metadata-file metadata.csv --seq-dir /path/to/sequence
 Here's a complete example workflow:
 
 ```bash
+# Activate bioBakery3 environment (REQUIRED)
+conda activate biobakery3
+
 # 1. Quality control with KneadData
 humann3-tools kneaddata --input-files sample1_R1.fastq.gz sample1_R2.fastq.gz --paired --reference-dbs human_db --output-dir kneaddata_output --threads 8
 
@@ -272,28 +286,40 @@ humann3-tools viz --abundance-file joined_output/pathabundance_cpm_unstratified.
 
 ### Common Issues
 
-1. **Missing Input Files**: Check file paths and naming patterns.
+1. **Environment Issues**:
+   - Make sure you've activated the biobakery3 environment: `conda activate biobakery3`
+   - If you see errors about missing databases or tools, this is often because the biobakery3 environment is not activated
 
-2. **Sample Key Issues**:
-   - Ensure sample identifiers in the CSV match the file names.
-   - Check for duplicate sample IDs.
-   - Verify CSV encoding (use UTF-8).
+2. **Missing Databases**:
+   - MetaPhlAn error: Run `metaphlan --install` to install the required database
+   - HUMAnN3 database errors: Make sure to install the ChocoPhlAn and UniRef databases
 
-3. **KneadData Errors**:
-   - Ensure reference databases are properly built and indexed.
-   - For paired-end issues, try different `--decontaminate-pairs` options.
+3. **Missing Input Files**: 
+   - Check file paths and naming patterns
+   - Verify that you're using the correct directory structure
 
-4. **HUMAnN3 Errors**:
-   - Ensure nucleotide and protein databases are correctly installed.
-   - Check that input files are in the correct format.
+4. **Sample Key Issues**:
+   - Ensure sample identifiers in the CSV match the file names
+   - Check for duplicate sample IDs
+   - Verify CSV encoding (use UTF-8)
 
-5. **Statistical Test Errors**:
-   - ALDEx2 requires exactly two groups.
-   - Check for missing values in abundance data.
+5. **KneadData Errors**:
+   - Ensure reference databases are properly built and indexed
+   - For paired-end issues, try different `--decontaminate-pairs` options
 
-6. **Memory Issues with Large Datasets**:
-   - Run steps separately to manage memory usage.
-   - Use `--threads` to control CPU usage.
+6. **HUMAnN3 Errors**:
+   - If you get a "No MetaPhlAn BowTie2 database found" error, run `metaphlan --install`
+   - As a workaround, you can use `--bypass-prescreen` to skip the MetaPhlAn step
+   - Ensure nucleotide and protein databases are correctly installed
+   - Check that input files are in the correct format
+
+7. **Statistical Test Errors**:
+   - ALDEx2 requires exactly two groups
+   - Check for missing values in abundance data
+
+8. **Memory Issues with Large Datasets**:
+   - Run steps separately to manage memory usage
+   - Use `--threads` to control CPU usage
 
 ## Getting Help
 
@@ -301,6 +327,7 @@ If you encounter issues not covered in this documentation, please:
 
 - Check the log file for detailed error messages
 - Set `--log-level DEBUG` for more verbose output
+- Verify you're using the biobakery3 environment
 - Open an issue on the GitHub repository with a description of the problem and relevant log entries
 
 ## License
