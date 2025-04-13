@@ -15,9 +15,12 @@ from src.humann3_tools.core.kneaddata import (
 )
 
 from src.humann3_tools.core.humann3 import (
-    check_humann3_installation,
-    run_humann3,
-    run_humann3_parallel
+    run_full_pipeline,
+    run_preprocessing_and_analysis,
+    process_humann3_files_only,
+    analyze_existing_humann3_files,
+    run_pathway_differential_abundance,
+    run_gene_differential_abundance
 )
 
 from src.humann3_tools.core.join_unstratify import (

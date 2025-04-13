@@ -48,16 +48,16 @@ dev = [
 "Bug Tracker" = "https://github.com/yourusername/humann3_tools/issues"
 
 [project.scripts]
-humann3-tools = "humann3_tools.cli.main_cli:main"
-humann3-kneaddata = "humann3_tools.cli.kneaddata_cli:main"
-humann3-humann3 = "humann3_tools.cli.humann3_cli_fixed:main"
-humann3-join = "humann3_tools.cli.join_cli:main"
-humann3-stats = "humann3_tools.cli.stats_cli:main"
-humann3-diff = "humann3_tools.cli.diff_cli:main"
-humann3-viz = "humann3_tools.cli.viz_cli:main"
+humann3-tools = "src.humann3_tools.cli.main_cli:main"
+humann3-kneaddata = "src.humann3_tools.cli.kneaddata_cli:main"
+humann3-humann3 = "src.humann3_tools.cli.humann3_cli_fixed:main"
+humann3-join = "src.humann3_tools.cli.join_cli:main"
+humann3-stats = "src.humann3_tools.cli.stats_cli:main"
+humann3-diff = "src.humann3_tools.cli.diff_cli:main"
+humann3-viz = "src.humann3_tools.cli.viz_cli:main"
 cli-example = "cli_example:main"
-humann3-tools-simple = "humann3_tools.cli.main_cli_simple:main"
-humann3-humann3-simple = "humann3_tools.cli.humann3_cli_simple:main"
+humann3-tools-simple = "src.humann3_tools.cli.main_cli_simple:main"
+humann3-humann3-simple = "src.humann3_tools.cli.humann3_cli_simple:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
