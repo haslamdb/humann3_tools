@@ -30,7 +30,6 @@ import argparse
 import importlib
 import logging
 import warnings
-import pkg_resources
 
 # Set up logging
 logger = logging.getLogger('humann3_tools')
@@ -40,10 +39,7 @@ handler.setFormatter(logging.Formatter('%(levelname)s: %(message)s'))
 logger.addHandler(handler)
 
 # Package version
-try:
-    __version__ = pkg_resources.get_distribution("humann3_tools").version
-except:
-    __version__ = "development"
+__version__ = "0.1.0"
 
 def setup_subparsers(parser):
     """
@@ -70,7 +66,22 @@ def setup_subparsers(parser):
     # Add subparsers for each command
     for command, description in commands.items():
         module_name = f'{command}_cli'
-        subparser = subparsers.add_parser(command, help=description)
+        try:
+            # Import the module to get its parser
+            module = importlib.import_module(f'humann3_tools.cli.{module_name}')
+            subparser = subparsers.add_parser(command, help=description)
+            
+            # Get the module's argument parser
+            if hasattr(module, 'parse_args'):
+                # Copy arguments from the module's parser
+                module_parser = argparse.ArgumentParser()
+                module.parse_args([], parser=module_parser)
+                for action in module_parser._actions:
+                    if action.dest != 'help':  # Skip help action
+                        subparser._add_action(action)
+        except ImportError:
+            # Just add a basic subparser if module can't be imported
+            subparser = subparsers.add_parser(command, help=description)
     
     return parser
 
@@ -128,7 +139,19 @@ def main():
     
     # Run the module's main function
     if hasattr(module, 'main'):
-        return module.main()
+        # If we have remaining arguments, parse them with the module's parser
+        if args.command and remaining:
+            module_parser = argparse.ArgumentParser()
+            if hasattr(module, 'parse_args'):
+                module_parser = module.parse_args([], parser=module_parser)
+                module_args = module_parser.parse_args(remaining)
+                return module.main(module_args)
+            else:
+                # Just pass the remaining arguments as they are
+                return module.main()
+        else:
+            # No additional arguments provided
+            return module.main()
     else:
         logger.error(f"Module {module_name} does not have a main function")
         return 1

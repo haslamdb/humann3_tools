@@ -235,11 +235,12 @@ def process_sample_kneaddata(sample_id: str,
     
     return output_files
 
-def parse_args():
+def parse_args(args=None, parser=None):
     """Parse command line arguments for the KneadData module."""
-    parser = argparse.ArgumentParser(
-        description="Process FASTQ files with KneadData for quality control and host depletion"
-    )
+    if parser is None:
+        parser = argparse.ArgumentParser(
+            description="Process FASTQ files with KneadData for quality control and host depletion"
+        )
     
     # Input options group (three methods supported)
     input_group = parser.add_argument_group("Input Options (choose one)")
@@ -299,17 +300,23 @@ def parse_args():
     parser.add_argument("--kneaddata-options", nargs="+",
                       help="Additional options to pass to KneadData (format: key=value)")
     
-    return parser.parse_args()
+    if args is None and parser is not None:
+        return parser
+    
+    return parser.parse_args(args)
 
 @track_peak_memory
-def main():
+def main(passed_args=None):
     """Main function to run KneadData processing."""
     # Parse arguments
-    args = parse_args()
+    if passed_args is None:
+        args = parse_args()
+    else:
+        args = passed_args
     
     # Setup logging
-    log_level = getattr(logging, args.log_level.upper())
-    setup_logger(args.log_file, log_level)
+    log_level = getattr(logging, args.log_level.upper() if hasattr(args, 'log_level') else 'INFO')
+    setup_logger(args.log_file if hasattr(args, 'log_file') else None, log_level)
     
     start_time = time.time()
     logger.info("Starting HUMAnN3 Tools KneadData Module")

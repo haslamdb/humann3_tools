@@ -25,20 +25,68 @@ HUMAnN3 Tools provides a complete workflow for metagenomic analysis, from qualit
 
 ## Installation
 
-See the [Installation Guide](INSTALL.md) for detailed instructions.
+### Prerequisites
 
-Quick installation:
+HUMAnN3 Tools requires Python 3.8+ and depends on HUMAnN3 and KneadData, which are best installed through biobakery3 conda environment.
+
+### Option 1: Install with biobakery3 (Recommended)
+
+If you already have the biobakery3 environment set up:
+
+```bash
+# Activate the biobakery3 environment
+conda activate biobakery3
+
+# Install HUMAnN3 Tools from the repository
+pip install git+https://github.com/haslamdb/humann3_tools.git
+```
+
+### Option 2: Install in a new conda environment
+
+If you need to set up a new environment:
 
 ```bash
 # Create a conda environment
-conda create -n humann3-env python=3.9
-conda activate humann3-env
+conda create -n humann3-tools-env python=3.12
+conda activate humann3-tools-env
 
-# Install dependencies
-conda install -c biobakery humann=3.6 kneaddata=0.10.0
+# Install bioBakery suite
+conda install -c biobakery humann=3.6 kneaddata=0.12
 
 # Install HUMAnN3 Tools
-pip install git+https://github.com/dhaslam/humann3_tools.git
+pip install git+https://github.com/haslamdb/humann3_tools.git
+```
+
+### Option 3: Development Installation
+
+If you want to modify the code:
+
+```bash
+# Clone the repository
+git clone https://github.com/haslamdb/humann3_tools.git
+cd humann3_tools
+
+# Activate your conda environment
+conda activate biobakery3
+
+# Install in development mode
+pip install -e .
+```
+
+After installation, you can use either:
+- Individual commands: `humann3-kneaddata`, `humann3-humann3`, etc.
+- The unified interface: `humann3-tools kneaddata`, `humann3-tools humann3`, etc.
+
+### Verifying Installation
+
+To verify that HUMAnN3 Tools is installed correctly:
+
+```bash
+# Check version
+humann3-tools --version
+
+# List available commands
+humann3-tools --help
 ```
 
 ## Workflow Overview
