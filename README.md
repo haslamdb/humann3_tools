@@ -30,7 +30,7 @@ HUMAnN3 Tools provides a complete workflow for metagenomic analysis, from qualit
 
 ### Step 1: Set up bioBakery3 environment
 
-**IMPORTANT**: HUMAnN3 Tools requires the bioBakery3 conda environment, which includes properly configured HUMAnN3, KneadData, and other dependencies. You must activate this environment before using HUMAnN3 Tools.
+**IMPORTANT**: humann3-tools, humann3-kneaddata, and humann3-humann3 tools require an installation of the bioBakery3 workflow and is most conveniently installed using conda. After installation and configuration of humann dependencies and databases, the conda environement will include properly configured HUMAnN3, KneadData, and other dependencies. You must activate this environment before using these tools.
 
 ```bash
 # Install bioBakery3 environment (if not already installed)
