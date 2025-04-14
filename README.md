@@ -99,7 +99,7 @@ humann3-tools provides a modular workflow for metagenomic analysis:
 
 1. **KneadData**: Quality control and host depletion
 2. **HUMAnN3**: Process cleaned sequences through HUMAnN3
-3. **Join & Normalize**: Combine, normalize, and split HUMAnN3 output files
+3. **Join,  Normalize, Unstratify**: Combine, normalize, and split HUMAnN3 output files
 4. **Statistical Testing**: Perform statistical tests across groups
 5. **Differential Abundance**: Apply methods like ALDEx2, ANCOM, and ANCOM-BC
 6. **Visualization**: Generate plots and figures for publication
@@ -157,7 +157,7 @@ Key options:
 - `--use-parallel`: Process multiple samples in parallel
 - `--bypass-prescreen`: Skip MetaPhlAn taxonomic prescreen (useful if MetaPhlAn database isn't installed)
 
-### 3. Join and Normalize
+### 3. Join,  Normalize, Unstratify
 
 Join, normalize, and unstratify HUMAnN3 output files:
 
