@@ -104,7 +104,6 @@ humann3-tools provides a modular workflow for metagenomic analysis:
 5. **Differential Abundance**: Apply methods like ALDEx2, ANCOM, and ANCOM-BC
 6. **Visualization**: Generate plots and figures for publication
 
-![Workflow Diagram](workflow_diagram.png)
 
 ## Command Line Interface
 
@@ -149,7 +148,7 @@ humann3-humann3 --input-dir kneaddata_output --output-dir humann3_output --nucle
 
 Key options:
 - `--input-dir`: Directory containing KneadData output files
-- `--input-files`: Alternatively, specify cleaned files directly
+- `--input-files`: Alternatively, specify input files directly. If --paired is selected, files will first be concatenated.
 - `--nucleotide-db`: Path to nucleotide database
 - `--protein-db`: Path to protein database
 - `--output-dir`: Directory for output files
