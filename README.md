@@ -1,4 +1,4 @@
-# HUMAnN3 Tools
+# humann3-tools
 
 A comprehensive Python package for assigning raw metagenomic sequence reads to microbial gene and pathway databases using HUMAnN3, followed by downstream processing and analysis.
 
@@ -6,7 +6,7 @@ A comprehensive Python package for assigning raw metagenomic sequence reads to m
 - [Introduction](#introduction)
 - [Installation](#installation)
   - [Step 1: Set up bioBakery3 environment](#step-1-set-up-biobakery3-environment)
-  - [Step 2: Install HUMAnN3 Tools](#step-2-install-humann3-tools)
+  - [Step 2: Install humann3-tools ](#step-2-install-humann3-tools)
   - [Step 3: Verify Installation](#step-3-verify-installation)
 - [Workflow Overview](#workflow-overview)
 - [Command Line Interface](#command-line-interface)
@@ -24,7 +24,7 @@ A comprehensive Python package for assigning raw metagenomic sequence reads to m
 
 ## Introduction
 
-HUMAnN3 Tools provides a complete workflow for metagenomic analysis, from quality control to visualization. The package is designed to simplify and standardize the analysis of metagenomic data using the HUMAnN3 pipeline, with modular components that can be run individually or as a complete workflow.
+humann3-tools provides a complete workflow for metagenomic analysis, from quality control to visualization. The package is designed to simplify and standardize the analysis of metagenomic data using the HUMAnN3 pipeline, with modular components that can be run individually or as a complete workflow.
 
 ## Installation
 
@@ -56,7 +56,7 @@ metaphlan --install
 # Make sure biobakery3 is activated
 conda activate biobakery3
 
-# Install HUMAnN3 Tools from the repository
+# Install humann3-tools from the repository
 pip install git+https://github.com/haslamdb/humann3_tools.git
 ```
 
@@ -80,7 +80,7 @@ After installation, you can use either:
 
 ### Step 3: Verify Installation
 
-To verify that HUMAnN3 Tools is installed correctly:
+To verify that humann3-tools is installed correctly:
 
 ```bash
 # Make sure biobakery3 is activated
@@ -95,7 +95,7 @@ humann3-tools --help
 
 ## Workflow Overview
 
-HUMAnN3 Tools provides a modular workflow for metagenomic analysis:
+humann3-tools provides a modular workflow for metagenomic analysis:
 
 1. **KneadData**: Quality control and host depletion
 2. **HUMAnN3**: Process cleaned sequences through HUMAnN3
@@ -108,7 +108,7 @@ HUMAnN3 Tools provides a modular workflow for metagenomic analysis:
 
 ## Command Line Interface
 
-HUMAnN3 Tools provides a consistent command-line interface for each step of the workflow. Each command can be accessed either through the main `humann3-tools` command or as individual commands.
+humann3-tools provides a consistent command-line interface for each step of the workflow. Each command can be accessed either through the main `humann3-tools` command or as individual commands.
 
 **IMPORTANT: Always make sure the biobakery3 environment is activated before running these commands.**
 
@@ -240,7 +240,7 @@ Key options:
 
 ## Input Methods
 
-HUMAnN3 Tools supports three different input methods across all commands:
+humann3-tools supports three different input methods across all commands:
 
 1. **Direct File Input**: Specify the input files directly with `--input-files`
 2. **Sample List File**: Provide a tab-delimited file with sample IDs and file paths using `--samples-file`
