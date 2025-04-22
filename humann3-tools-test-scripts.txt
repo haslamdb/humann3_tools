@@ -1,4 +1,5 @@
-
+# this works except that doesn't seem to concatenate:
+humann3-humann3 --input-files MP00623Control_1_output.fastq.gz MP00623Control_2_output.fastq.gz --output-dir MP00623Control_humann_output
 
 # For paired-end data (works as of 4/13/2025) ###
 
